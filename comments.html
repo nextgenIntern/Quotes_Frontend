@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quote Comments</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e8ecff, #f7f3ff);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Main Wrapper */
+.main-wrapper {
+    max-width: 720px;
+    margin: auto;
+}
+
+/* Quote Box */
+.quote-box {
+    background: linear-gradient(135deg, #fff1eb, #ace0f9);
+    border-radius: 22px;
+    padding: 32px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+    position: relative;
+}
+
+.quote-box::before {
+    content: "❝";
+    position: absolute;
+    top: -18px;
+    left: 18px;
+    font-size: 4rem;
+    color: rgba(0,0,0,0.1);
+}
+
+.quote-box p {
+    font-size: 1.35rem;
+    font-style: italic;
+    line-height: 1.7;
+}
+
+.quote-author {
+    text-align: right;
+    font-weight: 700;
+}
+
+/* Comment Input */
+.comment-input textarea {
+    border-radius: 16px;
+    resize: none;
+    padding: 14px;
+    border: 1px solid #ddd;
+}
+
+.comment-input textarea:focus {
+    box-shadow: 0 0 0 3px rgba(118,75,162,0.25);
+    border-color: #764ba2;
+}
+
+.post-btn {
+    border-radius: 20px;
+    padding: 10px 26px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+}
+
+.post-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Divider */
+.divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #bbb, transparent);
+    margin: 25px 0;
+}
+
+/* Comment Card */
+.comment-card {
+    display: flex;
+    gap: 14px;
+    background: white;
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.14);
+    animation: fadeIn 0.3s ease;
+}
+
+.comment-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.comment-author {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.comment-time {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.empty-state {
+    text-align: center;
+    color: #777;
+    font-size: 0.9rem;
+    padding: 18px 0;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(8px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .quote-box p {
+        font-size: 1.2rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container py-5">
+    <div class="main-wrapper">
+
+        <!-- QUOTE DISPLAY -->
+        <div id="quoteBox" class="quote-box mb-4">
+            <p id="quoteText">Loading quote...</p>
+            <h6 id="quoteAuthor" class="quote-author mt-3"></h6>
+        </div>
+
+        <!-- ADD COMMENT -->
+        <div class="comment-input mb-4">
+            <textarea id="commentText" class="form-control mb-3" rows="3"
+                placeholder="Share your thoughts..."></textarea>
+            <button class="btn post-btn text-white" onclick="addComment()">Post Comment</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- COMMENTS HEADER -->
+        <h6 class="fw-bold mb-3">💬 Comments (<span id="commentCount">0</span>)</h6>
+
+        <!-- COMMENTS LIST -->
+        <div id="commentsList" class="d-flex flex-column gap-3"></div>
+
+    </div>
+</div>
+
+<script>
+const quotesData = [
+    { id: 1, text: "Success is not final, failure is not fatal.", author: "Winston Churchill" },
+    { id: 2, text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { id: 3, text: "What we think, we become.", author: "Buddha" }
+];
+
+const params = new URLSearchParams(window.location.search);
+const quoteId = params.get("quote");
+
+const quote = quotesData.find(q => q.id == quoteId);
+if (quote) {
+    document.getElementById("quoteText").textContent = `“${quote.text}”`;
+    document.getElementById("quoteAuthor").textContent = `— ${quote.author}`;
+}
+
+function loadComments() {
+    const comments = JSON.parse(localStorage.getItem("comments_" + quoteId)) || [];
+    const list = document.getElementById("commentsList");
+    const count = document.getElementById("commentCount");
+
+    list.innerHTML = "";
+    count.textContent = comments.length;
+
+    if (comments.length === 0) {
+        list.innerHTML = `
+            <div class="empty-state">
+                Be the first to comment 🌱
+            </div>
+        `;
+        return;
+    }
+
+    comments.forEach(c => {
+        list.innerHTML += `
+            <div class="comment-card">
+                <div class="comment-avatar">${c.author[0]}</div>
+                <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between">
+                        <span class="comment-author">${c.author}</span>
+                        <span class="comment-time">${c.time}</span>
+                    </div>
+                    <p class="mb-0">${c.text}</p>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function addComment() {
+    const input = document.getElementById("commentText");
+    const text = input.value.trim();
+    if (!text) return;
+
+    const comments = JSON.parse(localStorage.getItem("comments_" + quoteId)) || [];
+
+    comments.push({
+        author: "Guest",
+        text,
+        time: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("comments_" + quoteId, JSON.stringify(comments));
+    input.value = "";
+    loadComments();
+}
+
+loadComments();
+</script>
+
+</body>
+</html>

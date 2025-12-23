@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes - Daily Inspiration</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="Custom_CSS/Quotes.css">
+    <link rel="stylesheet" href="Custom_CSS/index.css">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Google Fonts Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+    <!-- Quotes JS -->
+    <script src="Script/quotes.js" defer></script>
+
+    
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar shadow-sm">
+            <div class="container">
+
+                <div class="d-flex align-items-center gap-3">
+                    <a class="navbar-brand fw-bold fs-2" href="index.html">
+                        Daily Inspiration
+                        
+                    </a>
+                    
+                                <img id="userAvatarmobile" class="rounded-circle user-avatar d-lg-none" alt="Profile">
+                        
+                  
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navMenu">
+                    <ul class="navbar-nav ms-auto gap-4 fw-semibold fs-5">
+                        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Quotes.html">Quotes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Submitquotes.html">Submit Quote</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Authors.html">Authors</a></li>
+                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Language
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow" id="languageMenu">
+                                <li class="dropdown-item text-muted">Loading...</li>
+                            </ul>
+                        </li>
+                        <script>
+const LANGUAGE_API = "http://140.245.5.153:8001/api/languages/";
+const languageMenu = document.getElementById("languageMenu");
+
+// Load saved language
+const currentLang = localStorage.getItem("language") || "en";
+
+async function loadLanguages() {
+    try {
+        const res = await axios.get(LANGUAGE_API);
+
+        languageMenu.innerHTML = "";
+
+        res.data.forEach(lang => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <a class="dropdown-item" href="#" data-lang="${lang.code}">
+                    ${lang.name}
+                </a>
+            `;
+            languageMenu.appendChild(li);
+        });
+
+        // click handler
+        document.querySelectorAll("#languageMenu a").forEach(item => {
+            item.addEventListener("click", () => {
+                localStorage.setItem("language", item.dataset.lang);
+                location.reload();
+            });
+        });
+
+    } catch (err) {
+        languageMenu.innerHTML =
+            `<li class="dropdown-item text-danger">Failed to load</li>`;
+        console.error(err);
+    }
+}
+
+loadLanguages();
+</script>
+
+                    </ul>
+
+                    <!-- AUTH AREA -->
+                    <!-- AUTH AREA -->
+                    <div class="d-flex align-items-center ms-lg-4 mt-3 mt-lg-0">
+
+                        <!-- SIGNUP BUTTON -->
+                        <button id="signupBtn" class="btn btn-light fw-bold px-4 py-2 rounded-pill me-2"
+                            onclick="window.location.href='login.html'">
+                            Sign up
+                        </button>
+
+                        <!-- USER PROFILE -->
+                        <div id="userMenu" class="dropdown d-none">
+                            <button class="btn p-0 border-0 bg-transparent dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+
+                                <img id="userAvatar" class="rounded-circle user-avatar" alt="Profile">
+                            </button>
+
+                            <div class="ms-5" style="margin-left: 100px;">
+                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                    <li class="px-3 py-2">
+                                        <strong id="usernameText">User</strong>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="profile.html"> Profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="saved.html"> Saved Quotes</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="#" id="logoutBtn"> Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </nav>
+
+
+
+    <!-- SEARCH BAR -->
+    <section class="search-section py-5 mt-5">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-4">Find Your Inspiration</h2>
+            <input type="text" id="searchInput"
+                class="form-control form-control-lg shadow-sm mb-4 mx-auto d-block search-box"
+                placeholder="Search quotes by keyword or author">
+            <!-- CATEGORY FILTERS -->
+            <div class="filter-buttons d-flex flex-wrap justify-content-center gap-3 mt-4">
+                <button class="btn filter-btn active" data-category="all">All</button>
+                <button class="btn filter-btn" data-category="motivation">Motivation</button>
+                <button class="btn filter-btn" data-category="love">Love</button>
+                <button class="btn filter-btn" data-category="life">Life</button>
+                <button class="btn filter-btn" data-category="success">Success</button>
+                <button class="btn filter-btn" data-category="spiritual">Spiritual</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUOTES REELS -->
+    <!-- QUOTES CAROUSELS -->
+    <section class="quotes-section ms-5 my-5">
+        <div id="quotesCarouselContainer">
+            <!-- Category carousels inserted via JS -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <p>© 2025 Daily Inspiration — Inspire the world!</p>
+    </footer>
+  
+   <!-- for local storage of the username -->
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    const signupBtn = document.getElementById("signupBtn");
+    const userMenu = document.getElementById("userMenu");
+    const userAvatar = document.getElementById("userAvatar");
+    const userAvatarmobile = document.getElementById("userAvatarmobile");
+    const usernameText = document.getElementById("usernameText");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (user) {
+      // hide signup
+      signupBtn.classList.add("d-none");
+
+      // show profile
+      userMenu.classList.remove("d-none");
+
+      // set data
+      userAvatar.src = user.avatar;
+      userAvatarmobile.src = user.avatar;
+      usernameText.innerText = user.name;
+    }
+
+    // logout
+    logoutBtn?.addEventListener("click", () => {
+      localStorage.removeItem("loggedInUser");
+      window.location.reload();
+    });
+  </script>
+</body>
+
+</html>

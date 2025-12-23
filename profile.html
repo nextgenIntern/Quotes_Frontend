@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Inspiration | Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Custom_CSS/profile.css">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <h1>Daily Inspiration | Profile Section</h1>
+</nav>
+
+<!-- BANNER -->
+<section class="banner" id="bannerSection">
+  <div class="banner-overlay"></div>
+  <input type="file" id="bannerInput" accept="image/*" style="display:none;">
+  <button id="changeBannerBtn">Change Banner</button>
+</section>
+
+<!-- PROFILE -->
+<section class="profile-section">
+  <div class="profile-image">
+    <img id="profileImage" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe" alt="Profile">
+    <input type="file" id="profileImageInput" accept="image/*" style="display:none;">
+    <button id="changeProfileBtn">Change Photo</button>
+  </div>
+
+  <div class="profile-details">
+    <h2 class="username" id="profileUsername">@username</h2>
+    <p class="bio" id="profileBio">Add your bio</p>
+
+    <div class="stats">
+      <div><strong id="postsCount">0</strong><span>Posts</span></div>
+      <div><strong id="followersCount">0</strong><span>Followers</span></div>
+      <div><strong id="likesCount">0</strong><span>Likes</span></div>
+    </div>
+
+    <div class="profile-actions">
+      <button id="editProfileBtn" class="btn edit">Edit Profile</button>
+      <button id="saveProfileBtn" class="btn edit" style="display:none;">Save</button>
+    </div>
+  </div>
+</section>
+
+<!-- POSTED QUOTES -->
+<section class="quotes-section">
+  <h3>Your Posted Quotes</h3>
+  <div class="quotes-grid" id="postedQuotesContainer"></div>
+</section>
+
+<!-- SAVED QUOTES -->
+<section class="quotes-section">
+  <h3>Your Saved Quotes</h3>
+  <div class="quotes-grid" id="savedQuotesContainer"></div>
+</section>
+
+<script>
+const profileApi = "http://140.245.5.153:8001/api/profile/";
+const token = localStorage.getItem("accessToken");
+
+if (!token) {
+    alert("Please login first");
+    window.location.href = "login.html";
+}
+
+// ---------------- PAGE LOAD ----------------
+document.addEventListener("DOMContentLoaded", () => {
+    loadProfile();
+    setupBannerUpload();
+    setupProfilePhotoUpload();
+    setupEditProfile();
+});
+
+// ---------------- LOAD PROFILE ----------------
+async function loadProfile() {
+    try {
+        const res = await axios.get(profileApi, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        renderProfile(res.data);
+    } catch (err) {
+        console.error(err);
+        alert("Session expired. Please login again.");
+        localStorage.clear();
+        window.location.href = "login.html";
+    }
+}
+
+// ---------------- RENDER PROFILE ----------------
+function renderProfile(profile) {
+    const usernameEl = document.getElementById("profileUsername");
+    const bioEl = document.getElementById("profileBio");
+    const profileImg = document.getElementById("profileImage");
+    const banner = document.getElementById("bannerSection");
+
+    // USERNAME
+    usernameEl.innerText = "@" + (profile.username || "user");
+
+    // BIO
+    bioEl.innerText = profile.bio || "✨ Tap edit to add your bio";
+
+    // PROFILE IMAGE
+    if (profile.profile_image) {
+        profileImg.src = profile.profile_image;
+        profileImg.style.display = "block";
+    } else {
+        profileImg.style.display = "none";
+        profileImg.insertAdjacentHTML("afterend", `
+            <div class="image-placeholder">Yet to set profile photo</div>
+        `);
+    }
+
+    // BANNER IMAGE
+    if (profile.background_image) {
+        banner.style.backgroundImage = `url(${profile.background_image})`;
+        banner.classList.remove("empty-banner");
+    } else {
+        banner.style.backgroundImage = "none";
+        banner.classList.add("empty-banner");
+        banner.innerHTML += `<div class="banner-text">Yet to set banner image</div>`;
+    }
+
+    // STATS
+    document.getElementById("postsCount").innerText =
+        profile.posted_quotes?.length || 0;
+    document.getElementById("followersCount").innerText =
+        profile.followers_count || 0;
+    document.getElementById("likesCount").innerText =
+        profile.total_likes_on_posted_quotes || 0;
+
+    // POSTED QUOTES
+    const postedContainer = document.getElementById("postedQuotesContainer");
+    postedContainer.innerHTML = "";
+
+    if (!profile.posted_quotes || profile.posted_quotes.length === 0) {
+        postedContainer.innerHTML = `
+            <div class="empty-box">
+                📝 Not yet posted
+            </div>`;
+    } else {
+        profile.posted_quotes.forEach(q => {
+            postedContainer.innerHTML += `
+                <div class="quote-card">
+                    <p>${q.text}</p>
+                    <small>– ${q.author_username}</small>
+                </div>`;
+        });
+    }
+
+    // SAVED QUOTES
+    const savedContainer = document.getElementById("savedQuotesContainer");
+    savedContainer.innerHTML = "";
+
+    if (!profile.saved_quotes || profile.saved_quotes.length === 0) {
+        savedContainer.innerHTML = `
+            <div class="empty-box">
+                💾 No saved quotes yet
+            </div>`;
+    } else {
+        profile.saved_quotes.forEach(q => {
+            savedContainer.innerHTML += `
+                <div class="quote-card">
+                    <p>${q.text}</p>
+                    <small>– ${q.author_username}</small>
+                </div>`;
+        });
+    }
+}
+
+// ---------------- PROFILE PHOTO UPLOAD ----------------
+function setupProfilePhotoUpload() {
+    const input = document.getElementById("profileImageInput");
+    const btn = document.getElementById("changeProfileBtn");
+    const img = document.getElementById("profileImage");
+
+    btn.onclick = () => input.click();
+
+    input.onchange = async () => {
+        const file = input.files[0];
+        if (!file) return;
+
+        img.style.display = "block";
+        img.src = URL.createObjectURL(file);
+
+        const fd = new FormData();
+        fd.append("profile_image", file);
+
+        try {
+            const res = await axios.patch(profileApi, fd, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            img.src = res.data.profile_image;
+        } catch {
+            alert("Profile image upload failed");
+        }
+    };
+}
+
+// ---------------- BANNER UPLOAD ----------------
+function setupBannerUpload() {
+    const input = document.getElementById("bannerInput");
+    const btn = document.getElementById("changeBannerBtn");
+    const banner = document.getElementById("bannerSection");
+
+    btn.onclick = () => input.click();
+
+    input.onchange = async () => {
+        const file = input.files[0];
+        if (!file) return;
+
+        banner.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+        banner.classList.remove("empty-banner");
+
+        const fd = new FormData();
+        fd.append("background_image", file);
+
+        try {
+            const res = await axios.patch(profileApi, fd, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            banner.style.backgroundImage = `url(${res.data.background_image})`;
+        } catch {
+            alert("Banner upload failed");
+        }
+    };
+}
+
+// ---------------- EDIT PROFILE ----------------
+function setupEditProfile() {
+    const editBtn = document.getElementById("editProfileBtn");
+    const usernameEl = document.getElementById("profileUsername");
+    const bioEl = document.getElementById("profileBio");
+
+    editBtn.onclick = () => {
+        const username = usernameEl.innerText.replace("@", "");
+        const bio = bioEl.innerText;
+
+        usernameEl.innerHTML = `
+            <input class="edit-input" id="editUsername" value="${username}">
+        `;
+        bioEl.innerHTML = `
+            <textarea class="edit-textarea" id="editBio">${bio}</textarea>
+        `;
+
+        editBtn.style.display = "none";
+
+        const saveBtn = document.createElement("button");
+        saveBtn.className = "btn edit";
+        saveBtn.innerText = "Save";
+        editBtn.parentNode.appendChild(saveBtn);
+
+        saveBtn.onclick = async () => {
+            const fd = new FormData();
+            fd.append("username", document.getElementById("editUsername").value);
+            fd.append("bio", document.getElementById("editBio").value);
+
+            try {
+                const res = await axios.patch(profileApi, fd, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                usernameEl.innerText = "@" + res.data.username;
+                bioEl.innerText = res.data.bio;
+                saveBtn.remove();
+                editBtn.style.display = "inline-block";
+            } catch {
+                alert("Profile update failed");
+            }
+        };
+    };
+}
+</script>
+
+</body>
+</html>

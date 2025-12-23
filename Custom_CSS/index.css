@@ -1,0 +1,316 @@
+/* ===== IMPORT GOOGLE FONTS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@400;600;700&display=swap');
+
+/* ===== BODY & GENERAL ===== */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fa;
+    color: #333;
+}
+
+
+
+/* Pleasant and modern gradient */
+.custom-navbar {
+    background: linear-gradient(135deg, #6a85b6, #bac8e0);
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Navbar brand styling */
+.custom-navbar .navbar-brand {
+    letter-spacing: 1px;
+    color: #ffffff !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.25);
+}
+
+/* Nav links */
+.custom-navbar .nav-link {
+    color: #f2f6ff !important;
+    transition: 0.3s;
+}
+
+.custom-navbar .nav-link:hover {
+    color: #ffffff !important;
+    text-shadow: 0px 0px 8px rgba(255,255,255,0.8);
+}
+
+/* Active link */
+.custom-navbar .nav-link.active {
+    color: #ffffff !important;
+    border-bottom: 2px solid #fff;
+}
+
+/* Toggler icon color fix */
+.navbar-dark .navbar-toggler-icon {
+    filter: brightness(100%);
+}
+
+
+
+/* ===== HERO SECTION ===== */
+.hero-section {
+    height: 70vh;
+   background: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+    color: #222;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 15px;
+    margin: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: #ff6a00; /* warm and inviting */
+    text-shadow: 2px 3px 10px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.hero-section h5 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #555;
+}
+
+/* ===== QUOTE CARDS ===== */
+
+
+.quote-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+.quote-text {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: #fff;
+}
+
+/* Popular Quotes Gradient */
+.premium-card {
+    background: linear-gradient(135deg, #f9d423, #ff4e50);
+}
+
+/* Trending Quotes Gradient */
+.trending-card {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+/* Author Text */
+.author {
+    margin-top: 15px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+}
+
+/* ===== SECTION TITLES ===== */
+.section-title {
+    position: relative;
+    display: inline-block;
+    padding: 5px 15px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    color: #ff4e50;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #ff6a00, #ee0979);
+    bottom: -8px;
+    left: 0;
+    border-radius: 2px;
+}
+
+/* ===== CATEGORY TAGS ===== */
+.category-tag {
+    padding: 12px 25px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff7eb9, #ff758c);
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.category-tag:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* ===== CTA SECTION ===== */
+.cta {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    border-radius: 15px;
+    margin: 30px 0;
+    padding: 40px 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    font-family: 'Playfair Display', serif;
+}
+
+.cta h2 {
+    font-size: 2.5rem;
+    color: #fff;
+}
+
+.cta p {
+    font-size: 1.3rem;
+    color: #fff;
+}
+
+/* CTA BUTTON */
+.cta .btn {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 12px 30px;
+    border-radius: 30px;
+    background: #ff4e50;
+    border: none;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.cta .btn:hover {
+    background: #ee0979;
+    transform: scale(1.05);
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background: #222;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+/* ===== QUOTE CARD BACKGROUNDS ===== */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: #222;
+}
+
+.bg-gradient-popular {
+    background: linear-gradient(135deg, #f9d423, #ff4e50);
+    color: #fff;
+}
+
+.bg-gradient-trending {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: #fff;
+}
+
+/* ===== QUOTE CARD ===== */
+.quote-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-family: 'Playfair Display', serif;
+}
+
+.quote-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.quote-text {
+    font-size: 1.3rem;
+}
+
+.author {
+    font-size: 1rem;
+    opacity: 0.85;
+}
+
+/* ===== BUTTON STYLING ===== */
+.btn-like, .btn-share, .btn-save {
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 5px 15px;
+    transition: all 0.3s;
+}
+
+.btn-like {
+    border: 1px solid #ff4e50;
+    color: #ff4e50;
+    background: rgba(255,78,80,0.1);
+}
+
+.btn-like:hover {
+    background: #ff4e50;
+    color: #fff;
+}
+
+.btn-share {
+    border: 1px solid #007bff;
+    color: #007bff;
+    background: rgba(0,123,255,0.1);
+}
+
+.btn-share:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.btn-save {
+    border: 1px solid #28a745;
+    color: #28a745;
+    background: rgba(40,167,69,0.1);
+}
+
+.btn-save:hover {
+    background: #28a745;
+    color: #fff;
+}
+/* AUTH AREA FIX */
+.auth-area {
+  width: 100%;
+}
+
+/* Avatar */
+.user-avatar {
+  width: 42px;
+  height: 42px;
+  border: 2px solid white;
+  object-fit: cover;
+}
+
+/* MOBILE FIX */
+@media (max-width: 991px) {
+  .auth-area {
+    margin-top: 1rem;
+  }
+
+  .dropdown-menu {
+    width: 100%;
+    text-align: center;
+    
+  }
+
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+  }
+}
