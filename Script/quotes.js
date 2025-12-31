@@ -1,6 +1,13 @@
 const API_URL = "http://140.245.5.153:8001/api/quotes/";
 const token = localStorage.getItem("accessToken");
 
+const paperBackgrounds = [
+    "images/bg1.png",
+    "images/bg2.png",
+    "images/image.png",
+    "images/bg4.png",
+    "images/bg5.png"
+];
 let allQuotes = [];
 let categories = [];
 
@@ -24,6 +31,11 @@ async function fetchQuotes() {
     }
 }
 
+// helper function
+function getRandomPaper() {
+    return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
+}
+
 // ---------------- CREATE CAROUSEL ----------------
 function createCategoryCarousel(quotes, category) {
     const filtered = quotes.filter(q =>
@@ -36,45 +48,45 @@ function createCategoryCarousel(quotes, category) {
 
     for (let i = 0; i < filtered.length; i += 4) {
         const chunk = filtered.slice(i, i + 4);
+        
 
         let content = `<div class="row justify-content-center">`;
 
         chunk.forEach(q => {
             content += `
           <div class="col-md-3 mb-3">
-                    <div class="quote-card shadow rounded border"style="border: 2px solid #333 !important; padding: 15px !important; border-radius: 10px !important;>
-                        <p class="quote-text">“${q.text}”</p>
-                        <p class="quote-author">- ${q.author_username || 'Unknown'}</p>
-                         <hr style="border:2px solid #000;margin:8px 0 !important;">
-                        <div class="d-flex justify-content-between mt-4 icon-bar">
-                            <span class="material-symbols-outlined like-btn" data-id="${q.id}" title="Like">
-                                favorite_border
-                                <span class="action-count like-count">${q.likes || q.likes_count}</span>
-                            </span>
-                            <span class="material-symbols-outlined dislike-btn" data-id="${q.id}" title="Dislike">
-                                thumb_down_off_alt
-                                <span class="action-count dislike-count">${q.dislikes || 0}</span>
-                            </span>
-                            <span class="material-symbols-outlined share-btn" data-id="${q.id}" title="Share">
-                                share
-                                <span class="action-count share-count">${q.shares || q.share_count}</span>
-                                <div class="share-popup">
-                                    <a class="whatsapp text-bold" target="_blank ">WhatsApp</a>
-                                    <a class="instagram" target="_blank">Instagram</a>
-                                    <a class="twitter" target="_blank">Twitter</a>
-                                </div>
-                            </span>
-                            <span class="material-symbols-outlined save-btn" data-id="${q.id}" title="Save">
-                                bookmark
-                                <span class="action-count save-count">${q.saved || 0}</span>
-                            </span>
-                            <a href="comments.html?quote=${q.id}">
-                                <span class="material-symbols-outlined comment-btn" title="Comments">
-                                    chat_bubble
-                                </span>
-                            </a>
-                        </div>
-                    </div>
+                    <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+            style="background-image: url('${getRandomPaper()}') !important;">
+        
+        <p class="quote-text flex-grow-1">“${q.text}”</p>
+        <p class="quote-author mt-2">– ${q.author_username || "Unknown"}</p>
+
+        <hr style="border:2px solid #000; margin:8px 0;">
+
+        <div class="d-flex justify-content-between mt-3 icon-bar">
+          <span class="material-symbols-outlined like-btn" data-id="${q.id}">
+  favorite_border
+  <span class="action-count">${q.likes_count || 0}</span>
+</span>
+
+
+          <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+  <span class="icon-text">share</span>
+  <span class="action-count share-count">${q.share_count || 0}</span>
+</span>
+
+          <span class="material-symbols-outlined save-btn"
+                data-id="${q.id}"
+                data-saved="${q.saved_by_current_user}">
+            ${q.saved_by_current_user ? 'bookmark' : 'bookmark_border'}
+            <span class="action-count save-count">${q.saved_count || 0}</span>
+          </span>
+
+          <a href="comments.html?quote=${q.id}">
+            <span class="material-symbols-outlined">chat_bubble</span>
+          </a>
+        </div>
+      </div>
                 </div>`;
         });
 

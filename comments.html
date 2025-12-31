@@ -14,7 +14,7 @@
 <style>
 body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #e8ecff, #f7f3ff);
+   background-color: #e6dfd3;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -22,6 +22,21 @@ body {
 .main-wrapper {
     max-width: 720px;
     margin: auto;
+}
+.navbar {
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+   background-color: #e6dfd3;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.navbar h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: 1px;
 }
 
 /* Quote Box */
@@ -141,6 +156,10 @@ body {
 
 <body>
 
+    <nav class="navbar">
+        <h1>Daily Inspiration | Comment Section</h1>
+    </nav>
+
 <div class="container py-5">
     <div class="main-wrapper">
 
@@ -167,74 +186,128 @@ body {
 
     </div>
 </div>
+<script src="Script/auth.js"></script>
 
-<script>
-const quotesData = [
-    { id: 1, text: "Success is not final, failure is not fatal.", author: "Winston Churchill" },
-    { id: 2, text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
-    { id: 3, text: "What we think, we become.", author: "Buddha" }
-];
-
+<script >
 const params = new URLSearchParams(window.location.search);
 const quoteId = params.get("quote");
 
-const quote = quotesData.find(q => q.id == quoteId);
-if (quote) {
-    document.getElementById("quoteText").textContent = `“${quote.text}”`;
-    document.getElementById("quoteAuthor").textContent = `— ${quote.author}`;
+// ================= LOAD QUOTE =================
+async function loadQuote() {
+    try {
+        const res = await fetch(
+            `http://140.245.5.153:8001/api/quotes/${quoteId}/`
+        );
+        const data = await res.json();
+
+        document.getElementById("quoteText").innerText = `“${data.text}”`;
+        document.getElementById("quoteAuthor").innerText =
+            `— ${data.author_username || "Unknown"}`;
+    } catch (err) {
+        console.error("Quote load error:", err);
+    }
 }
 
-function loadComments() {
-    const comments = JSON.parse(localStorage.getItem("comments_" + quoteId)) || [];
-    const list = document.getElementById("commentsList");
-    const count = document.getElementById("commentCount");
+// ================= LOAD COMMENTS =================
+async function loadComments() {
+    try {
+        const res = await fetch(
+            `http://140.245.5.153:8001/api/quotes/${quoteId}/comments/`
+        );
 
-    list.innerHTML = "";
-    count.textContent = comments.length;
+        const comments = await res.json();
 
-    if (comments.length === 0) {
-        list.innerHTML = `
-            <div class="empty-state">
-                Be the first to comment 🌱
-            </div>
-        `;
+        const list = document.getElementById("commentsList");
+        const count = document.getElementById("commentCount");
+
+        list.innerHTML = "";
+        count.innerText = comments.length;
+
+        if (comments.length === 0) {
+            list.innerHTML = `
+                <div class="empty-state">
+                    Be the first to comment 🌱
+                </div>
+            `;
+            return;
+        }
+
+        comments.forEach(c => {
+            list.innerHTML += `
+                <div class="comment-card">
+                    <div class="comment-avatar">
+                        ${c.username[0].toUpperCase()}
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span class="comment-author">
+                                    ${c.username}
+                                </span>
+                                ${
+                                    c.is_personality
+                                    ? `<span class="badge bg-warning text-dark ms-1">Personality</span>`
+                                    : ""
+                                }
+                            </div>
+                            <span class="comment-time">
+                                ${new Date(c.created_at).toLocaleString()}
+                            </span>
+                        </div>
+
+                        <p class="mb-1">${c.text}</p>
+
+                        <small class="text-muted">
+                            ❤️ ${c.likes_count}
+                        </small>
+                    </div>
+                </div>
+            `;
+        });
+
+    } catch (err) {
+        console.error("Load comments error:", err);
+    }
+}
+
+// ================= ADD COMMENT =================
+async function addComment() {
+    const textarea = document.getElementById("commentText");
+    const text = textarea.value.trim();
+
+    if (!text) {
+        alert("Comment cannot be empty");
         return;
     }
 
-    comments.forEach(c => {
-        list.innerHTML += `
-            <div class="comment-card">
-                <div class="comment-avatar">${c.author[0]}</div>
-                <div class="flex-grow-1">
-                    <div class="d-flex justify-content-between">
-                        <span class="comment-author">${c.author}</span>
-                        <span class="comment-time">${c.time}</span>
-                    </div>
-                    <p class="mb-0">${c.text}</p>
-                </div>
-            </div>
-        `;
-    });
+    try {
+        const res = await authFetch(
+            `http://140.245.5.153:8001/api/quotes/${quoteId}/comment/`,
+            {
+                method: "POST",
+                body: JSON.stringify({ text })
+            }
+        );
+
+        if (!res.ok) throw new Error("Comment failed");
+
+        textarea.value = "";
+        loadComments();
+
+    } catch (err) {
+        console.error("Add comment error:", err);
+        alert(
+  err.message === "Comment failed"
+    ? "Failed to post comment"
+    : "Please login to comment"
+);
+
+    }
 }
 
-function addComment() {
-    const input = document.getElementById("commentText");
-    const text = input.value.trim();
-    if (!text) return;
-
-    const comments = JSON.parse(localStorage.getItem("comments_" + quoteId)) || [];
-
-    comments.push({
-        author: "Guest",
-        text,
-        time: new Date().toLocaleString()
-    });
-
-    localStorage.setItem("comments_" + quoteId, JSON.stringify(comments));
-    input.value = "";
-    loadComments();
-}
-
+// ================= INIT =================
+loadQuote();
 loadComments();
 </script>
 

@@ -13,7 +13,10 @@ body {
 
 /* Pleasant and modern gradient */
 .custom-navbar {
-    background: linear-gradient(135deg, #6a85b6, #bac8e0);
+    background: linear-gradient(
+        rgba(63, 42, 30, 0.95),
+        rgba(63, 42, 30, 0.95)
+    );
     padding-top: 10px !important;
     padding-bottom: 10px !important;
     transition: all 0.3s ease-in-out;
@@ -52,8 +55,8 @@ body {
 
 /* ===== HERO SECTION ===== */
 .hero-section {
-    height: 40vh;
-   background: url('https://images.pexels.com/photos/1831747/pexels-photo-1831747.jpeg') center/cover no-repeat;
+    height: y0vh;
+   background: url('../images/h4.jpg') center/cover no-repeat;
     color: #222;
     text-align: center;
     display: flex;
@@ -61,7 +64,8 @@ body {
     align-items: center;
     flex-direction: column;
     border-radius: 15px;
-    margin: 20px;
+    margin: 30px;
+    margin-top: 100px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     position: relative;
     overflow: hidden;
@@ -315,4 +319,31 @@ footer {
     width: 38px;
     height: 38px;
   }
+}
+.like-btn {
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+  transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.like-btn.liked {
+  color: #e0245e; /* Instagram red */
+}
+
+.like-btn.liked:hover {
+  transform: scale(1.1);
+}
+.save-btn {
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.save-btn.saved {
+  color: #f5b301; /* GOLD/YELLOW */
+  transform: scale(1.1);
 }

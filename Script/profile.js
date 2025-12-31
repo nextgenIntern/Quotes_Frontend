@@ -1,5 +1,13 @@
 // scripts/profile.js
 
+
+const paperBackgrounds = [
+    "images/bg1.png",
+    "images/bg2.png",
+    "images/image.png",
+    "images/bg4.png",
+    "images/bg5.png"
+];
 /* ================== API ================== */
 const PROFILE_API = API.PROFILE;
 const SAVED_API = API.SAVED_QUOTES;
@@ -53,6 +61,29 @@ async function loadProfile() {
   }
 }
 
+// // for post count no separet api , it is fetched from the quotes api author name nd profile api user name and then added
+// async function updatePostsCount(profile) {
+//   try {
+//     const res = await authFetch(API.QUOTES); // /quotes/
+//     if (!res.ok) throw new Error("Failed to fetch quotes");
+
+//     const data = await res.json();
+//     const quotes = data.results || data;
+
+//     // ✅ count only logged-in user's quotes
+//     const myQuotesCount = quotes.filter(q =>
+//       q.author_username === profile.username
+//     ).length;
+
+//     document.getElementById("postsCount").innerText = myQuotesCount;
+
+//   } catch (err) {
+//     console.error("Post count error:", err);
+//     document.getElementById("postsCount").innerText = 0;
+//   }
+// }
+// updatePostsCount(profile);
+
 /* ================== LOAD SAVED QUOTES ================== */
 async function loadSavedQuotes() {
   try {
@@ -99,6 +130,11 @@ function renderProfile(profile) {
   }
 }
 
+
+// helper function
+function getRandomPaper() {
+    return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
+}
 /* ================== SAVED QUOTES ================== */
 function renderSavedQuotes(quotes) {
   const container = document.getElementById("savedQuotesContainer");
@@ -132,6 +168,7 @@ function renderSavedQuotes(quotes) {
             display:flex;
             flex-direction:column;
             justify-content:space-between;
+            background-image: url('${getRandomPaper()}') !important; 
           "
         >
           <div>
@@ -193,7 +230,7 @@ function setupEditProfile() {
         id="editFullName" 
         value="${name}" 
         class="form-control mb-2"
-        title="Name edit coming soon"
+        
       />
     `;
 
@@ -218,7 +255,7 @@ function setupEditProfile() {
         const res = await authFetch(API.PROFILE, {
           method: "PATCH",
           body: JSON.stringify({
-            // full_name: document.getElementById("editFullName").value, // backend support later
+            full_name: document.getElementById("editFullName").value, 
             bio: document.getElementById("editBio").value
           })
         });
@@ -338,58 +375,72 @@ function showMessage(msg) {
 
 
 /* ================== RENDER POSTED QUOTES ================== */
-function renderPostedQuotes(profile) {
+
+
+
+/* ================== LOAD & RENDER POSTED QUOTES ================== */
+async function renderPostedQuotes(profile) {
   const container = document.getElementById("postedQuotesContainer");
   container.innerHTML = "";
 
-  const quotes = profile.posted_quotes || [];
+  try {
+    const response = await authFetch(API.POPULAR_QUOTES); // /quotes/
+    if (!response.ok) throw new Error("Failed to load quotes");
 
-  // 🔹 filter by logged-in username
-  const myQuotes = quotes.filter(q =>
-    q.author_username === q.username
-  );
+    const data = await response.json();
+    const allQuotes = data.results || data;
 
-  if (!myQuotes.length) {
-    container.innerHTML = `<div class="empty-box"> Not yet posted</div>`;
-    return;
-  }
+    // ✅ FILTER: quote author == logged-in user
+    const myQuotes = allQuotes.filter(q =>
+      q.author_username === profile.username
+    );
 
-  myQuotes.forEach(q => {
-    container.innerHTML += `
-      <div class="col-md-3 mb-3">
-        <div class="quote-card shadow rounded border">
-          <p class="quote-text">“${q.text}”</p>
-          <p class="quote-author">- ${q.author_username || 'Unknown'}</p>
+    if (!myQuotes.length) {
+      container.innerHTML = `<div class="empty-box">Not yet posted</div>`;
+      return;
+    }
 
-          <div class="d-flex justify-content-between mt-4 icon-bar">
-            <span class="material-symbols-outlined like-btn" data-id="${q.id}" title="Like">
-              favorite_border
-              <span class="action-count like-count">${q.likes_count || q.likes || 0}</span>
-            </span>
+    myQuotes.forEach(q => {
+      container.innerHTML += `
+        <div class="col-md-3 mb-3">
+          <div class="quote-card shadow rounded border p-3"style="background-image: url('${getRandomPaper()}') !important; >
+            
+            <p class="quote-text">“${q.text}”</p>
+            <p class="quote-author">– ${q.author_username}</p>
 
-            <span class="material-symbols-outlined dislike-btn" data-id="${q.id}" title="Dislike">
-              thumb_down_off_alt
-              <span class="action-count dislike-count">${q.dislikes || 0}</span>
-            </span>
+            <div class="d-flex justify-content-between mt-3 icon-bar">
 
-            <span class="material-symbols-outlined share-btn" data-id="${q.id}" title="Share">
-              share
-              <span class="action-count share-count">${q.share_count || q.shares || 0}</span>
-            </span>
-
-            <span class="material-symbols-outlined save-btn" data-id="${q.id}" title="Save">
-              bookmark
-              <span class="action-count save-count">${q.saved || 0}</span>
-            </span>
-
-            <a href="comments.html?quote=${q.id}">
-              <span class="material-symbols-outlined comment-btn" title="Comments">
-                chat_bubble
+              <span class="material-symbols-outlined like-btn" data-id="${q.id}">
+                favorite_border
+                <span class="action-count">${q.likes_count || 0}</span>
               </span>
-            </a>
+
+              <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+                share
+              </span>
+
+              <span class="material-symbols-outlined save-btn" data-id="${q.id}">
+                bookmark_border
+              </span>
+
+              <a href="comments.html?quote=${q.id}">
+                <span class="material-symbols-outlined">
+                  chat_bubble
+                </span>
+              </a>
+
+            </div>
           </div>
         </div>
-      </div>`;
-  });
-}
+      `;
+    });
 
+    // optional
+    // setupLikeButtons();
+    // setupSaveButtons();
+
+  } catch (error) {
+    console.error(error);
+    container.innerHTML = `<div class="text-danger">Failed to load your quotes</div>`;
+  }
+}

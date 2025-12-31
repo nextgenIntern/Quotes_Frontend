@@ -15,6 +15,8 @@ const API = {
    SUBMIT_QUOTE: `${BASE_URL}/quotes/`,
    SAVE_QUOTE: (id) => `${BASE_URL}/quotes/${id}/save/`,
   UNSAVE_QUOTE: (id) => `${BASE_URL}/quotes/${id}/unsave/`,
+  LIKE_QUOTE: (id) => `${BASE_URL}/quotes/${id}/like/`,
+  UNLIKE_QUOTE: (id) => `${BASE_URL}/quotes/${id}/unlike/`,
 
 };
 
