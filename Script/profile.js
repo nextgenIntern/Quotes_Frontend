@@ -61,28 +61,7 @@ async function loadProfile() {
   }
 }
 
-// // for post count no separet api , it is fetched from the quotes api author name nd profile api user name and then added
-// async function updatePostsCount(profile) {
-//   try {
-//     const res = await authFetch(API.QUOTES); // /quotes/
-//     if (!res.ok) throw new Error("Failed to fetch quotes");
 
-//     const data = await res.json();
-//     const quotes = data.results || data;
-
-//     // ✅ count only logged-in user's quotes
-//     const myQuotesCount = quotes.filter(q =>
-//       q.author_username === profile.username
-//     ).length;
-
-//     document.getElementById("postsCount").innerText = myQuotesCount;
-
-//   } catch (err) {
-//     console.error("Post count error:", err);
-//     document.getElementById("postsCount").innerText = 0;
-//   }
-// }
-// updatePostsCount(profile);
 
 /* ================== LOAD SAVED QUOTES ================== */
 async function loadSavedQuotes() {
@@ -107,7 +86,7 @@ function renderProfile(profile) {
     profile.bio || "✨ Tap edit to add your bio";
 
   document.getElementById("postsCount").innerText =
-    profile.view_count?.length || 0;
+    profile.total_quotes_posted || 0;
 
   document.getElementById("followersCount").innerText =
     profile.followers_count || 0;
