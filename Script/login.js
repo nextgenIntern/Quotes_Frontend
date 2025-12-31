@@ -1,81 +1,90 @@
-const API_BASE = "http://140.245.5.153:8001/api";
+// login.js
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("loginForm");
+  if (!loginForm) return; // ✅ VERY IMPORTANT
 
-document.getElementById("loginForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value;
   const msgEl = document.getElementById("msg");
 
-  // Clear previous messages
-  msgEl.classList.remove("text-success", "text-danger");
-  msgEl.textContent = "Logging in...";
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  try {
-    const payload = {
-      username: username,  // or email if your backend uses email for login
-      password: password
-    };
+    const username = document.getElementById("username")?.value.trim();
+    const password = document.getElementById("password")?.value;
 
-    console.log("Login payload:", payload);
+    msgEl.className = "";
+    msgEl.textContent = "Logging in...";
 
-    // Call /api/token/ endpoint
-    const res = await fetch(`${API_BASE}/token/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await res.json().catch(() => ({}));
-    console.log("Login response:", res.status, data);
-
-    if (!res.ok) {
-      // Handle specific errors from Django REST
-      let errorMsg = "Login failed. Please check your credentials.";
-
-      if (data.detail) {
-        errorMsg = data.detail;
-      } else if (data.non_field_errors) {
-        errorMsg = Array.isArray(data.non_field_errors) ? data.non_field_errors.join(" ") : data.non_field_errors;
-      } else if (data.username || data.email) {
-        errorMsg = (data.username || data.email || []).join(" ");
-      }
-
+    if (!username || !password) {
       msgEl.classList.add("text-danger");
-      msgEl.textContent = errorMsg;
+      msgEl.textContent = "Username and password required";
       return;
     }
 
-    // Success! Store tokens and user data
-    const accessToken = data.access;
-    const refreshToken = data.refresh;
+    try {
+      console.log("Login payload:", { username });
 
-    const userData = {
-      name: username,
-      email: username,  // update this if backend returns actual email
-      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=0D8ABC&color=fff`,
-      accessToken: accessToken,
-      refreshToken: refreshToken
-    };
+      const res = await fetch(API.LOGIN, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
 
-    // Store in localStorage for navbar/profile use
-    localStorage.setItem("loggedInUser", JSON.stringify(userData));
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
+      const data = await res.json().catch(() => ({}));
+      console.log("Login response:", res.status, data);
 
-    msgEl.classList.add("text-success");
-    msgEl.textContent = "Login successful! Redirecting...";
+      if (!res.ok) {
+        msgEl.classList.add("text-danger");
+        msgEl.textContent =
+          data.detail ||
+          data.non_field_errors?.join(" ") ||
+          "Invalid credentials";
+        return;
+      }
 
-    // Redirect to home
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 1200);
+      // ✅ SAVE TOKENS
+      saveTokens(data.access, data.refresh);
 
-  } catch (err) {
-    console.error("Login error:", err);
-    msgEl.classList.add("text-danger");
-    msgEl.textContent = "Network error. Please check your connection.";
-  }
+      // ✅ LOG TOKEN EXPIRY (VERY IMPORTANT)
+      logTokenExpiry(data.access);
+
+      // ✅ SAVE USER FOR NAVBAR
+      localStorage.setItem("loggedInUser", JSON.stringify({
+        name: username,
+        email: username,
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}`
+      }));
+
+      msgEl.classList.add("text-success");
+      msgEl.textContent = "Login successful! Redirecting...";
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 800);
+
+    } catch (err) {
+      console.error("Login error:", err);
+      msgEl.classList.add("text-danger");
+      msgEl.textContent = "Network error. Try again.";
+    }
+  });
 });
+
+/* ================= TOKEN EXPIRY LOGGER ================= */
+function logTokenExpiry(token) {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const exp = new Date(payload.exp * 1000);
+    console.log("Access token expires at:", exp.toLocaleString());
+  } catch {
+    console.warn("Could not decode token expiry");
+  }
+}
+// 👁 Password toggle
+  const toggle = document.getElementById("togglePassword");
+  toggle?.addEventListener("click", () => {
+    const pwd = document.getElementById("password");
+    pwd.type = pwd.type === "password" ? "text" : "password";
+  });
+
+
+

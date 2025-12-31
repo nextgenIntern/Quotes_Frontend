@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>navbar</title>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="Custom_CSS/index.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar shadow-sm">
+        <div class="container">
+
+            <div class="d-flex align-items-center gap-3">
+                <a class="navbar-brand fw-bold fs-2" href="index.html">
+                    Daily Inspiration
+
+                </a>
+
+                <img id="userAvatarmobile" class="rounded-circle user-avatar d-lg-none" alt="Profile">
+
+
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto gap-4 fw-semibold fs-5">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Quotes.html">Quotes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Submitquotes.html">Submit Quote</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Authors.html">Authors</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Language
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" id="languageMenu">
+                            <li class="dropdown-item text-muted">Loading...</li>
+                        </ul>
+                    </li>
+                    <script>
+                        const LANGUAGE_API = "http://140.245.5.153:8001/api/languages/";
+                        const languageMenu = document.getElementById("languageMenu");
+
+                        // Load saved language
+                        const currentLang = localStorage.getItem("language") || "en";
+
+                        async function loadLanguages() {
+                            try {
+                                const res = await axios.get(LANGUAGE_API);
+
+                                languageMenu.innerHTML = "";
+
+                                res.data.forEach(lang => {
+                                    const li = document.createElement("li");
+                                    li.innerHTML = `
+                <a class="dropdown-item" href="#" data-lang="${lang.code}">
+                    ${lang.name}
+                </a>
+            `;
+                                    languageMenu.appendChild(li);
+                                });
+
+                                // click handler
+                                document.querySelectorAll("#languageMenu a").forEach(item => {
+                                    item.addEventListener("click", () => {
+                                        localStorage.setItem("language", item.dataset.lang);
+                                        location.reload();
+                                    });
+                                });
+
+                            } catch (err) {
+                                languageMenu.innerHTML =
+                                    `<li class="dropdown-item text-danger">Failed to load</li>`;
+                                console.error(err);
+                            }
+                        }
+
+                        loadLanguages();
+                    </script>
+
+                </ul>
+
+                <!-- AUTH AREA -->
+                <!-- AUTH AREA -->
+                <div class="d-flex align-items-center ms-lg-4 mt-3 mt-lg-0">
+
+                    <!-- SIGNUP BUTTON -->
+                    <button id="signupBtn" class="btn btn-light fw-bold px-4 py-2 rounded-pill me-2"
+                        onclick="window.location.href='login.html'">
+                        Sign up
+                    </button>
+
+                    <!-- USER PROFILE -->
+                    <div id="userMenu" class="dropdown d-none">
+                        <button class="btn p-0 border-0 bg-transparent dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+
+                            <img id="userAvatar" class="rounded-circle user-avatar" alt="Profile">
+                        </button>
+
+                        <div class="ms-5" style="margin-left: 100px;">
+                            <ul class="dropdown-menu dropdown-menu-end shadow">
+                                <li class="px-3 py-2">
+                                    <strong id="usernameText">User</strong>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="profile.html"> Profile</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="saved-quotes.html"> Saved Quotes</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#" id="logoutBtn"> Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </nav>
+
+
+    <script src="Script/config.js"></script>
+    <script src="Script/auth.js"></script>
+    <script src="Script/navbar.js"></script>
+
+</body>
+
+</html>

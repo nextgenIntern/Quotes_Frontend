@@ -83,127 +83,18 @@
 
     <!-- NAVBAR -->
      <!-- NAVBAR -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar shadow-sm">
-            <div class="container">
-
-                <div class="d-flex align-items-center gap-3">
-                    <a class="navbar-brand fw-bold fs-2" href="index.html">
-                        Daily Inspiration
-                        
-                    </a>
-                    
-                                <img id="userAvatarmobile" class="rounded-circle user-avatar d-lg-none" alt="Profile">
-                        
-                  
-                </div>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navMenu">
-                    <ul class="navbar-nav ms-auto gap-4 fw-semibold fs-5">
-                        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Quotes.html">Quotes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Submitquotes.html">Submit Quote</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Authors.html">Authors</a></li>
-                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Language
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow" id="languageMenu">
-                                <li class="dropdown-item text-muted">Loading...</li>
-                            </ul>
-                        </li>
-                        <script>
-const LANGUAGE_API = "http://140.245.5.153:8001/api/languages/";
-const languageMenu = document.getElementById("languageMenu");
-
-// Load saved language
-const currentLang = localStorage.getItem("language") || "en";
-
-async function loadLanguages() {
-    try {
-        const res = await axios.get(LANGUAGE_API);
-
-        languageMenu.innerHTML = "";
-
-        res.data.forEach(lang => {
-            const li = document.createElement("li");
-            li.innerHTML = `
-                <a class="dropdown-item" href="#" data-lang="${lang.code}">
-                    ${lang.name}
-                </a>
-            `;
-            languageMenu.appendChild(li);
-        });
-
-        // click handler
-        document.querySelectorAll("#languageMenu a").forEach(item => {
-            item.addEventListener("click", () => {
-                localStorage.setItem("language", item.dataset.lang);
-                location.reload();
-            });
-        });
-
-    } catch (err) {
-        languageMenu.innerHTML =
-            `<li class="dropdown-item text-danger">Failed to load</li>`;
-        console.error(err);
-    }
-}
-
-loadLanguages();
-</script>
-
-                    </ul>
-
-                    <!-- AUTH AREA -->
-                    <!-- AUTH AREA -->
-                    <div class="d-flex align-items-center ms-lg-4 mt-3 mt-lg-0">
-
-                        <!-- SIGNUP BUTTON -->
-                        <button id="signupBtn" class="btn btn-light fw-bold px-4 py-2 rounded-pill me-2"
-                            onclick="window.location.href='login.html'">
-                            Sign up
-                        </button>
-
-                        <!-- USER PROFILE -->
-                        <div id="userMenu" class="dropdown d-none">
-                            <button class="btn p-0 border-0 bg-transparent dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-
-                                <img id="userAvatar" class="rounded-circle user-avatar" alt="Profile">
-                            </button>
-
-                            <div class="ms-5" style="margin-left: 100px;">
-                                <ul class="dropdown-menu dropdown-menu-end shadow">
-                                    <li class="px-3 py-2">
-                                        <strong id="usernameText">User</strong>
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="profile.html"> Profile</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="saved.html"> Saved Quotes</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-danger" href="#" id="logoutBtn"> Logout</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>
+       <!-- NAVBAR -->
+        <div id="navbar-container"></div>
+        <script src="Script/navbar.js"></script>
+        <!-- Author -->
+                    <!-- <div class="mb-3">
+                        <label for="quoteAuthor" class="form-label fw-semibold">Author</label>
+                        <input type="text" class="form-control" id="quoteAuthor" placeholder="Author's name" required>
+                    </div> -->
 
 
-                </div>
-            </div>
-        </nav>
+                    <!-- Categories Multi-Select Input -->
+                   <!-- Categories Multi-Select Input (tags style) -->
 
 
 
@@ -215,7 +106,7 @@ loadLanguages();
                 <h2 class="text-center mb-4 fw-bold mt-5">Share Your Quote</h2>
                 <p class="text-center mb-5 fst-italic">Inspire the world with your words!</p>
 
-                <form id="quoteForm" class="p-4 shadow-lg rounded-4" style="background: #fff8f0;">
+                <form id="submitQuoteForm" class="p-4 shadow-lg rounded-4" style="background: #fff8f0;">
 
                     <!-- Quote Text -->
                     <div class="mb-3">
@@ -224,96 +115,23 @@ loadLanguages();
                             required></textarea>
                     </div>
 
-                    <!-- Author -->
-                    <!-- <div class="mb-3">
-                        <label for="quoteAuthor" class="form-label fw-semibold">Author</label>
-                        <input type="text" class="form-control" id="quoteAuthor" placeholder="Author's name" required>
-                    </div> -->
+                    
+<div class="mb-3">
+  <label class="form-label fw-semibold">Categories</label>
+  <div class="tags-input" id="tagsInput">
+    <input type="text" id="tagInput" placeholder="Type or select category">
+  </div>
+  <div class="suggestions d-none" id="suggestions"></div>
+  <small class="text-muted d-block mt-2">Type or select multiple categories</small>
+</div>
 
-
-                    <!-- Categories Multi-Select Input -->
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Categories</label>
-                        <div class="tags-input" id="tagsInput">
-                            <input type="text" id="tagInput" placeholder="Type or select category">
-                        </div>
-                        <div class="suggestions d-none" id="suggestions"></div>
-                        <small class="text-muted d-block mt-2">Type or select multiple categories</small>
-                    </div>
                     <!-- script for multiple category  -->
-                    <script>
-                        const categories = ["Motivation", "Life", "Love", "Success", "Spiritual", "Funny"];
-                        const tagsInput = document.getElementById('tagsInput');
-                        const tagInput = document.getElementById('tagInput');
-                        const suggestions = document.getElementById('suggestions');
-
-                        let selected = [];
-
-                        // Render selected tags
-                        function renderTags() {
-                            tagsInput.querySelectorAll('.tag').forEach(t => t.remove());
-                            selected.forEach(cat => {
-                                const tag = document.createElement('div');
-                                tag.className = 'tag';
-                                tag.innerHTML = `${cat} <span class="remove">&times;</span>`;
-                                tag.querySelector('.remove').onclick = () => {
-                                    selected = selected.filter(c => c !== cat);
-                                    renderTags();
-                                };
-                                tagsInput.insertBefore(tag, tagInput);
-                            });
-                        }
-
-                        // Show suggestions based on input
-                        function showSuggestions() {
-                            const val = tagInput.value.toLowerCase();
-                            suggestions.innerHTML = '';
-                            const filtered = categories.filter(c => c.toLowerCase().includes(val) && !selected.includes(c));
-                            if (!filtered.length) return suggestions.classList.add('d-none');
-                            filtered.forEach(c => {
-                                const item = document.createElement('div');
-                                item.className = 'suggestion-item';
-                                item.textContent = c;
-                                item.onclick = () => {
-                                    selected.push(c);
-                                    tagInput.value = '';
-                                    renderTags();
-                                    suggestions.classList.add('d-none');
-                                };
-                                suggestions.appendChild(item);
-                            });
-                            suggestions.classList.remove('d-none');
-                        }
-
-                        // Add tag on Enter key
-                        tagInput.addEventListener('keydown', e => {
-                            if (e.key === 'Enter' && tagInput.value.trim() && !selected.includes(tagInput.value.trim())) {
-                                selected.push(tagInput.value.trim());
-                                tagInput.value = '';
-                                renderTags();
-                                suggestions.classList.add('d-none');
-                                e.preventDefault();
-                            }
-                        });
-
-                        tagInput.addEventListener('input', showSuggestions);
-                        document.addEventListener('click', e => { if (!tagsInput.contains(e.target)) suggestions.classList.add('d-none'); });
-                    </script>
+                   <select id="quoteLanguage" class="form-select mb-2" required>
+    <option value="">Select language</option>
+  </select>
 
 
-
-                    <!-- Mood -->
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Languages</label>
-                        <select class="form-select">
-                            <option value="">Select Languages</option>
-                            <option>English</option>
-                            <option>French</option>
-                            <option>Hindi</option>
-                            <option>Tamil</option>
-                            <option>Greek</option>
-                        </select>
-                    </div>
+                   
 
 
                     <!-- Buttons -->
@@ -324,48 +142,17 @@ loadLanguages();
 
                 </form>
 
-                <!-- LIVE PREVIEW -->
-                <div class="quote-preview mt-5 p-4 shadow-lg rounded-4 text-center d-none" id="quotePreview">
-                    <span class="badge bg-primary mb-2" id="previewCategory"></span>
-                    <p class="quote-text fst-italic mb-3" id="previewText"></p>
-                    <h6 class="author fw-semibold" id="previewAuthor"></h6>
-                </div>
-
+              
             </div>
         </div>
     </section>
+    <!-- User profile quotes container -->
+<!-- <div id="userQuotesContainer"></div> -->
 
-    <!-- for local storage of the username -->
-    <!-- for local storage of the username -->
-  <script>
-    const user = JSON.parse(localStorage.getItem("loggedInUser"));
 
-    const signupBtn = document.getElementById("signupBtn");
-    const userMenu = document.getElementById("userMenu");
-    const userAvatar = document.getElementById("userAvatar");
-    const userAvatarmobile = document.getElementById("userAvatarmobile");
-    const usernameText = document.getElementById("usernameText");
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    if (user) {
-      // hide signup
-      signupBtn.classList.add("d-none");
-
-      // show profile
-      userMenu.classList.remove("d-none");
-
-      // set data
-      userAvatar.src = user.avatar;
-      userAvatarmobile.src = user.avatar;
-      usernameText.innerText = user.name;
-    }
-
-    // logout
-    logoutBtn?.addEventListener("click", () => {
-      localStorage.removeItem("loggedInUser");
-      window.location.reload();
-    });
-  </script>
+   <!-- <script src="script/config.js"></script>
+    <script src="script/auth.js"></script>
+    <script src="script/submitquotes.js"></script> -->
 </body>
 
 </html>

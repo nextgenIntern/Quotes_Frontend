@@ -59,6 +59,25 @@
     .form-control {
       border-radius: 12px;
       padding: 14px;
+      border: 1px solid #dee2e6;
+    }
+
+    .form-control:focus {
+      box-shadow: 0 0 0 0.15rem rgba(13,110,253,.25);
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 1rem;
+      color: #6c757d;
     }
 
     .btn-primary {
@@ -67,96 +86,23 @@
       border-radius: 12px;
       padding: 14px;
       font-weight: 600;
+      transition: 0.3s ease;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(74, 108, 247, 0.35);
+      box-shadow: 0 8px 18px rgba(74,108,247,0.35);
     }
-  
-body {
-  min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #fdf6e3, #ffe0b3);
-  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1950&q=80');
-  background-size: cover;
-  background-position: center;
-  background-blend-mode: lighten;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.login-card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-  animation: fadeUp 0.6s ease;
-}
+    .link-text {
+      color: #4a6cf7;
+      font-weight: 600;
+      text-decoration: none;
+    }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.login-title {
-  font-weight: 700;
-  color: #2c3e50;
-}
-
-.login-subtitle {
-  font-size: 0.9rem;
-  color: #6c757d;
-}
-
-.form-control {
-  border-radius: 12px;
-  padding: 14px;
-  border: 1px solid #dee2e6;
-}
-
-.form-control:focus {
-  box-shadow: 0 0 0 0.15rem rgba(13,110,253,.25);
-}
-
-.password-wrapper {
-  position: relative;
-}
-
-.password-wrapper .toggle-password {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 1rem;
-  color: #6c757d;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #6a8cff, #4a6cf7);
-  border: none;
-  border-radius: 12px;
-  padding: 14px;
-  font-weight: 600;
-  transition: 0.3s ease;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(74,108,247,0.35);
-}
-
-.link-text {
-  color: #4a6cf7;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.link-text:hover {
-  text-decoration: underline;
-}
+    .link-text:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
@@ -178,17 +124,18 @@ body {
                 <input type="text" id="username" class="form-control" placeholder="Username" required>
               </div>
 
+              <div class="mb-3">
+                <input type="email" id="email" class="form-control" placeholder="Email" required>
+              </div>
+
               <div class="mb-4 password-wrapper">
-                <input type="password" id="password" class="form-control"
-                  placeholder="Password" required>
+                <input type="password" id="password" class="form-control" placeholder="Password" required>
                 <span class="toggle-password" id="togglePassword">&#128065;</span>
               </div>
-              
 
               <button type="submit" class="btn btn-primary w-100">
                 Sign Up
               </button>
-             
             </form>
 
             <p id="msg" class="text-center mt-3 small"></p>
@@ -199,121 +146,14 @@ body {
       </div>
     </div>
   </div>
-
-  <script>
-     const togglePassword = document.getElementById('togglePassword');
-    const password = document.getElementById('password');
-
-    togglePassword.addEventListener('click', () => {
-      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-      password.setAttribute('type', type);
-      togglePassword.textContent = type === 'password' ? '\u{1F441}' : '\u{1F441}\u{FE0E}'; // Eye icon
-    });
+  <!-- js  -->
+<script src="script/config.js"></script>
+  <script src="script/auth.js"></script>
+  <script src="script/signup.js"></script>
+  
 
 
-    const API_BASE = "http://140.245.5.153:8001/api";
-
-    document.getElementById("signupForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const username = document.getElementById("username").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const msgEl = document.getElementById("msg");
-
-      msgEl.classList.remove("text-success", "text-danger");
-      msgEl.textContent = "Creating account...";
-
-      try {
-        const payload = {
-          username: username,
-          email: email,
-          password: password
-        };
-
-        console.log("Signup payload:", payload);
-
-        const signupRes = await fetch(`${API_BASE}/signup/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const signupData = await signupRes.json().catch(() => ({}));
-        console.log("Signup response:", signupRes.status, signupData);
-
-        if (!signupRes.ok) {
-          // Show field-level errors if present
-          let errorMsg = "Signup failed. Please check your details.";
-
-          if (signupData.username) {
-            errorMsg = Array.isArray(signupData.username) ? signupData.username.join(" ") : signupData.username;
-          } else if (signupData.email) {
-            errorMsg = Array.isArray(signupData.email) ? signupData.email.join(" ") : signupData.email;
-          } else if (signupData.password) {
-            errorMsg = Array.isArray(signupData.password) ? signupData.password.join(" ") : signupData.password;
-          } else if (signupData.detail) {
-            errorMsg = signupData.detail;
-          }
-
-          msgEl.classList.add("text-danger");
-          msgEl.textContent = errorMsg;
-          return;
-        }
-
-        // If signup is OK, then login
-        const loginRes = await fetch(`${API_BASE}/token/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            username: username,  // change to email if your backend uses email instead
-            password: password
-          })
-        });
-
-        const loginData = await loginRes.json().catch(() => ({}));
-        console.log("Login response:", loginRes.status, loginData);
-
-        if (!loginRes.ok) {
-          msgEl.classList.add("text-danger");
-          msgEl.textContent = "Account created, but login failed. Try logging in manually.";
-          return;
-        }
-
-        const accessToken = loginData.access;
-        const refreshToken = loginData.refresh;
-
-        const userData = {
-          name: username,
-          email: email,
-          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=0D8ABC&color=fff`,
-          accessToken: accessToken,
-          refreshToken: refreshToken
-        };
-
-        localStorage.setItem("loggedInUser", JSON.stringify(userData));
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-
-        msgEl.classList.add("text-success");
-        msgEl.textContent = "Account created! Redirecting...";
-
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 1000);
-      } catch (err) {
-        console.error(err);
-        msgEl.classList.add("text-danger");
-        msgEl.textContent = "Something went wrong. Please try again.";
-      }
-    });
-  </script>
-
-
+ 
 </body>
 
 </html>

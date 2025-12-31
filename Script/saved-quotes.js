@@ -11,57 +11,77 @@ if (!token) {
 
 // 🚀 Load saved quotes
 document.addEventListener("DOMContentLoaded", loadSavedQuotes);
-
+// ---------------- SAVED QUOTES ----------------
 async function loadSavedQuotes() {
+  const container = document.getElementById("savedQuotesContainer");
+  container.innerHTML = ""; // Clear previous
+
   try {
-    const res = await axios.get(SAVED_QUOTES_API, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+    const res = await authFetch("http://140.245.5.153:8001/api/profile/saved/", {
+      method: "GET"
     });
 
-    const quotes = res.data || [];
+    if (!res.ok) throw new Error("Failed to load saved quotes");
 
-    if (quotes.length === 0) {
-      showEmptyState();
-    } else {
-      renderQuotes(quotes);
+    const quotes = await res.json();
+
+    if (!quotes || quotes.length === 0) {
+      container.innerHTML = `
+        <div class="empty-box">
+          💾 No saved quotes yet
+        </div>
+      `;
+      return;
     }
+
+    // Render square cards
+    quotes.forEach(q => {
+      const card = document.createElement("div");
+      card.className = "col-md-3 mb-3";
+      card.innerHTML = `
+        <div class="quote-card shadow rounded border">
+          <p class="quote-text">“${q.text}”</p>
+          <p class="quote-author">- ${q.author_username || "Unknown"}</p>
+          <div class="d-flex justify-content-between mt-3 icon-bar">
+            <span class="material-symbols-outlined like-btn" data-id="${q.id}" title="Like">
+              favorite_border
+              <span class="action-count like-count">${q.likes || q.likes_count || 0}</span>
+            </span>
+            <span class="material-symbols-outlined dislike-btn" data-id="${q.id}" title="Dislike">
+              thumb_down_off_alt
+              <span class="action-count dislike-count">${q.dislikes || 0}</span>
+            </span>
+            <span class="material-symbols-outlined share-btn" data-id="${q.id}" title="Share">
+              share
+              <span class="action-count share-count">${q.shares || q.share_count || 0}</span>
+            </span>
+             <span class="material-symbols-outlined save-btn" data-id="${q.id}" title="Save">
+  bookmark
+  <span class="action-count save-count">${q.saved || 0}</span>
+</span>
+            <a href="comments.html?quote=${q.id}">
+              <span class="material-symbols-outlined comment-btn" title="Comments">
+                chat_bubble
+              </span>
+            </a>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+      setupSaveButtons();
+    });
+
 
   } catch (err) {
     console.error("Saved quotes load error:", err);
-
-    if (err.response && err.response.status === 401) {
-      alert("Session expired. Please login again.");
-      localStorage.clear();
-      window.location.href = "login.html";
-    } else {
-      container.innerHTML = `
-        <div class="empty-box">
-          <h3>⚠️ Failed to load quotes</h3>
-          <p>Please try again later</p>
-        </div>
-      `;
-    }
+    container.innerHTML = `
+      <div class="empty-box">
+        ⚠️ Failed to load saved quotes
+      </div>
+    `;
   }
 }
 
-// 🧱 Render quote cards
-function renderQuotes(quotes) {
-  container.innerHTML = "";
-
-  quotes.forEach(q => {
-    const card = document.createElement("div");
-    card.className = "quote-card";
-
-    card.innerHTML = `
-      <div class="quote-text">“${q.text}”</div>
-      <div class="quote-author">– ${q.author_username || "Unknown"}</div>
-    `;
-
-    container.appendChild(card);
-  });
-}
 
 // 📭 Empty UI
 function showEmptyState() {
@@ -71,4 +91,53 @@ function showEmptyState() {
       <p>Save quotes you love and they’ll appear here ✨</p>
     </div>
   `;
+}
+
+function setupSaveButtons() {
+  const saveBtns = document.querySelectorAll('.save-btn');
+
+  saveBtns.forEach(btn => {
+    const quoteId = btn.dataset.id;
+
+    // Make sure initial state is correct
+    if (btn.dataset.saved === "true") {
+      btn.classList.add('saved');
+    } else {
+      btn.classList.remove('saved');
+    }
+
+    btn.addEventListener('click', async () => {
+      const isSaved = btn.dataset.saved === "true"; // check data-saved, not class
+
+      try {
+        const url = isSaved
+          ? API.UNSAVE_QUOTE(quoteId)
+          : API.SAVE_QUOTE(quoteId);
+
+        const res = await authFetch(url, { method: 'POST' });
+        if (!res.ok) throw new Error('Save/Unsave failed');
+
+        // Toggle state
+        btn.dataset.saved = (!isSaved).toString();
+        btn.classList.toggle('saved');
+
+        // Update counter
+        const countSpan = btn.querySelector('.action-count');
+        if (countSpan) {
+          let count = parseInt(countSpan.innerText) || 0;
+          count = isSaved ? Math.max(0, count - 1) : count + 1;
+          countSpan.innerText = count;
+        }
+
+        // Optional: remove from saved quotes page if unsaved
+        if (isSaved && document.getElementById('savedQuotesContainer')) {
+          btn.closest('.col-md-3')?.remove();
+        }
+
+      } catch (err) {
+        console.error('Save/Unsave error:', err);
+        alert('Failed to save/unsave quote');
+      }
+    });
+  });
 }

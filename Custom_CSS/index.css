@@ -52,8 +52,8 @@ body {
 
 /* ===== HERO SECTION ===== */
 .hero-section {
-    height: 70vh;
-   background: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+    height: 40vh;
+   background: url('https://images.pexels.com/photos/1831747/pexels-photo-1831747.jpeg') center/cover no-repeat;
     color: #222;
     text-align: center;
     display: flex;
@@ -97,12 +97,13 @@ body {
 .quote-card:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    
 }
 
 .quote-text {
     font-size: 1.3rem;
     font-style: italic;
-    color: #fff;
+    color: #e01a1a;
 }
 
 /* Popular Quotes Gradient */
@@ -228,6 +229,7 @@ footer {
 .quote-card {
     transition: transform 0.3s, box-shadow 0.3s;
     font-family: 'Playfair Display', serif;
+    
 }
 
 .quote-card:hover {

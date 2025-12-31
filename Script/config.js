@@ -1,0 +1,21 @@
+// Script/config.js
+
+const BASE_URL = "http://140.245.5.153:8001/api";
+
+const API = {
+  SIGNUP: `${BASE_URL}/signup/`,
+  LOGIN: `${BASE_URL}/token/`,
+  REFRESH: `${BASE_URL}/token/refresh/`,
+  PROFILE: `${BASE_URL}/profile/`,
+  SAVED_QUOTES: `${BASE_URL}/profile/saved/`,
+   QUOTES_TOP5: `${BASE_URL}/quotes/top5/`,
+   POPULAR_QUOTES:  `${BASE_URL}/quotes/`,
+   CATEGORIES: `${BASE_URL}/categories/`,
+   LANGUAGES: `${BASE_URL}/languages/`,
+   SUBMIT_QUOTE: `${BASE_URL}/quotes/`,
+   SAVE_QUOTE: (id) => `${BASE_URL}/quotes/${id}/save/`,
+  UNSAVE_QUOTE: (id) => `${BASE_URL}/quotes/${id}/unsave/`,
+
+};
+
+window.API = API;

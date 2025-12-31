@@ -1,285 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Inspiration | Profile</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="Custom_CSS/profile.css">
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Daily Inspiration | Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="Custom_CSS/profile.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- google font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        
+    <style>
+        .quote-card {
+            background: linear-gradient(135deg, #fff9f0, #ffe6cc);
+            border-radius: 10px;
+            padding: 15px;
+            height: 250px;
+            /* Make square-ish */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .quote-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+        }
+
+        .quote-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-style: italic;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .quote-author {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: right;
+            color: #555;
+        }
+
+        .icon-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .icon-bar span,
+        .icon-bar a {
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .icon-bar span:hover {
+            color: #0d6efd;
+        }
+
+        .action-count {
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .icon-bar i {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .icon-bar i:hover {
+            color: #0d6efd;
+        }
+
+        /* Action active states */
+        .icon-bar span {
+            padding: 6px 10px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .icon-bar span.active-like {
+            background: #ff4d4d;
+            color: white;
+        }
+
+        .icon-bar span.active-dislike {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .icon-bar span.active-save {
+            background: orange;
+            color: white;
+        }
+
+        /* Share popup */
+        .share-popup {
+            position: absolute;
+            bottom: 45px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            padding: 10px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .share-popup a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            text-decoration: none;
+            color: #333;
+            border-radius: 8px;
+        }
+
+        .share-popup a:hover {
+            background: #f1f1f1;
+        }
+
+
+        .category-tag {
+            background: #e982ec;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .category-tag:hover {
+            background: #0b5ed7;
+            transform: scale(1.1);
+        }
+    </style>
+
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <h1>Daily Inspiration | Profile Section</h1>
-</nav>
+    <nav class="navbar">
+        <h1>Daily Inspiration | Profile Section</h1>
+    </nav>
 
-<!-- BANNER -->
-<section class="banner" id="bannerSection">
-  <div class="banner-overlay"></div>
-  <input type="file" id="bannerInput" accept="image/*" style="display:none;">
-  <button id="changeBannerBtn">Change Banner</button>
-</section>
+    <section class="banner" id="bannerSection">
+        <div class="banner-overlay"></div>
+        <input type="file" id="bannerInput" accept="image/*" hidden>
+        <button id="changeBannerBtn" class="btn btn-primary">Change Banner</button>
+    </section>
 
-<!-- PROFILE -->
-<section class="profile-section">
-  <div class="profile-image">
-    <img id="profileImage" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe" alt="Profile">
-    <input type="file" id="profileImageInput" accept="image/*" style="display:none;">
-    <button id="changeProfileBtn">Change Photo</button>
-  </div>
+    <section class="profile-section">
+        <div class="profile-image">
+            <img id="profileImage" alt="Profile">
+            <input type="file" id="profileImageInput" accept="image/*" hidden>
+            <button id="changeProfileBtn" class="btn btn-primary">Change Photo</button>
+        </div>
 
-  <div class="profile-details">
-    <h2 class="username" id="profileUsername">@username</h2>
-    <p class="bio" id="profileBio">Add your bio</p>
+        <div class="profile-details">
+            <h2 id="profileUsername">@username</h2>
+            <p id="profileBio">Add your bio</p>
 
-    <div class="stats">
-      <div><strong id="postsCount">0</strong><span>Posts</span></div>
-      <div><strong id="followersCount">0</strong><span>Followers</span></div>
-      <div><strong id="likesCount">0</strong><span>Likes</span></div>
-    </div>
+            <div class="stats">
+                <div><strong id="postsCount">0</strong><span>Posts</span></div>
+                <div><strong id="followersCount">0</strong><span>Followers</span></div>
+                <div><strong id="likesCount">0</strong><span>Likes</span></div>
+            </div>
 
-    <div class="profile-actions">
-      <button id="editProfileBtn" class="btn edit">Edit Profile</button>
-      <button id="saveProfileBtn" class="btn edit" style="display:none;">Save</button>
-    </div>
-  </div>
-</section>
+            <button id="editProfileBtn" type="button" class="btn btn-primary">Edit Profile</button>
+            <a href="Submitquotes.html" class="btn btn-primary">Post your quotes</a>
+            <a href="index.html" class="btn btn-primary">Home page</a>
+            
+        </div>
+    </section>
 
-<!-- POSTED QUOTES -->
-<section class="quotes-section">
+   <section class="quotes-section">
   <h3>Your Posted Quotes</h3>
-  <div class="quotes-grid" id="postedQuotesContainer"></div>
+
+  <div class="container">
+    <div class="row" id="postedQuotesContainer"></div>
+  </div>
 </section>
 
-<!-- SAVED QUOTES -->
-<section class="quotes-section">
-  <h3>Your Saved Quotes</h3>
-  <div class="quotes-grid" id="savedQuotesContainer"></div>
-</section>
 
-<script>
-const profileApi = "http://140.245.5.153:8001/api/profile/";
-const token = localStorage.getItem("accessToken");
+    <section class="quotes-section">
+        <h3>Your Saved Quotes</h3>
+        <div id="savedQuotesContainer"></div>
 
-if (!token) {
-    alert("Please login first");
-    window.location.href = "login.html";
-}
 
-// ---------------- PAGE LOAD ----------------
-document.addEventListener("DOMContentLoaded", () => {
-    loadProfile();
-    setupBannerUpload();
-    setupProfilePhotoUpload();
-    setupEditProfile();
-});
-
-// ---------------- LOAD PROFILE ----------------
-async function loadProfile() {
-    try {
-        const res = await axios.get(profileApi, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        renderProfile(res.data);
-    } catch (err) {
-        console.error(err);
-        alert("Session expired. Please login again.");
-        localStorage.clear();
-        window.location.href = "login.html";
-    }
-}
-
-// ---------------- RENDER PROFILE ----------------
-function renderProfile(profile) {
-    const usernameEl = document.getElementById("profileUsername");
-    const bioEl = document.getElementById("profileBio");
-    const profileImg = document.getElementById("profileImage");
-    const banner = document.getElementById("bannerSection");
-
-    // USERNAME
-    usernameEl.innerText = "@" + (profile.username || "user");
-
-    // BIO
-    bioEl.innerText = profile.bio || "✨ Tap edit to add your bio";
-
-    // PROFILE IMAGE
-    if (profile.profile_image) {
-        profileImg.src = profile.profile_image;
-        profileImg.style.display = "block";
-    } else {
-        profileImg.style.display = "none";
-        profileImg.insertAdjacentHTML("afterend", `
-            <div class="image-placeholder">Yet to set profile photo</div>
-        `);
-    }
-
-    // BANNER IMAGE
-    if (profile.background_image) {
-        banner.style.backgroundImage = `url(${profile.background_image})`;
-        banner.classList.remove("empty-banner");
-    } else {
-        banner.style.backgroundImage = "none";
-        banner.classList.add("empty-banner");
-        banner.innerHTML += `<div class="banner-text">Yet to set banner image</div>`;
-    }
-
-    // STATS
-    document.getElementById("postsCount").innerText =
-        profile.posted_quotes?.length || 0;
-    document.getElementById("followersCount").innerText =
-        profile.followers_count || 0;
-    document.getElementById("likesCount").innerText =
-        profile.total_likes_on_posted_quotes || 0;
-
-    // POSTED QUOTES
-    const postedContainer = document.getElementById("postedQuotesContainer");
-    postedContainer.innerHTML = "";
-
-    if (!profile.posted_quotes || profile.posted_quotes.length === 0) {
-        postedContainer.innerHTML = `
-            <div class="empty-box">
-                📝 Not yet posted
-            </div>`;
-    } else {
-        profile.posted_quotes.forEach(q => {
-            postedContainer.innerHTML += `
-                <div class="quote-card">
-                    <p>${q.text}</p>
-                    <small>– ${q.author_username}</small>
-                </div>`;
-        });
-    }
-
-    // SAVED QUOTES
-    const savedContainer = document.getElementById("savedQuotesContainer");
-    savedContainer.innerHTML = "";
-
-    if (!profile.saved_quotes || profile.saved_quotes.length === 0) {
-        savedContainer.innerHTML = `
-            <div class="empty-box">
-                💾 No saved quotes yet
-            </div>`;
-    } else {
-        profile.saved_quotes.forEach(q => {
-            savedContainer.innerHTML += `
-                <div class="quote-card">
-                    <p>${q.text}</p>
-                    <small>– ${q.author_username}</small>
-                </div>`;
-        });
-    }
-}
-
-// ---------------- PROFILE PHOTO UPLOAD ----------------
-function setupProfilePhotoUpload() {
-    const input = document.getElementById("profileImageInput");
-    const btn = document.getElementById("changeProfileBtn");
-    const img = document.getElementById("profileImage");
-
-    btn.onclick = () => input.click();
-
-    input.onchange = async () => {
-        const file = input.files[0];
-        if (!file) return;
-
-        img.style.display = "block";
-        img.src = URL.createObjectURL(file);
-
-        const fd = new FormData();
-        fd.append("profile_image", file);
-
-        try {
-            const res = await axios.patch(profileApi, fd, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-            img.src = res.data.profile_image;
-        } catch {
-            alert("Profile image upload failed");
-        }
-    };
-}
-
-// ---------------- BANNER UPLOAD ----------------
-function setupBannerUpload() {
-    const input = document.getElementById("bannerInput");
-    const btn = document.getElementById("changeBannerBtn");
-    const banner = document.getElementById("bannerSection");
-
-    btn.onclick = () => input.click();
-
-    input.onchange = async () => {
-        const file = input.files[0];
-        if (!file) return;
-
-        banner.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
-        banner.classList.remove("empty-banner");
-
-        const fd = new FormData();
-        fd.append("background_image", file);
-
-        try {
-            const res = await axios.patch(profileApi, fd, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-            banner.style.backgroundImage = `url(${res.data.background_image})`;
-        } catch {
-            alert("Banner upload failed");
-        }
-    };
-}
-
-// ---------------- EDIT PROFILE ----------------
-function setupEditProfile() {
-    const editBtn = document.getElementById("editProfileBtn");
-    const usernameEl = document.getElementById("profileUsername");
-    const bioEl = document.getElementById("profileBio");
-
-    editBtn.onclick = () => {
-        const username = usernameEl.innerText.replace("@", "");
-        const bio = bioEl.innerText;
-
-        usernameEl.innerHTML = `
-            <input class="edit-input" id="editUsername" value="${username}">
-        `;
-        bioEl.innerHTML = `
-            <textarea class="edit-textarea" id="editBio">${bio}</textarea>
-        `;
-
-        editBtn.style.display = "none";
-
-        const saveBtn = document.createElement("button");
-        saveBtn.className = "btn edit";
-        saveBtn.innerText = "Save";
-        editBtn.parentNode.appendChild(saveBtn);
-
-        saveBtn.onclick = async () => {
-            const fd = new FormData();
-            fd.append("username", document.getElementById("editUsername").value);
-            fd.append("bio", document.getElementById("editBio").value);
-
-            try {
-                const res = await axios.patch(profileApi, fd, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                usernameEl.innerText = "@" + res.data.username;
-                bioEl.innerText = res.data.bio;
-                saveBtn.remove();
-                editBtn.style.display = "inline-block";
-            } catch {
-                alert("Profile update failed");
-            }
-        };
-    };
-}
-</script>
+        <!-- JS -->
+        <script src="script/config.js"></script>
+        <script src="script/auth.js"></script>
+        <script src="script/profile.js"></script>
 
 </body>
+
 </html>

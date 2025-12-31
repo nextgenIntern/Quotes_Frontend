@@ -121,7 +121,7 @@ body {
 
               <div class="mb-3">
                 <input type="text" id="username" class="form-control"
-                  placeholder="Username or Email" required>
+                  placeholder="Username" required>
               </div>
 
               <div class="mb-4 password-wrapper">
@@ -145,7 +145,9 @@ body {
                   Sign Up
                 </a>
               </small>
+               <p id="errorMsg" style="color:red;"></p>
             </div>
+            
 
           </div>
         </div>
@@ -154,20 +156,13 @@ body {
     </div>
   </div>
 
-  <script>
-    // Toggle password visibility
-    const togglePassword = document.getElementById('togglePassword');
-    const password = document.getElementById('password');
+ 
+  <!-- scripts -->
+  <script src="script/config.js"></script>
+  <script src="script/auth.js"></script>
+  <script src="script/login.js"></script>
 
-    togglePassword.addEventListener('click', () => {
-      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-      password.setAttribute('type', type);
-      togglePassword.textContent = type === 'password' ? '\u{1F441}' : '\u{1F441}\u{FE0E}'; // Eye icon
-    });
-  </script>
 
-  <!-- Your JS -->
-  <script src="Script/login.js"></script>
 
 </body>
 </html>

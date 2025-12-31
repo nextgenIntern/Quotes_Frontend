@@ -1,26 +1,22 @@
 const API_URL = "http://140.245.5.153:8001/api/quotes/";
+const token = localStorage.getItem("accessToken");
 
 let allQuotes = [];
 let categories = [];
 
 document.addEventListener("DOMContentLoaded", fetchQuotes);
 
+// ---------------- FETCH QUOTES ----------------
 async function fetchQuotes() {
     try {
         const res = await axios.get(API_URL);
         allQuotes = res.data;
 
-        // 🔥 Extract UNIQUE categories from API
         categories = [
             ...new Set(
-                allQuotes
-                    .flatMap(q => q.categories)
-                    .map(c => c.name.toLowerCase())
+                allQuotes.flatMap(q => q.categories).map(c => c.name.toLowerCase())
             )
         ];
-
-        console.log("Quotes:", allQuotes);
-        console.log("Categories from API:", categories);
 
         renderCategoryCarousels();
     } catch (err) {
@@ -28,85 +24,145 @@ async function fetchQuotes() {
     }
 }
 
-// Create carousel for a category (DESIGN UNCHANGED)
-function createCategoryCarousel(quotes, category){
+// ---------------- CREATE CAROUSEL ----------------
+function createCategoryCarousel(quotes, category) {
     const filtered = quotes.filter(q =>
-        q.categories.some(c =>
-            c.name.toLowerCase() === category
-        )
+        q.categories.some(c => c.name.toLowerCase() === category)
     );
 
-    if(filtered.length === 0) return '';
+    if (!filtered.length) return '';
 
     let slides = [];
-    for(let i = 0; i < filtered.length; i += 4) {
+
+    for (let i = 0; i < filtered.length; i += 4) {
         const chunk = filtered.slice(i, i + 4);
-        let slideContent = '<div class="row justify-content-center">';
+
+        let content = `<div class="row justify-content-center">`;
 
         chunk.forEach(q => {
-            slideContent += `
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="quote-card p-3 mb-3 sshadow rounded border">
-                        <div class="quote-text fw-bold" style="font-size:1.1rem; color:#333;">
-                            “${q.text}”
-                        </div>
-                        <div class="quote-author text-end fw-semibold mt-2" style="color:#0d6efd;">
-                            – ${q.author_username}
-                        </div>
-                        <div class="d-flex justify-content-between mt-5">
-                            <span class="material-symbols-outlined">favorite</span>
-                            <span class="material-symbols-outlined">share</span>
-                            <span class="material-symbols-outlined">bookmark</span>
+            content += `
+          <div class="col-md-3 mb-3">
+                    <div class="quote-card shadow rounded border"style="border: 2px solid #333 !important; padding: 15px !important; border-radius: 10px !important;>
+                        <p class="quote-text">“${q.text}”</p>
+                        <p class="quote-author">- ${q.author_username || 'Unknown'}</p>
+                         <hr style="border:2px solid #000;margin:8px 0 !important;">
+                        <div class="d-flex justify-content-between mt-4 icon-bar">
+                            <span class="material-symbols-outlined like-btn" data-id="${q.id}" title="Like">
+                                favorite_border
+                                <span class="action-count like-count">${q.likes || q.likes_count}</span>
+                            </span>
+                            <span class="material-symbols-outlined dislike-btn" data-id="${q.id}" title="Dislike">
+                                thumb_down_off_alt
+                                <span class="action-count dislike-count">${q.dislikes || 0}</span>
+                            </span>
+                            <span class="material-symbols-outlined share-btn" data-id="${q.id}" title="Share">
+                                share
+                                <span class="action-count share-count">${q.shares || q.share_count}</span>
+                                <div class="share-popup">
+                                    <a class="whatsapp text-bold" target="_blank ">WhatsApp</a>
+                                    <a class="instagram" target="_blank">Instagram</a>
+                                    <a class="twitter" target="_blank">Twitter</a>
+                                </div>
+                            </span>
+                            <span class="material-symbols-outlined save-btn" data-id="${q.id}" title="Save">
+                                bookmark
+                                <span class="action-count save-count">${q.saved || 0}</span>
+                            </span>
                             <a href="comments.html?quote=${q.id}">
-                                <span class="material-symbols-outlined">chat_bubble</span>
+                                <span class="material-symbols-outlined comment-btn" title="Comments">
+                                    chat_bubble
+                                </span>
                             </a>
                         </div>
                     </div>
-                </div>
-            `;
+                </div>`;
         });
 
-        slideContent += '</div>';
+        content += `</div>`;
+
         slides.push(`
-            <div class="carousel-item${i === 0 ? ' active' : ''}">
-                ${slideContent}
-            </div>
-        `);
+        <div class="carousel-item ${i === 0 ? 'active' : ''}">
+          ${content}
+        </div>`);
     }
 
     return `
-        <h4 class="mt-4 mb-3 text-capitalize fw-bold" style="color:#198754;">
-            ${category}
-        </h4>
+    <h4 class="fw-bold text-success mt-4">${category}</h4>
 
-        <div id="carousel-${category}" class="carousel slide mb-5"
-             data-bs-ride="carousel" data-bs-interval="3000">
+    <div id="carousel-${category}" class="carousel slide mb-5" data-bs-ride="carousel">
+      <div class="carousel-inner">${slides.join("")}</div>
 
-            <div class="carousel-inner">
-                ${slides.join('')}
-            </div>
+      <button class="carousel-control-prev" data-bs-target="#carousel-${category}" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle"></span>
+      </button>
 
-            <button class="carousel-control-prev" type="button"
-                    data-bs-target="#carousel-${category}" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
-            </button>
-
-            <button class="carousel-control-next" type="button"
-                    data-bs-target="#carousel-${category}" data-bs-slide="next">
-                <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
-            </button>
-        </div>
-    `;
+      <button class="carousel-control-next" data-bs-target="#carousel-${category}" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-dark rounded-circle"></span>
+      </button>
+    </div>`;
 }
 
-// Render all category carousels
-function renderCategoryCarousels(){
-    const container = document.getElementById('quotesCarouselContainer');
-    container.innerHTML = '';
+// ---------------- RENDER ----------------
+function renderCategoryCarousels() {
+    const container = document.getElementById("quotesCarouselContainer");
+    container.innerHTML = "";
 
     categories.forEach(cat => {
         container.innerHTML += createCategoryCarousel(allQuotes, cat);
     });
 }
 
+// ---------------- ACTION HANDLERS ----------------
+document.addEventListener("click", async e => {
+    const btn = e.target.closest(".like-btn, .save-btn, .share-btn");
+    if (!btn) return;
 
+    const quoteId = btn.dataset.id;
+    if (!token) return alert("Please login first");
+
+    const headers = { headers: { Authorization: `Bearer ${token}` } };
+
+    // LIKE / UNLIKE
+    if (btn.classList.contains("like-btn")) {
+        const liked = btn.classList.contains("active-like");
+        const url = liked
+            ? `${API_URL}${quoteId}/unlike/`
+            : `${API_URL}${quoteId}/like/`;
+
+        await axios.post(url, {}, headers);
+        btn.classList.toggle("active-like");
+    }
+
+    // SAVE / UNSAVE
+    if (btn.classList.contains("save-btn")) {
+        const saved = btn.classList.contains("active-save");
+        const url = saved
+            ? `${API_URL}${quoteId}/unsave/`
+            : `${API_URL}${quoteId}/save/`;
+
+        await axios.post(url, {}, headers);
+        btn.classList.toggle("active-save");
+    }
+
+    // SHARE
+    if (btn.classList.contains("share-btn")) {
+        e.stopPropagation();
+        const popup = btn.querySelector(".share-popup");
+        popup.style.display = popup.style.display === "block" ? "none" : "block";
+
+        const shareUrl = `${window.location.origin}/quotes.html?quote=${quoteId}`;
+
+        popup.querySelector(".whatsapp").href =
+            `https://wa.me/?text=${encodeURIComponent(shareUrl)}`;
+        popup.querySelector(".instagram").href = "https://www.instagram.com/";
+        popup.querySelector(".twitter").href =
+            `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`;
+
+        await axios.post(`${API_URL}${quoteId}/share/`, {}, headers);
+    }
+});
+
+// CLOSE SHARE POPUP
+document.addEventListener("click", () => {
+    document.querySelectorAll(".share-popup").forEach(p => p.style.display = "none");
+});

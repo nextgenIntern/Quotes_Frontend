@@ -6,244 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Inspiration</title>
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="Custom_CSS/index.css">
-
-    <!-- JS Script -->
-    <script src="Script/AnimationScript.js" defer></script>
-    <script src="Script/quotes.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- Google Fonts Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
-</head>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="Custom_CSS/index.css">
 
-<body>
-
-    <!-- INTRO ANIMATION still need to develop-->
-    <div id="intro" class="intro">
-        <h1 class="intro-text" id="main-content">Daily Inspiration</h1>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main-content" class="hidden">
-
-        <!-- NAVBAR -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar shadow-sm">
-            <div class="container">
-
-                <div class="d-flex align-items-center gap-3">
-                    <a class="navbar-brand fw-bold fs-2" href="index.html">
-                        Daily Inspiration
-
-                    </a>
-
-                    <img id="userAvatarmobile" class="rounded-circle user-avatar d-lg-none" alt="Profile">
-
-
-                </div>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navMenu">
-                    <ul class="navbar-nav ms-auto gap-4 fw-semibold fs-5">
-                        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Quotes.html">Quotes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Submitquotes.html">Submit Quote</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Authors.html">Authors</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Language
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow" id="languageMenu">
-                                <li class="dropdown-item text-muted">Loading...</li>
-                            </ul>
-                        </li>
-                        <!-- script for languages -->
-                        <script>
-                            const LANGUAGE_API = "http://140.245.5.153:8001/api/languages/";
-                            const languageMenu = document.getElementById("languageMenu");
-
-                            // Load saved language
-                            const currentLang = localStorage.getItem("language") || "en";
-
-                            async function loadLanguages() {
-                                try {
-                                    const res = await axios.get(LANGUAGE_API);
-
-                                    languageMenu.innerHTML = "";
-
-                                    res.data.forEach(lang => {
-                                        const li = document.createElement("li");
-                                        li.innerHTML = `
-                <a class="dropdown-item text-bold text-danger" href="#" data-lang="${lang.code}">
-                    ${lang.name}
-                </a>
-            `;
-                                        languageMenu.appendChild(li);
-                                    });
-
-                                    // click handler
-                                    document.querySelectorAll("#languageMenu a").forEach(item => {
-                                        item.addEventListener("click", () => {
-                                            localStorage.setItem("language", item.dataset.lang);
-                                            location.reload();
-                                        });
-                                    });
-
-                                } catch (err) {
-                                    languageMenu.innerHTML =
-                                        `<li class="dropdown-item text-danger">Failed to load</li>`;
-                                    console.error(err);
-                                }
-                            }
-
-                            loadLanguages();
-                        </script>
-
-
-                    </ul>
-
-                    <!-- AUTH AREA -->
-                    <!-- AUTH AREA -->
-                    <div class="d-flex align-items-center ms-lg-4 mt-3 mt-lg-0">
-
-                        <!-- SIGNUP BUTTON -->
-                        <button id="signupBtn" class="btn btn-light fw-bold px-4 py-2 rounded-pill me-2"
-                            onclick="window.location.href='login.html'">
-                            Sign up
-                        </button>
-
-                        <!-- USER PROFILE -->
-                        <div id="userMenu" class="dropdown d-none">
-                            <button class="btn p-0 border-0 bg-transparent dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-
-                                <img id="userAvatar" class="rounded-circle user-avatar" alt="Profile">
-                            </button>
-
-                            <div class="ms-5" style="margin-left: 100px;">
-                                <ul class="dropdown-menu dropdown-menu-end shadow">
-                                    <li class="px-3 py-2">
-                                        <strong id="usernameText">User</strong>
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="profile.html"> Profile</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="saved-quotes.html"> Saved Quotes</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-danger" href="#" id="logoutBtn"> Logout</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                </div>
-            </div>
-        </nav>
-
-
-
-
-        <!-- HERO SECTION -->
-        <header
-            class="hero-section d-flex flex-column justify-content-center align-items-center text-center text-white">
-            <div class="container mt-5 pt-5">
-                <h1 class="display-3 fw-bold mb-3">Quote of the Day</h1>
-                <p class="lead fst-italic mb-2">
-                    “The only limit to our realization of tomorrow is our doubts of today.”
-                </p>
-                <h5 class="fw-semibold">– Franklin D. Roosevelt</h5>
-            </div>
-        </header>
-        <!-- POPULAR QUOTES CAROUSEL -->
-        <section class="container-fluid my-5">
-            <h2 class="fw-bold text-center mb-4 section-title">Popular Quotes</h2>
-
-            <div id="popularQuotesCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-                <div class="carousel-inner" id="popularQuotesInner"></div>
-
-                <!-- Controls -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#popularQuotesCarousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#popularQuotesCarousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </section>
-<!-- POPULAR QUOTES CAROUSEL -->
-<section class="container-fluid my-5">
-    <h2 class="fw-bold text-center mb-4 section-title">Popular Quotes</h2>
-
-    <div id="popularQuotesCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-        <div class="carousel-inner" id="popularQuotesInner"></div>
-
-        <!-- Controls -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#popularQuotesCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#popularQuotesCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</section>
-<style>
+    <style>
+      
 .quote-card {
-    background: linear-gradient(135deg, #fff9f0, #ffe6cc);
-    border-radius: 20px;
-    padding: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotate(calc(-1deg + 2deg * random()));
+    padding: 22px;
     min-height: 200px;
+
+    border-radius: 6px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 6px solid #222222 !important; /* Thick dark border */
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    border: none;
+
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+
+/* Hover feel */
 .quote-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.45);
 }
+
+/* Text readability */
 .quote-text {
     font-family: 'Georgia', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
+    font-size: 1.15rem;
     font-style: italic;
-    color: #333;
-    line-height: 1.5;
+    color: #2b1f1f;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.6);
 }
+
 .quote-author {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
     font-size: 0.9rem;
     text-align: right;
-    color: #555;
-}
+    color: #4a3a3a;}
+
 .icon-bar {
     display: flex;
     justify-content: flex-end;
@@ -258,85 +72,103 @@
 .icon-bar i:hover {
     color: #0d6efd;
 }
-</style>
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        /* Share popup */
+        .share-popup {
+            position: absolute;
+            bottom: 45px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            padding: 10px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .share-popup a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            text-decoration: none;
+            color: #333;
+            border-radius: 8px;
+        }
+
+        .share-popup a:hover {
+            background: #f1f1f1;
+        }
 
 
-<script>
-const popularQuotesApi = "http://140.245.5.153:8001/api/quotes/top5/";
+        .category-tag {
+            background: #e982ec;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
 
-// Function to render carousel dynamically
-function renderCarousel(quotes, containerId) {
-    const container = document.getElementById(containerId);
-    let slides = '';
+        .category-tag:hover {
+            background: #0b5ed7;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
 
-    if (!quotes || quotes.length === 0) {
-        container.innerHTML = `<div class="text-center py-5">No quotes available</div>`;
-        return;
-    }
+<body style=" background-color: #e6dfd3;">
+    <div id="main-content">
 
-    for (let i = 0; i < quotes.length; i += 4) { // 4 cards per slide
-        const activeClass = i === 0 ? 'active' : '';
-        const slice = quotes.slice(i, i + 4);
+        <!-- NAVBAR -->
+        <div id="navbar-container"></div>
+        <script src="Script/navbar.js"></script>
 
-        const cards = slice.map(q => `
-            <div class="col-md-3 mb-3">
-                <div class="quote-card shadow rounded border">
-                    <p class="quote-text">“${q.text}”</p>
-                    <p class="quote-author">- ${q.author_username || 'Unknown'}</p>
-                    <div class="d-flex justify-content-between mt-4">
-                        <span class="material-symbols-outlined text-danger" title="Like">favorite</span>
-                        <span class="material-symbols-outlined text-primary" title="Share">share</span>
-                        <span class="material-symbols-outlined text-warning" title="Save">bookmark</span>
-                        <a href="comments.html?quote=${q.id}"><span class="material-symbols-outlined" title="Comments">chat_bubble</span></a>
+
+
+        <!-- HERO SECTION -->
+        <header
+            class="hero-section d-flex flex-column justify-content-center align-items-center text-center text-white mt-5 pt-5">
+            <div class="container">
+                <h1 class="display-3 fw-bold mb-3">Quote of the Day</h1>
+
+                <!-- Carousel -->
+                <div id="quoteCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                    <div class="carousel-inner" id="quoteCarouselInner">
+                        <!-- Quotes injected by JS -->
                     </div>
+
                 </div>
+        </header>
+
+
+
+        <!-- POPULAR QUOTES CAROUSEL -->
+        <section class="container-fluid my-5">
+            <h2 class="fw-bold text-center mb-4 section-title">Popular Quotes</h2>
+
+            
+                <div class="row justify-content-center" id="popularQuotesInner"></div>
+                <!-- <button class="carousel-control-prev" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button> -->
             </div>
-        `).join('');
-
-        slides += `
-            <div class="carousel-item ${activeClass}">
-                <div class="row mx-3">
-                    ${cards}
-                </div>
-            </div>
-        `;
-    }
-
-    container.innerHTML = slides;
-}
-
-// Fetch popular quotes from API
-async function fetchPopularQuotes() {
-    try {
-        const res = await axios.get(popularQuotesApi);
-        const quotes = res.data || [];
-        renderCarousel(quotes, 'popularQuotesInner');
-    } catch (err) {
-        console.error("Failed to fetch popular quotes:", err);
-        document.getElementById('popularQuotesInner').innerHTML = `<div class="text-center py-5">Failed to load quotes</div>`;
-    }
-}
-
-// On page load
-document.addEventListener("DOMContentLoaded", () => {
-    fetchPopularQuotes();
-});
-</script>
-
-
-
+        </section>
 
         <!-- CATEGORIES CAROUSEL -->
         <section class="container my-5">
             <h2 class="fw-bold mb-4 text-center">Browse Categories</h2>
-
             <div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner text-center">
-                    <!-- First slide -->
                     <div class="carousel-item active">
                         <div class="d-flex justify-content-center gap-3 flex-wrap">
                             <div class="category-tag">Motivation</div>
@@ -344,7 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             <div class="category-tag">Love</div>
                         </div>
                     </div>
-                    <!-- Second slide -->
                     <div class="carousel-item">
                         <div class="d-flex justify-content-center gap-3 flex-wrap">
                             <div class="category-tag">Success</div>
@@ -352,17 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <div class="category-tag">Funny</div>
                         </div>
                     </div>
-                    <!-- Third slide (optional) -->
-                    <div class="carousel-item">
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <div class="category-tag">Adventure</div>
-                            <div class="category-tag">Comedy</div>
-                            <div class="category-tag">History</div>
-                        </div>
-                    </div>
                 </div>
-
-                <!-- Controls -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
@@ -375,26 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 </button>
             </div>
         </section>
-
-        <style>
-            .category-tag {
-                background: #e982ec;
-                color: white;
-                padding: 15px 25px;
-                border-radius: 25px;
-                cursor: pointer;
-                transition: transform 0.3s, background 0.3s;
-            }
-
-            .category-tag:hover {
-                background: #0b5ed7;
-                transform: scale(1.1);
-            }
-        </style>
-
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 
         <!-- CTA -->
         <section class="cta text-center py-5">
@@ -410,38 +211,168 @@ document.addEventListener("DOMContentLoaded", () => {
 
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="Script/auth.js"></script> -->
+    <!-- <script>
+    
+/* ================== QUOTES JS ================== */
 
-    <!-- for local storage of the username -->
-    <script>
-        const user = JSON.parse(localStorage.getItem("loggedInUser"));
+/* ---------------- API ENDPOINT ---------------- */
+const popularQuotesApi = "/api/quotes/top5/";
 
-        const signupBtn = document.getElementById("signupBtn");
-        const userMenu = document.getElementById("userMenu");
-        const userMenum = document.getElementById("userMenum");
-        const userAvatar = document.getElementById("userAvatar");
-        const userAvatarmobile = document.getElementById("userAvatarmobile");
-        const usernameText = document.getElementById("usernameText");
-        const logoutBtn = document.getElementById("logoutBtn");
+/* ---------------- RENDER CAROUSEL ---------------- */
+function renderCarousel(quotes, containerId) {
+    const container = document.getElementById(containerId);
+    let slides = '';
 
-        if (user) {
-            // hide signup
-            signupBtn.classList.add("d-none");
+    if (!quotes?.length) {
+        container.innerHTML = `<div class="text-center py-5">No quotes available</div>`;
+        return;
+    }
 
-            // show profile
-            userMenu.classList.remove("d-none");
+    for (let i = 0; i < quotes.length; i += 4) {
+        const active = i === 0 ? 'active' : '';
+        const slice = quotes.slice(i, i + 4);
 
-            // set data
-            userAvatar.src = user.avatar;
-            userAvatarmobile.src = user.avatar;
-            usernameText.innerText = user.name;
+        slides += `
+        <div class="carousel-item ${active}">
+            <div class="row mx-3">
+                ${slice.map(q => `
+                <div class="col-md-3 mb-3">
+                    <div class="quote-card shadow rounded border">
+                        <p class="quote-text">“${q.text}”</p>
+                        <p class="quote-author">- ${q.author_username || 'Unknown'}</p>
+                        <div class="d-flex justify-content-between mt-4 icon-bar">
+                            <span class="material-symbols-outlined like-btn ${q.is_liked ? 'active-like' : ''}" data-id="${q.id}">
+                                favorite_border <span class="action-count like-count">${q.likes || 0}</span>
+                            </span>
+                            <span class="material-symbols-outlined dislike-btn ${q.is_disliked ? 'active-dislike' : ''}" data-id="${q.id}">
+                                thumb_down_off_alt <span class="action-count dislike-count">${q.dislikes || 0}</span>
+                            </span>
+                            <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+                                share <span class="action-count share-count">${q.shares || 0}</span>
+                                <div class="share-popup">
+                                    <a class="whatsapp" target="_blank">WhatsApp</a>
+                                    <a class="instagram" target="_blank">Instagram</a>
+                                    <a class="twitter" target="_blank">Twitter</a>
+                                </div>
+                            </span>
+                            <span class="material-symbols-outlined save-btn ${q.is_saved ? 'active-save' : ''}" data-id="${q.id}">
+                                bookmark <span class="action-count save-count">${q.saved || 0}</span>
+                            </span>
+                            <a href="comments.html?quote=${q.id}">
+                                <span class="material-symbols-outlined">chat_bubble</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>`).join('')}
+            </div>
+        </div>`;
+    }
+
+    container.innerHTML = slides;
+}
+
+/* ---------------- FETCH QUOTES ---------------- */
+async function fetchPopularQuotes() {
+    try {
+        const res = await api.get(popularQuotesApi); // auth.js provides 'api' instance
+        renderCarousel(res.data, "popularQuotesInner");
+    } catch (err) {
+        console.error("Error fetching quotes:", err);
+        document.getElementById("popularQuotesInner").innerHTML =
+            `<div class="text-center py-5">Failed to load quotes</div>`;
+    }
+}
+
+/* ---------------- POST ACTION ---------------- */
+async function postAction(url) {
+    try {
+        const res = await api.post(url);
+        return res.data;
+    } catch (err) {
+        console.error("Action error:", err);
+        alert("Action failed. Please login or try again.");
+        return null;
+    }
+}
+
+/* ---------------- ICON SYNC ---------------- */
+function syncIcon(btn, type, state, count) {
+    btn.classList.toggle(`active-${type}`, state);
+    if (count !== undefined) {
+        btn.querySelector(`.${type}-count`).innerText = count;
+    }
+}
+
+/* ---------------- EVENT LISTENER ---------------- */
+document.addEventListener("click", async e => {
+    const btn = e.target.closest("span[data-id]");
+    if (!btn) return;
+
+    const id = btn.dataset.id;
+
+    // LIKE
+    if (btn.classList.contains("like-btn")) {
+        const res = await postAction(`/api/quotes/${id}/like/`);
+        if (res) {
+            syncIcon(btn, "like", res.is_liked, res.likes);
+            // Optional: sync dislike if user unliked
+            const dislikeBtn = document.querySelector(`.dislike-btn[data-id="${id}"]`);
+            if (dislikeBtn) syncIcon(dislikeBtn, "dislike", res.is_disliked, res.dislikes);
         }
+    }
 
-        // logout
-        logoutBtn?.addEventListener("click", () => {
-            localStorage.removeItem("loggedInUser");
-            window.location.reload();
-        });
-    </script>
+    // DISLIKE
+    if (btn.classList.contains("dislike-btn")) {
+        const res = await postAction(`/api/quotes/${id}/unlike/`);
+        if (res) {
+            syncIcon(btn, "dislike", res.is_disliked, res.dislikes);
+            const likeBtn = document.querySelector(`.like-btn[data-id="${id}"]`);
+            if (likeBtn) syncIcon(likeBtn, "like", res.is_liked, res.likes);
+        }
+    }
+
+    // SAVE
+    if (btn.classList.contains("save-btn")) {
+        const res = await postAction(`/api/quotes/${id}/save/`);
+        if (res) syncIcon(btn, "save", res.is_saved, res.saved);
+    }
+
+    // SHARE
+    if (btn.classList.contains("share-btn")) {
+        e.stopPropagation();
+        const popup = btn.querySelector(".share-popup");
+        popup.style.display = popup.style.display === "block" ? "none" : "block";
+
+        const shareUrl = `${location.origin}/quotes.html?quote=${id}`;
+        popup.querySelector(".whatsapp").href = `https://wa.me/?text=${encodeURIComponent(shareUrl)}`;
+        popup.querySelector(".instagram").href = "https://www.instagram.com/";
+        popup.querySelector(".twitter").href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`;
+
+        await postAction(`/api/quotes/${id}/share/`);
+    }
+});
+
+// CLOSE SHARE POPUP
+document.addEventListener("click", e => {
+    if (!e.target.closest(".share-btn")) {
+        document.querySelectorAll(".share-popup").forEach(p => p.style.display = "none");
+    }
+});
+
+document.addEventListener("DOMContentLoaded", fetchPopularQuotes);
+</script> -->
+
+
+    <script src="script/config.js"></script>
+    <script src="script/auth.js"></script>
+    <script src="script/quote-of-the-day.js"></script>
+    <script src="script/popular-quotes.js"></script>
+    <script src="script/categories.js"></script>
+
+
 
 
 </body>
