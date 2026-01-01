@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Inspiration</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Google Fonts Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="Custom_CSS/index.css">
+
+    <style>
+      
+.quote-card {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotate(calc(-1deg + 2deg * random()));
+    padding: 22px;
+    min-height: 200px;
+
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    border: none;
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Hover feel */
+.quote-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+}
+
+/* Text readability */
+.quote-text {
+    font-family: 'Georgia', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #2b1f1f;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+}
+
+.quote-author {
+    font-size: 0.9rem;
+    text-align: right;
+    color: #4a3a3a;}
+
+.icon-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+.icon-bar i {
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.icon-bar i:hover {
+    color: #0d6efd;
+}
+
+
+        .category-tag {
+            background: #e982ec;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .category-tag:hover {
+            background: #0b5ed7;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body style=" background-color: #e6dfd3;">
+    <div id="main-content">
+
+        <!-- NAVBAR -->
+        <div id="navbar-container"></div>
+        <script src="Script/navbar.js"></script>
+
+
+
+        <!-- HERO SECTION -->
+        <header
+            class="hero-section d-flex flex-column justify-content-center align-items-center text-center text-white pt-5" >
+            <div class="container">
+                <h1 class="display-3 fw-bold mb-3">Quote of the Day</h1>
+
+                <!-- Carousel -->
+                <div id="quoteCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                    <div class="carousel-inner" id="quoteCarouselInner">
+                        <!-- Quotes injected by JS -->
+                    </div>
+
+                </div>
+        </header>
+
+ <!-- CATEGORIES CAROUSEL -->
+        <section class="container my-5">
+            <h2 class="fw-bold mb-4 text-center">Browse Categories</h2>
+            <div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner text-center">
+                    <div class="carousel-item active">
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <div class="category-tag">Motivation</div>
+                            <div class="category-tag">Life</div>
+                            <div class="category-tag">Love</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <div class="category-tag">Success</div>
+                            <div class="category-tag">Spiritual</div>
+                            <div class="category-tag">Funny</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- POPULAR QUOTES CAROUSEL -->
+        <section class="container-fluid my-5">
+            <h2 class="fw-bold text-center mb-4 section-title">Popular Quotes</h2>
+
+            
+                <div class="row justify-content-center" id="popularQuotesInner"></div>
+                <!-- <button class="carousel-control-prev" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button> -->
+            </div>
+        </section>
+
+         <!-- most like quotes -->
+        <section class="container-fluid my-5">
+            <h2 class="fw-bold text-center mb-4 section-title">Most liked quotes</h2>
+
+            
+                <div class="row justify-content-center" id="MostLikedQuotesInner"></div>
+                
+            </div>
+        </section>
+
+        
+          <!-- most like quotes -->
+        <section class="container-fluid my-5">
+            <h2 class="fw-bold text-center mb-4 section-title">Trending Thoughts</h2>
+
+            
+                <div class="row justify-content-center" id="RecommendedQuotesInner"></div>
+                <!-- <button class="carousel-control-prev" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button> -->
+            </div>
+        </section>
+
+       
+        <!-- CTA -->
+        <section class="cta text-center py-5">
+            <h2 class="fw-bold">Have a Quote to Share?</h2>
+            <p class="lead mb-4">Inspire the world with your words.</p>
+            <a href="Submitquotes.html" class="btn btn-primary btn-lg shadow">Submit Your Quote</a>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-dark text-white text-center py-4">
+            <p>© 2025 Daily Inspiration — Inspire the world!</p>
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="Script/auth.js"></script> -->
+    <!-- <script>
+    
+/* ================== QUOTES JS ================== */
+
+/* ---------------- API ENDPOINT ---------------- */
+const popularQuotesApi = "/api/quotes/top5/";
+
+/* ---------------- RENDER CAROUSEL ---------------- */
+function renderCarousel(quotes, containerId) {
+    const container = document.getElementById(containerId);
+    let slides = '';
+
+    if (!quotes?.length) {
+        container.innerHTML = `<div class="text-center py-5">No quotes available</div>`;
+        return;
+    }
+
+    for (let i = 0; i < quotes.length; i += 4) {
+        const active = i === 0 ? 'active' : '';
+        const slice = quotes.slice(i, i + 4);
+
+        slides += `
+        <div class="carousel-item ${active}">
+            <div class="row mx-3">
+                ${slice.map(q => `
+                <div class="col-md-3 mb-3">
+                    <div class="quote-card shadow rounded border">
+                        <p class="quote-text">“${q.text}”</p>
+                        <p class="quote-author">- ${q.author_username || 'Unknown'}</p>
+                        <div class="d-flex justify-content-between mt-4 icon-bar">
+                            <span class="material-symbols-outlined like-btn ${q.is_liked ? 'active-like' : ''}" data-id="${q.id}">
+                                favorite_border <span class="action-count like-count">${q.likes || 0}</span>
+                            </span>
+                            <span class="material-symbols-outlined dislike-btn ${q.is_disliked ? 'active-dislike' : ''}" data-id="${q.id}">
+                                thumb_down_off_alt <span class="action-count dislike-count">${q.dislikes || 0}</span>
+                            </span>
+                            <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+                                share <span class="action-count share-count">${q.shares || 0}</span>
+                                <div class="share-popup">
+                                    <a class="whatsapp" target="_blank">WhatsApp</a>
+                                    <a class="instagram" target="_blank">Instagram</a>
+                                    <a class="twitter" target="_blank">Twitter</a>
+                                </div>
+                            </span>
+                            <span class="material-symbols-outlined save-btn ${q.is_saved ? 'active-save' : ''}" data-id="${q.id}">
+                                bookmark <span class="action-count save-count">${q.saved || 0}</span>
+                            </span>
+                            <a href="comments.html?quote=${q.id}">
+                                <span class="material-symbols-outlined">chat_bubble</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>`).join('')}
+            </div>
+        </div>`;
+    }
+
+    container.innerHTML = slides;
+}
+
+/* ---------------- FETCH QUOTES ---------------- */
+async function fetchPopularQuotes() {
+    try {
+        const res = await api.get(popularQuotesApi); // auth.js provides 'api' instance
+        renderCarousel(res.data, "popularQuotesInner");
+    } catch (err) {
+        console.error("Error fetching quotes:", err);
+        document.getElementById("popularQuotesInner").innerHTML =
+            `<div class="text-center py-5">Failed to load quotes</div>`;
+    }
+}
+
+/* ---------------- POST ACTION ---------------- */
+async function postAction(url) {
+    try {
+        const res = await api.post(url);
+        return res.data;
+    } catch (err) {
+        console.error("Action error:", err);
+        alert("Action failed. Please login or try again.");
+        return null;
+    }
+}
+
+/* ---------------- ICON SYNC ---------------- */
+function syncIcon(btn, type, state, count) {
+    btn.classList.toggle(`active-${type}`, state);
+    if (count !== undefined) {
+        btn.querySelector(`.${type}-count`).innerText = count;
+    }
+}
+
+/* ---------------- EVENT LISTENER ---------------- */
+document.addEventListener("click", async e => {
+    const btn = e.target.closest("span[data-id]");
+    if (!btn) return;
+
+    const id = btn.dataset.id;
+
+    // LIKE
+    if (btn.classList.contains("like-btn")) {
+        const res = await postAction(`/api/quotes/${id}/like/`);
+        if (res) {
+            syncIcon(btn, "like", res.is_liked, res.likes);
+            // Optional: sync dislike if user unliked
+            const dislikeBtn = document.querySelector(`.dislike-btn[data-id="${id}"]`);
+            if (dislikeBtn) syncIcon(dislikeBtn, "dislike", res.is_disliked, res.dislikes);
+        }
+    }
+
+    // DISLIKE
+    if (btn.classList.contains("dislike-btn")) {
+        const res = await postAction(`/api/quotes/${id}/unlike/`);
+        if (res) {
+            syncIcon(btn, "dislike", res.is_disliked, res.dislikes);
+            const likeBtn = document.querySelector(`.like-btn[data-id="${id}"]`);
+            if (likeBtn) syncIcon(likeBtn, "like", res.is_liked, res.likes);
+        }
+    }
+
+    // SAVE
+    if (btn.classList.contains("save-btn")) {
+        const res = await postAction(`/api/quotes/${id}/save/`);
+        if (res) syncIcon(btn, "save", res.is_saved, res.saved);
+    }
+
+    // SHARE
+    if (btn.classList.contains("share-btn")) {
+        e.stopPropagation();
+        const popup = btn.querySelector(".share-popup");
+        popup.style.display = popup.style.display === "block" ? "none" : "block";
+
+        const shareUrl = `${location.origin}/quotes.html?quote=${id}`;
+        popup.querySelector(".whatsapp").href = `https://wa.me/?text=${encodeURIComponent(shareUrl)}`;
+        popup.querySelector(".instagram").href = "https://www.instagram.com/";
+        popup.querySelector(".twitter").href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`;
+
+        await postAction(`/api/quotes/${id}/share/`);
+    }
+});
+
+// CLOSE SHARE POPUP
+document.addEventListener("click", e => {
+    if (!e.target.closest(".share-btn")) {
+        document.querySelectorAll(".share-popup").forEach(p => p.style.display = "none");
+    }
+});
+
+document.addEventListener("DOMContentLoaded", fetchPopularQuotes);
+</script> -->
+
+
+    <script src="script/config.js"></script>
+    <script src="script/auth.js"></script>
+    <script src="script/quote-of-the-day.js"></script>
+    <script src="script/popular-quotes.js"></script>
+    <script src="script/HomeMostliked.js"></script>
+    <script src="script/HomeRecomendedquotes.js"></script>
+    <script src="script/categories.js"></script>
+
+
+
+
+</body>
+
+</html>

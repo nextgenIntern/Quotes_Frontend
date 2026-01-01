@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+body {
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #fdf6e3, #ffe0b3);
+  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1950&q=80');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: lighten;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  animation: fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.login-title {
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.login-subtitle {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.form-control {
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid #dee2e6;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.15rem rgba(13,110,253,.25);
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .toggle-password {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6a8cff, #4a6cf7);
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(74,108,247,0.35);
+}
+
+.link-text {
+  color: #4a6cf7;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link-text:hover {
+  text-decoration: underline;
+}
+  </style>
+</head>
+
+<body >
+
+  <div class="container px-3">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-6 col-lg-4">
+
+        <div class="card login-card p-4 p-sm-5">
+          <div class="card-body">
+
+            <h3 class="text-center login-title mb-1">
+              Welcome Back
+            </h3>
+            <p class="text-center login-subtitle mb-4">
+              Login to your account 
+            </p>
+
+            <form id="loginForm">
+
+              <div class="mb-3">
+                <input type="text" id="username" class="form-control"
+                  placeholder="Username" required>
+              </div>
+
+              <div class="mb-4 password-wrapper">
+                <input type="password" id="password" class="form-control"
+                  placeholder="Password" required>
+                <span class="toggle-password" id="togglePassword">&#128065;</span>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">
+                Login
+              </button>
+
+            </form>
+
+            <p id="msg" class="text-center mt-3 small"></p>
+
+            <div class="text-center mt-4">
+              <small>
+                Don't have an account?
+                <a href="signup.html" class="link-text">
+                  Sign Up
+                </a>
+              </small>
+               <p id="errorMsg" style="color:red;"></p>
+            </div>
+            
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+ 
+  <!-- scripts -->
+  <script src="script/config.js"></script>
+  <script src="script/auth.js"></script>
+  <script src="script/login.js"></script>
+
+
+
+</body>
+</html>

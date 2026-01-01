@@ -1,0 +1,103 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #fff1f0, #ffe3e3);
+}
+
+/* Submit section */
+.submit-section {
+    padding-top: 120px; /* space from fixed navbar */
+    margin-top: 150px;
+}
+
+.submit-section h2 {
+    color: #ff4e50;
+    font-family: 'Playfair Display', serif;
+}
+
+form {
+    transition: all 0.3s ease-in-out;
+}
+
+form:hover {
+    transform: translateY(-5px) scale(1.01);
+}
+
+form textarea, form input, form select {
+    border-radius: 15px;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.btn-outline-danger {
+    border-radius: 25px;
+    padding: 10px 20px;
+    transition: all 0.3s;
+}
+
+.btn-outline-danger:hover {
+    background: #ff4e50;
+    color: white;
+}
+
+.btn-success {
+    border-radius: 25px;
+    padding: 10px 20px;
+    transition: all 0.3s;
+}
+
+.btn-success:hover {
+    background: #28a745;
+    transform: scale(1.05);
+}
+
+/* Live preview */
+.quote-preview {
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    color: #222;
+    font-family: 'Playfair Display', serif;
+    transition: all 0.3s ease;
+}
+
+.quote-preview .quote-text {
+    font-size: 1.3rem;
+}
+
+.quote-preview .author {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.quote-preview .badge {
+    font-size: 0.9rem;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+/* Full screen background */
+/* Full screen background */
+.submit-bg {
+  min-height: 100vh;
+  background-image: url("../images/canvabg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Dark overlay for readability */
+.submit-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.05); /* light overlay suits this image */
+  z-index: 0;
+}
+
+/* Keep content above overlay */
+.submit-section {
+  position: relative;
+  z-index: 1;
+}
+
