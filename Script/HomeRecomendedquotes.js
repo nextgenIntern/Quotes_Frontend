@@ -1,8 +1,6 @@
-// scripts/popular-quotes.js
-
 
 // for cards background rendering check for modifixcation in the line of quotes-cards c
-const paperBackgrounds = [
+window.paperBackgrounds = [
     "images/bg1.png",
     "images/bg2.png",
     "images/image.png",
@@ -10,24 +8,26 @@ const paperBackgrounds = [
     "images/bg5.png"
 ];
 document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("popularQuotesInner");
+  const container = document.getElementById("RecommendedQuotesInner");
 
   if (!container) {
-    console.warn("popularQuotesInner not found");
+    console.warn("RecommendedQuotesInner not found");
     return;
   }
 
-  loadPopularQuotes(container);
+  loadRecommendedQuotes(container);
 });
 
 /* ================= LOAD POPULAR QUOTES ================= */
-async function loadPopularQuotes(container) {
+async function loadRecommendedQuotes(container) {
   try {
-    const res = await fetch(API.HOME_QUOTES_LATEST); // ✅ PUBLIC API
+    
+// console.log(API.HOME_QUOTES_RECOMMENDED)
+    const res = await fetch(API.HOME_QUOTES_RECOMMENDED); // ✅ PUBLIC API
     if (!res.ok) throw new Error(`Failed (${res.status})`);
 
     const quotes = await res.json();
-    renderPopularQuotes(container, quotes);
+    renderRecommendedQuotes(container, quotes);
 
   } catch (err) {
     console.error("Popular Quotes error:", err);
@@ -44,7 +44,7 @@ function getRandomPaper() {
     return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
 }
 /* ================= RENDER CAROUSEL ================= */
-function renderPopularQuotes(container, quotes) {
+function renderRecommendedQuotes(container, quotes) {
   container.innerHTML = "";
 
   if (!Array.isArray(quotes) || quotes.length === 0) {

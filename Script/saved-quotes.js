@@ -27,8 +27,8 @@ async function loadSavedQuotes() {
 
     if (!quotes || quotes.length === 0) {
       container.innerHTML = `
-        <div class="empty-box">
-          💾 No saved quotes yet
+        <div class="empty-box ">
+          No saved quotes yet 
         </div>
       `;
       return;

@@ -74,35 +74,6 @@
 }
 
 
-
-        /* Share popup */
-        .share-popup {
-            position: absolute;
-            bottom: 45px;
-            right: 0;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            padding: 10px;
-            display: none;
-            z-index: 1000;
-        }
-
-        .share-popup a {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 10px;
-            text-decoration: none;
-            color: #333;
-            border-radius: 8px;
-        }
-
-        .share-popup a:hover {
-            background: #f1f1f1;
-        }
-
-
         .category-tag {
             background: #e982ec;
             color: white;
@@ -143,28 +114,7 @@
                 </div>
         </header>
 
-
-
-        <!-- POPULAR QUOTES CAROUSEL -->
-        <section class="container-fluid my-5">
-            <h2 class="fw-bold text-center mb-4 section-title">Popular Quotes</h2>
-
-            
-                <div class="row justify-content-center" id="popularQuotesInner"></div>
-                <!-- <button class="carousel-control-prev" type="button" data-bs-target="#popularQuotesCarousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#popularQuotesCarousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button> -->
-            </div>
-        </section>
-
-        <!-- CATEGORIES CAROUSEL -->
+ <!-- CATEGORIES CAROUSEL -->
         <section class="container my-5">
             <h2 class="fw-bold mb-4 text-center">Browse Categories</h2>
             <div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -197,6 +147,57 @@
             </div>
         </section>
 
+
+        <!-- POPULAR QUOTES CAROUSEL -->
+        <section class="container-fluid my-5">
+            <h2 class="fw-bold text-center mb-4 section-title">Popular Quotes</h2>
+
+            
+                <div class="row justify-content-center" id="popularQuotesInner"></div>
+                <!-- <button class="carousel-control-prev" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button> -->
+            </div>
+        </section>
+
+         <!-- most like quotes -->
+        <section class="container-fluid my-5">
+            <h2 class="fw-bold text-center mb-4 section-title">Most liked quotes</h2>
+
+            
+                <div class="row justify-content-center" id="MostLikedQuotesInner"></div>
+                
+            </div>
+        </section>
+
+        
+          <!-- most like quotes -->
+        <section class="container-fluid my-5">
+            <h2 class="fw-bold text-center mb-4 section-title">Trending Thoughts</h2>
+
+            
+                <div class="row justify-content-center" id="RecommendedQuotesInner"></div>
+                <!-- <button class="carousel-control-prev" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#popularQuotesCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button> -->
+            </div>
+        </section>
+
+       
         <!-- CTA -->
         <section class="cta text-center py-5">
             <h2 class="fw-bold">Have a Quote to Share?</h2>
@@ -370,6 +371,8 @@ document.addEventListener("DOMContentLoaded", fetchPopularQuotes);
     <script src="script/auth.js"></script>
     <script src="script/quote-of-the-day.js"></script>
     <script src="script/popular-quotes.js"></script>
+    <script src="script/HomeMostliked.js"></script>
+    <script src="script/HomeRecomendedquotes.js"></script>
     <script src="script/categories.js"></script>
 
 

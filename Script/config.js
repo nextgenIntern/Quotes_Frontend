@@ -17,6 +17,9 @@ const API = {
   UNSAVE_QUOTE: (id) => `${BASE_URL}/quotes/${id}/unsave/`,
   LIKE_QUOTE: (id) => `${BASE_URL}/quotes/${id}/like/`,
   UNLIKE_QUOTE: (id) => `${BASE_URL}/quotes/${id}/unlike/`,
+  HOME_QUOTES_LATEST:`${BASE_URL}/homequotes/latest/`,
+  HOME_QUOTES_LIKED:`${BASE_URL}/homequotes/most-liked/`,
+  HOME_QUOTES_RECOMMENDED:`${BASE_URL}/homequotes/recommended/`,
 
 };
 

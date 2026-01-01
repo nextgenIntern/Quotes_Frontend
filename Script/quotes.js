@@ -21,7 +21,7 @@ async function fetchQuotes() {
 
         categories = [
             ...new Set(
-                allQuotes.flatMap(q => q.categories).map(c => c.name.toLowerCase())
+                allQuotes.flatMap(q => q.categories).map(c => c.name)
             )
         ];
 
@@ -39,7 +39,7 @@ function getRandomPaper() {
 // ---------------- CREATE CAROUSEL ----------------
 function createCategoryCarousel(quotes, category) {
     const filtered = quotes.filter(q =>
-        q.categories.some(c => c.name.toLowerCase() === category)
+        q.categories.some(c => c.name === category)
     );
 
     if (!filtered.length) return '';
@@ -125,56 +125,56 @@ function renderCategoryCarousels() {
 }
 
 // ---------------- ACTION HANDLERS ----------------
-document.addEventListener("click", async e => {
-    const btn = e.target.closest(".like-btn, .save-btn, .share-btn");
-    if (!btn) return;
+// document.addEventListener("click", async e => {
+//     const btn = e.target.closest(".like-btn, .save-btn, .share-btn");
+//     if (!btn) return;
 
-    const quoteId = btn.dataset.id;
-    if (!token) return alert("Please login first");
+//     const quoteId = btn.dataset.id;
+//     if (!token) return alert("Please login first");
 
-    const headers = { headers: { Authorization: `Bearer ${token}` } };
+//     const headers = { headers: { Authorization: `Bearer ${token}` } };
 
-    // LIKE / UNLIKE
-    if (btn.classList.contains("like-btn")) {
-        const liked = btn.classList.contains("active-like");
-        const url = liked
-            ? `${API_URL}${quoteId}/unlike/`
-            : `${API_URL}${quoteId}/like/`;
+//     // LIKE / UNLIKE
+//     if (btn.classList.contains("like-btn")) {
+//         const liked = btn.classList.contains("active-like");
+//         const url = liked
+//             ? `${API_URL}${quoteId}/unlike/`
+//             : `${API_URL}${quoteId}/like/`;
 
-        await axios.post(url, {}, headers);
-        btn.classList.toggle("active-like");
-    }
+//         await axios.post(url, {}, headers);
+//         btn.classList.toggle("active-like");
+//     }
 
-    // SAVE / UNSAVE
-    if (btn.classList.contains("save-btn")) {
-        const saved = btn.classList.contains("active-save");
-        const url = saved
-            ? `${API_URL}${quoteId}/unsave/`
-            : `${API_URL}${quoteId}/save/`;
+//     // SAVE / UNSAVE
+//     if (btn.classList.contains("save-btn")) {
+//         const saved = btn.classList.contains("active-save");
+//         const url = saved
+//             ? `${API_URL}${quoteId}/unsave/`
+//             : `${API_URL}${quoteId}/save/`;
 
-        await axios.post(url, {}, headers);
-        btn.classList.toggle("active-save");
-    }
+//         await axios.post(url, {}, headers);
+//         btn.classList.toggle("active-save");
+//     }
 
-    // SHARE
-    if (btn.classList.contains("share-btn")) {
-        e.stopPropagation();
-        const popup = btn.querySelector(".share-popup");
-        popup.style.display = popup.style.display === "block" ? "none" : "block";
+//     // SHARE
+//     if (btn.classList.contains("share-btn")) {
+//         e.stopPropagation();
+//         const popup = btn.querySelector(".share-popup");
+//         popup.style.display = popup.style.display === "block" ? "none" : "block";
 
-        const shareUrl = `${window.location.origin}/quotes.html?quote=${quoteId}`;
+//         const shareUrl = `${window.location.origin}/quotes.html?quote=${quoteId}`;
 
-        popup.querySelector(".whatsapp").href =
-            `https://wa.me/?text=${encodeURIComponent(shareUrl)}`;
-        popup.querySelector(".instagram").href = "https://www.instagram.com/";
-        popup.querySelector(".twitter").href =
-            `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`;
+//         popup.querySelector(".whatsapp").href =
+//             `https://wa.me/?text=${encodeURIComponent(shareUrl)}`;
+//         popup.querySelector(".instagram").href = "https://www.instagram.com/";
+//         popup.querySelector(".twitter").href =
+//             `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`;
 
-        await axios.post(`${API_URL}${quoteId}/share/`, {}, headers);
-    }
-});
+//         await axios.post(`${API_URL}${quoteId}/share/`, {}, headers);
+//     }
+// });
 
-// CLOSE SHARE POPUP
-document.addEventListener("click", () => {
-    document.querySelectorAll(".share-popup").forEach(p => p.style.display = "none");
-});
+// // CLOSE SHARE POPUP
+// document.addEventListener("click", () => {
+//     document.querySelectorAll(".share-popup").forEach(p => p.style.display = "none");
+// });

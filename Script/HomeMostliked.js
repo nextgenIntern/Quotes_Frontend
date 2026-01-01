@@ -1,8 +1,6 @@
-// scripts/popular-quotes.js
-
 
 // for cards background rendering check for modifixcation in the line of quotes-cards c
-const paperBackgrounds = [
+window.paperBackgrounds = [
     "images/bg1.png",
     "images/bg2.png",
     "images/image.png",
@@ -10,7 +8,7 @@ const paperBackgrounds = [
     "images/bg5.png"
 ];
 document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("popularQuotesInner");
+  const container = document.getElementById("MostLikedQuotesInner");
 
   if (!container) {
     console.warn("popularQuotesInner not found");
@@ -23,7 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ================= LOAD POPULAR QUOTES ================= */
 async function loadPopularQuotes(container) {
   try {
-    const res = await fetch(API.HOME_QUOTES_LATEST); // ✅ PUBLIC API
+    
+
+    const res = await fetch(API.HOME_QUOTES_LIKED); // ✅ PUBLIC API
     if (!res.ok) throw new Error(`Failed (${res.status})`);
 
     const quotes = await res.json();
