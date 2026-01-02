@@ -20,6 +20,7 @@ const API = {
   HOME_QUOTES_LATEST:`${BASE_URL}/homequotes/latest/`,
   HOME_QUOTES_LIKED:`${BASE_URL}/homequotes/most-liked/`,
   HOME_QUOTES_RECOMMENDED:`${BASE_URL}/homequotes/recommended/`,
+  SEARCH_QUOTES: (query) => `${API_URL}?search=${encodeURIComponent(query)}`
 
 };
 

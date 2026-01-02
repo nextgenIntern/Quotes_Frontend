@@ -1,6 +1,6 @@
+
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+    overflow-x: hidden;
 }
 
 /* SEARCH BAR */
@@ -13,7 +13,7 @@ body {
 }
 
 /* QUOTE CARD */
-.quote-card {
+/* .quote-card {
     background: linear-gradient(135deg, #ffd3b6, #ffaaa5);
     color: #222;
     transition: transform 0.3s, box-shadow 0.3s;
@@ -39,7 +39,7 @@ body {
 }
 
 /* BUTTONS */
-.btn-like, .btn-share, .btn-save {
+/* .btn-like, .btn-share, .btn-save {
     font-weight: 600;
     border-radius: 20px;
     padding: 5px 15px;
@@ -77,10 +77,10 @@ body {
 .btn-save:hover {
     background: #28a745;
     color: #fff;
-}
+} */
 
 /* RESPONSIVE REELS EFFECT */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .search-section input {
         margin-left: auto;
         margin-right: auto;
@@ -90,9 +90,9 @@ body {
     .quote-card {
         margin: 0 auto;
     }
-}
+} */
 
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
     .quote-text {
         font-size: 1.1rem;
     }
@@ -104,7 +104,7 @@ body {
     background: linear-gradient(135deg, #fff7e6, #ffe3b3);
     border-radius: 12px;
     padding: 15px;
-    min-height: 160px; /* smaller box */
+    min-height: 160px;
     margin: 10px;
     transition: transform 0.3s;
 }
@@ -126,4 +126,4 @@ body {
 }
 .carousel-inner {
     padding: 0 20px; /* makes card slightly outside container */
-}
+ 

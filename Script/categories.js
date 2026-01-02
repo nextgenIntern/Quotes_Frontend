@@ -14,10 +14,7 @@ async function loadCategories() {
 
   try {
     const res = await fetch(CATEGORY_API);
-
-    if (!res.ok) {
-      throw new Error(`HTTP error! Status: ${res.status}`);
-    }
+    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 
     const categories = await res.json();
     renderCategories(categories);
@@ -67,6 +64,14 @@ function renderCategories(categories) {
       const tag = document.createElement("div");
       tag.className = "category-tag";
       tag.textContent = cat.name || "Unnamed";
+
+      // ✅ MAKE IT CLICKABLE
+      tag.style.cursor = "pointer";
+      tag.addEventListener("click", () => {
+        window.location.href =
+          `categoryquotes.html?category=${encodeURIComponent(cat.name)}`;
+      });
+
       slideContent.appendChild(tag);
     });
 

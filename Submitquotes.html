@@ -75,6 +75,33 @@
         .suggestion-item:hover {
             background-color: #e9ecef;
         }
+        .category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.category-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+.category-chip:hover {
+  background: #f1f1f1;
+}
+
+.category-chip.selected {
+  background: #212529;
+  color: #fff;
+  border-color: #212529;
+}
+
     </style>
 
 </head>
@@ -118,12 +145,14 @@
                     
 <div class="mb-3">
   <label class="form-label fw-semibold">Categories</label>
-  <div class="tags-input" id="tagsInput">
-    <input type="text" id="tagInput" placeholder="Type or select category">
-  </div>
-  <div class="suggestions d-none" id="suggestions"></div>
-  <small class="text-muted d-block mt-2">Type or select multiple categories</small>
+
+  <div id="categoryChips" class="category-chips"></div>
+
+  <small class="text-muted d-block mt-2">
+    Select one or more categories
+  </small>
 </div>
+
 
                     <!-- script for multiple category  -->
                    <select id="quoteLanguage" class="form-select mb-2" required>
@@ -136,7 +165,11 @@
 
                     <!-- Buttons -->
                     <div class="d-flex justify-content-between">
-                        <button type="reset" class="btn btn-outline-danger fw-bold">Reset</button>
+                        
+                        <button type="reset" id="resetQuoteForm" class="btn btn-outline-danger fw-bold">
+  Reset
+</button>
+
                         <button type="submit" class="btn btn-success fw-bold">Submit Quote</button>
                     </div>
 

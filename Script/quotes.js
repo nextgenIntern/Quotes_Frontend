@@ -55,11 +55,11 @@ function createCategoryCarousel(quotes, category) {
         chunk.forEach(q => {
             content += `
           <div class="col-md-3 mb-3">
-                    <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
-            style="background-image: url('${getRandomPaper()}') !important;">
+                   <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+           style="background-image: url('${getRandomPaper()}') !important; ">
         
-        <p class="quote-text flex-grow-1">“${q.text}”</p>
-        <p class="quote-author mt-2">– ${q.author_username || "Unknown"}</p>
+        <p class="quote-text flex-grow-1 text-danger fw-bolder">“${q.text}”</p>
+        <p class="quote-author mt-2 ">– ${q.author_username || "Unknown"}</p>
 
         <hr style="border:2px solid #000; margin:8px 0;">
 
@@ -123,6 +123,93 @@ function renderCategoryCarousels() {
         container.innerHTML += createCategoryCarousel(allQuotes, cat);
     });
 }
+
+// for each bar
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("searchInput");
+    if (!searchInput) return;
+
+    let debounceTimer;
+
+    searchInput.addEventListener("input", (e) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            const query = e.target.value.trim();
+            if (!query) {
+                // Show default category carousels
+                renderCategoryCarousels();
+            } else {
+                searchQuotes(query);
+            }
+        }, 300); // delay 300ms
+    });
+});
+
+// Fetch filtered quotes from API using API.SEARCH_QUOTES
+async function searchQuotes(query) {
+    try {
+        const res = await axios.get(API.SEARCH_QUOTES(query)); // ✅ Using API helper
+        const quotes = res.data;
+
+        const container = document.getElementById("quotesCarouselContainer"); // get container here
+        renderSearchResults(quotes, container); // pass it
+    } catch (err) {
+        console.error("Search API error:", err);
+        const container = document.getElementById("quotesCarouselContainer");
+        container.innerHTML = `<div class="text-center py-4">⚠️ No quotes found</div>`;
+    }
+}
+
+
+// Render search results
+function renderSearchResults(quotes, container) {
+    container.innerHTML = "";
+    container.style.flexWrap = "wrap"; // allow multiple rows
+    container.style.justifyContent = "center";
+
+    if (!quotes.length) {
+        container.innerHTML = `<div class="text-center w-100 py-4">📭 No quotes found</div>`;
+        return;
+    }
+
+    quotes.forEach(q => {
+        const col = document.createElement("div");
+        col.className = "col-md-3 mb-3";
+
+        col.innerHTML = `
+        <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+             style="background-image: url('${getRandomPaper()}') !important;">
+            <p class="quote-text flex-grow-1 text-danger fw-bolder">“${q.text}”</p>
+            <p class="quote-author mt-2">– ${q.author_username || "Unknown"}</p>
+            <hr style="border:2px solid #000; margin:8px 0;">
+            <div class="d-flex justify-content-between mt-3 icon-bar">
+                <span class="material-symbols-outlined like-btn" data-id="${q.id}">
+                    favorite_border
+                    <span class="action-count">${q.likes_count || 0}</span>
+                </span>
+                <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+                    <span class="icon-text">share</span>
+                    <span class="action-count share-count">${q.share_count || 0}</span>
+                </span>
+                <span class="material-symbols-outlined save-btn" data-id="${q.id}" data-saved="${q.saved_by_current_user}">
+                    ${q.saved_by_current_user ? 'bookmark' : 'bookmark_border'}
+                    <span class="action-count save-count">${q.saved_count || 0}</span>
+                </span>
+                <a href="comments.html?quote=${q.id}">
+                    <span class="material-symbols-outlined">chat_bubble</span>
+                </a>
+            </div>
+        </div>
+        `;
+
+        container.appendChild(col);
+    });
+
+    // setupLikeButtons();
+    // setupSaveButtons();
+}
+
+
 
 // ---------------- ACTION HANDLERS ----------------
 // document.addEventListener("click", async e => {
