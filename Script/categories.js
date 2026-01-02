@@ -51,7 +51,7 @@ function renderCategories(categories) {
     return;
   }
 
-  const chunkSize = 5;
+  const chunkSize = 7;
 
   for (let i = 0; i < categories.length; i += chunkSize) {
     const chunk = categories.slice(i, i + chunkSize);
