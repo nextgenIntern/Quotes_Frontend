@@ -17,17 +17,17 @@ body {
         rgba(63, 42, 30, 0.95),
         rgba(63, 42, 30, 0.95)
     );
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-    transition: all 0.3s ease-in-out;
+    padding: 6px 0; /* REDUCED */
 }
 
 /* Navbar brand styling */
 .custom-navbar .navbar-brand {
-    letter-spacing: 1px;
+    font-size: 1.45rem;   /* was too big */
+    letter-spacing: 0.6px;
     color: #ffffff !important;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.25);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
 }
+
 
 /* Nav links */
 .custom-navbar .nav-link {
@@ -39,12 +39,22 @@ body {
     color: #ffffff !important;
     text-shadow: 0px 0px 8px rgba(255,255,255,0.8);
 }
+.custom-navbar .nav-links .nav-link {
+    font-size: 0.95rem;   /* PERFECT at 100% */
+    padding: 6px 0;
+}
+.custom-navbar .navbar-nav {
+    gap: 1.25rem; /* reduced from gap-4 */
+}
+
 
 /* Active link */
 .custom-navbar .nav-link.active {
     color: #ffffff !important;
     border-bottom: 2px solid #fff;
 }
+
+
 
 /* Toggler icon color fix */
 .navbar-dark .navbar-toggler-icon {
@@ -65,7 +75,7 @@ body {
     flex-direction: column;
     border-radius: 15px;
     margin: 30px;
-    margin-top: 100px;
+    margin-top: 75px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     position: relative;
     overflow: hidden;
@@ -74,16 +84,18 @@ body {
 .hero-section h1 {
     font-family: 'Playfair Display', serif;
     margin-top: -3%;
-    font-size: 3rem;
-    font-weight: 800;
+    font-size: 2.5rem;
+    font-weight: 500;
     color: #ffd000; /* warm and inviting */
     text-shadow: 2px 3px 10px rgba(0,0,0,0.2);
    
 }
 
+
+
 .hero-section p {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     font-style: italic;
     color: #333;
     margin-bottom: 10px;
@@ -91,7 +103,7 @@ body {
 
 .hero-section h5 {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #7fc007;
 }
@@ -104,11 +116,26 @@ body {
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
     
 }
+.quote-divider {
+    border: 1.5px solid #000;
+}
+
 
 .quote-text {
-    font-size: 1.3rem;
+    margin-top: 5px;
+     margin-bottom: 10px;
+    line-height: 1.35;
+    margin-left: 5px;
+    font-size: 0.95rem;
     font-style: italic;
-    color: #e01a1a;
+    color: #3a2828;
+}
+
+.quote-author {
+    margin-bottom: 4px;
+    font-size: 0.75rem;
+    opacity: 0.9;
+    color: #3a2828;
 }
 
 /* Popular Quotes Gradient */
@@ -122,13 +149,7 @@ body {
 }
 
 /* Author Text */
-.author {
-    margin-top: 15px;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-    color: rgba(255,255,255,0.85);
-    font-size: 1rem;
-}
+
 
 /* ===== SECTION TITLES ===== */
 .section-title {
@@ -136,8 +157,8 @@ body {
     display: inline-block;
     padding: 5px 15px;
     font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: 2.2rem;
+    font-weight: 600;
+    font-size: 1.8rem;
     color: #ff4e50;
 }
 
@@ -159,7 +180,7 @@ body {
     background: #f58c6fcb;  
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
      border: 1.5px solid #6b4f3b;   
     color: #2b1f1f;  
@@ -254,18 +275,16 @@ footer {
     box-shadow: 0 20px 40px rgba(0,0,0,0.25);
 }
 
-.quote-text {
-    font-size: 1.3rem;
-}
+
 
 .author {
-    font-size: 1rem;
+    font-size: 1.6rem;
     opacity: 0.85;
 }
 
 /* ===== BUTTON STYLING ===== */
 .btn-like, .btn-share, .btn-save {
-    font-weight: 600;
+    font-weight: 200;
     border-radius: 20px;
     padding: 5px 15px;
     transition: all 0.3s;
@@ -310,8 +329,8 @@ footer {
 
 /* Avatar */
 .user-avatar {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   border: 2px solid white;
   object-fit: cover;
 }
@@ -359,4 +378,10 @@ footer {
 .save-btn.saved {
   color: #f5b301; /* GOLD/YELLOW */
   transform: scale(1.1);
+}
+
+.signup-btn {
+    padding: 6px 18px;
+    font-size: 0.9rem;
+    border-radius: 999px;
 }

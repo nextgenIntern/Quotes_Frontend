@@ -54,7 +54,7 @@ function createCategoryCarousel(quotes, category) {
 
         chunk.forEach(q => {
             content += `
-          <div class="col-md-3 mb-3">
+          <div class="col-md-4 mb-3">
                     <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
             style="background-image: url('${getRandomPaper()}') !important;">
         

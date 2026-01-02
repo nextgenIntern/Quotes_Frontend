@@ -32,16 +32,17 @@
     background-position: center;
     background-repeat: no-repeat;
     transform: rotate(calc(-1deg + 2deg * random()));
-    padding: 22px;
+    padding: 15px;
     min-height: 200px;
+              position: relative;
 
-    border-radius: 6px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin: 5px;
 
     box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-    border: none;
 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -57,8 +58,10 @@
 .quote-text {
     font-family: 'Georgia', serif;
     font-size: 1.15rem;
+    font-weight: 700;
     font-style: italic;
-    color: #2b1f1f;
+    color: #333;
+    line-height: 1.5;
     text-shadow: 0 1px 1px rgba(255,255,255,0.6);
 }
 
@@ -165,7 +168,7 @@
                 class="form-control form-control-lg shadow-sm mb-4 mx-auto d-block search-box"
                 placeholder="Search quotes by keyword or author">
             <!-- CATEGORY FILTERS -->
-            <div class="filter-buttons d-flex flex-wrap justify-content-center gap-3 mt-4">
+            <div class="filter-buttons d-flex flex-wrap justify-content-center gap-3 mt-5">
                 <button class="btn filter-btn active" data-category="all">All</button>
                 <button class="btn filter-btn" data-category="motivation">Motivation</button>
                 <button class="btn filter-btn" data-category="love">Love</button>
@@ -181,7 +184,7 @@
 
     <!-- QUOTES REELS -->
     <!-- QUOTES CAROUSELS -->
-    <section class="quotes-section ms-5 my-5">
+    <section class="quotes-section ms-4 my-5 mt-3">
         <div id="quotesCarouselContainer">
             <!-- Category carousels inserted via JS -->
         </div>
