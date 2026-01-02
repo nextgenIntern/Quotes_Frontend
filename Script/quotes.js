@@ -46,20 +46,20 @@ function createCategoryCarousel(quotes, category) {
 
     let slides = [];
 
-    for (let i = 0; i < filtered.length; i += 4) {
-        const chunk = filtered.slice(i, i + 4);
+    for (let i = 0; i < filtered.length; i += 6) {
+    const chunk = filtered.slice(i, i + 6);
         
 
-        let content = `<div class="row justify-content-center">`;
+        let content = `<div class="row gx-1 gy-3">`;
 
         chunk.forEach(q => {
             content += `
           <div class="col-md-3 mb-3">
-                   <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
-           style="background-image: url('${getRandomPaper()}') !important; ">
+                    <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+            style="background-image: url('${getRandomPaper()}') !important;">
         
-        <p class="quote-text flex-grow-1 text-danger fw-bolder">“${q.text}”</p>
-        <p class="quote-author mt-2 ">– ${q.author_username || "Unknown"}</p>
+        <p class="quote-text flex-grow-1">“${q.text}”</p>
+        <p class="quote-author mt-2">– ${q.author_username || "Unknown"}</p>
 
         <hr style="border:2px solid #000; margin:8px 0;">
 
