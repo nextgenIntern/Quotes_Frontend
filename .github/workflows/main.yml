@@ -23,23 +23,18 @@ jobs:
           script: |
             cd ~
 
-            # Remove old code
-            rm -rf quotes_frontend
+            rm -rf Quotes_Frontend
 
-            # Clone latest code
-            git clone https://github.com/nextgenIntern/Quotes_Frontend.git
-            cd quotes_frontend
+            git clone https://github.com/<your-username>/Quotes_Frontend.git
+            cd Quotes_Frontend
 
-            # Stop old container if exists
             docker stop quotes_frontend || true
             docker rm quotes_frontend || true
 
-            # Build image locally 
             docker build -t quotes_frontend .
 
-            # Run container
             docker run -d \
-              --name quotes_frontend \
-              -p 8004:80 \
-              --restart always \
-              quotes_frontend
+             --name quotes_frontend \
+            -p 8004:80 \
+            --restart always \
+            quotes_frontend
