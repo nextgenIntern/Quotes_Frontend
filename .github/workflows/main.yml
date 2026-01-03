@@ -1,4 +1,4 @@
-name: Deploy Quotes Frontend 
+name: Deploy Quotes Frontend
 
 on:
   push:
@@ -10,31 +10,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+     
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH (Local Docker Build)
-        uses: appleboy/ssh-action@v1.0.3
+      # Copy project to OCI server
+      - name: Copy project to OCI
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd ~
+          source: "."
+          target: "~/Quotes_Frontend"
 
-            rm -rf Quotes_Frontend
+      #  Deploy via SSH (Docker build & run)
+      - name: Deploy via SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
-            git clone https://github.com/<your-username>/Quotes_Frontend.git
-            cd Quotes_Frontend
-
-            docker stop quotes_frontend || true
-            docker rm quotes_frontend || true
-
-            docker build -t quotes_frontend .
-
-            docker run -d \
-             --name quotes_frontend \
-            -p 8004:80 \
-            --restart always \
-            quotes_frontend
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} \
+            "cd ~/Quotes_Frontend && \
+             docker stop quotes_frontend || true && \
+             docker rm quotes_frontend || true && \
+             docker build -t quotes_frontend:latest . && \
+             docker run -d \
+               -p 8004:80 \
+               --restart unless-stopped \
+               --name quotes_frontend \
+               quotes_frontend:latest"
