@@ -390,3 +390,32 @@ footer {
     font-size: 0.9rem;
     border-radius: 999px;
 }
+
+.brand-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #2c2c2c;
+}
+.brand-logo i {
+    margin-right: 6px;
+    color: #c89b3c; /* gold tone */
+}
+.navbar-logo {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+    transform: scale(1.1);
+    scale: 1.1;
+}
+@media (max-width: 768px) {
+    .navbar-logo {
+        height: 34px;
+    }
+}
+.navbar-brand:hover .navbar-logo {
+    opacity: 0.9;
+    transform: scale(1.30);
+    transition: all 0.3s ease;
+}
