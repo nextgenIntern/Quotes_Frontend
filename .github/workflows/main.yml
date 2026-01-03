@@ -1,4 +1,4 @@
-name: Deploy Quotes Frontend
+name: Deploy Quotes Frontend 
 
 on:
   push:
@@ -10,32 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH
+      - name: Deploy via SSH (Local Docker Build)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
+          port: 22
           script: |
             cd ~
 
-            # Remove old folder if exists
+            # Remove old code
             rm -rf quotes_frontend
 
-            # Clone repo
-            git clone https://github.com/<your-username>/quotes_frontend.git
-
+            # Clone latest code
+            git clone https://github.com/nextgenIntern/Quotes_Frontend.git
             cd quotes_frontend
 
-            # Stop & remove old container
+            # Stop old container if exists
             docker stop quotes_frontend || true
             docker rm quotes_frontend || true
 
-            # Build image
+            # Build image locally 
             docker build -t quotes_frontend .
 
             # Run container
