@@ -48,7 +48,7 @@ function renderCarouselSlides(quotes) {
         <p class="lead fst-italic mb-2 text-white">
           “${q.text}”
         </p>
-        <h5 class="fw-semibold" style="color:#4c9ece;">
+<h5 class="fw-semibold fst-italic" style="color:#e07a5f;">
           – ${q.author_username || "Unknown"}
         </h5>
       </div>
