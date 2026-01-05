@@ -1,4 +1,4 @@
-const SAVED_QUOTES_API = "http://140.245.5.153:8001/api/profile/saved/";
+const SAVED_QUOTES_API = "http://eternal-lines.com/api/profile/saved/";
 const token = localStorage.getItem("accessToken");
 
 const container = document.getElementById("quotesContainer");
@@ -17,7 +17,7 @@ async function loadSavedQuotes() {
   container.innerHTML = ""; // Clear previous
 
   try {
-    const res = await authFetch("http://140.245.5.153:8001/api/profile/saved/", {
+    const res = await authFetch("http://eternal-lines.com/api/profile/saved/", {
       method: "GET"
     });
 

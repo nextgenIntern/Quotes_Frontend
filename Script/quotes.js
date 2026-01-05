@@ -1,4 +1,4 @@
-const API_URL = "http://140.245.5.153:8001/api/quotes/";
+const API_URL = "http://eternal-lines.com/api/quotes/";
 const token = localStorage.getItem("accessToken");
 
 const paperBackgrounds = [
