@@ -17,7 +17,7 @@ async function loadSavedQuotes() {
   container.innerHTML = ""; // Clear previous
 
   try {
-    const res = await authFetch("http://eternal-lines.com/api/profile/saved/", {
+    const res = await authFetch("https://eternal-lines.com/api/profile/saved/", {
       method: "GET"
     });
 

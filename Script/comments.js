@@ -6,7 +6,7 @@ const quoteId = params.get("quote");
 async function loadQuote() {
     try {
         const res = await fetch(
-            `http://eternal-lines.com/api/quotes/${quoteId}/`
+            `https://eternal-lines.com/api/quotes/${quoteId}/`
         );
         const data = await res.json();
 
@@ -22,7 +22,7 @@ async function loadQuote() {
 async function loadComments() {
     try {
         const res = await fetch(
-            `http://140.245.5.153:8001/api/quotes/${quoteId}/comments/`
+            `https://eternal-lines.com/api/quotes/${quoteId}/comments/`
         );
 
         const comments = await res.json();
