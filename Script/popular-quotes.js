@@ -257,7 +257,7 @@ document.addEventListener("click", async function (e) {
     try {
         // 1️⃣ Call backend (same API base as LIKE/SAVE)
         const res = await authFetch(
-            `http://eternal-lines.com/api/quotes/${quoteId}/share/`,
+            `https://eternal-lines.com/api/quotes/${quoteId}/share/`,
             { method: "POST" }
         );
 

@@ -1,4 +1,4 @@
-const SAVED_QUOTES_API = "http://eternal-lines.com/api/profile/saved/";
+const SAVED_QUOTES_API = "https://eternal-lines.com/api/profile/saved/";
 const token = localStorage.getItem("accessToken");
 
 const container = document.getElementById("quotesContainer");

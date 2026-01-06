@@ -93,7 +93,7 @@ async function addComment() {
 
     try {
         const res = await authFetch(
-            `http://eternal-lines.com/api/quotes/${quoteId}/comment/`,
+            `https://eternal-lines.com/api/quotes/${quoteId}/comment/`,
             {
                 method: "POST",
                 body: JSON.stringify({ text })

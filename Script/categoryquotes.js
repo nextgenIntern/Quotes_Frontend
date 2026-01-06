@@ -1,6 +1,6 @@
 // scripts/categoryquotes.js
 
-const QUOTES_API = "http://eternal-lines.com/api/quotes/";
+const QUOTES_API = "https://eternal-lines.com/api/quotes/";
 
 document.addEventListener("DOMContentLoaded", loadCategoryQuotes);
 
