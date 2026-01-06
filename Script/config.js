@@ -1,7 +1,7 @@
 // Script/config.js
 
 //const BASE_URL = "http://140.245.5.153:8001/api";
-const BASE_URL = "http://eternal-lines.com/api";
+const BASE_URL = "https://eternal-lines.com/api";
 
 const API = {
   SIGNUP: `${BASE_URL}/signup/`,
