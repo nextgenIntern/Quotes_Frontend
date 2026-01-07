@@ -16,7 +16,7 @@ function setupNavbar() {
   const userMenu = document.getElementById("userMenu");
   const usernameText = document.getElementById("usernameText");
   const userAvatar = document.getElementById("userAvatar");
-  const userAvatarmobile = document.getElementById("userAvatarmobile");
+  // const userAvatarmobile = document.getElementById("userAvatarmobile");
 
   if (token && user) {
     signupBtn?.classList.add("d-none");
@@ -29,7 +29,7 @@ function setupNavbar() {
 
     const avatar = user.avatar || "assets/images/default-avatar.png";
     if (userAvatar) userAvatar.src = avatar;
-    if (userAvatarmobile) userAvatarmobile.src = avatar;
+    // if (userAvatarmobile) userAvatarmobile.src = avatar;
   }
 
   document.getElementById("logoutBtn")?.addEventListener("click", () => {

@@ -21,7 +21,13 @@ const API = {
   HOME_QUOTES_LATEST:`${BASE_URL}/homequotes/latest/`,
   HOME_QUOTES_LIKED:`${BASE_URL}/homequotes/most-liked/`,
   HOME_QUOTES_RECOMMENDED:`${BASE_URL}/homequotes/recommended/`,
-  SEARCH_QUOTES: (query) => `${API_URL}?search=${encodeURIComponent(query)}`
+  SEARCH_QUOTES: (query) => `${API_URL}?search=${encodeURIComponent(query)}`,
+    LANGUAGES_API:`${BASE_URL}/languages/`,
+  QUOTES_API : (id) => `${BASE_URL}/languages/${id}/quotes/`,
+  USERS_API: `${BASE_URL}/users/`,
+  SEARCH_API :`${BASE_URL}/users-with-quotes/?search=`,
+  FOLLOW_API :(username)=> `${BASE_URL}/follow/${username}/`,
+  UNFOLLOW_API : (username) =>`${BASE_URL}/unfollow/${username}/`
 
 };
 

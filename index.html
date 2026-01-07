@@ -52,7 +52,7 @@
     font-family: 'Georgia', serif;
     font-size: 1.15rem;
     font-style: italic;
-    color: #2b1f1f;
+    color: #e01010;
     text-shadow: 0 1px 1px rgba(255,255,255,0.6);
 }
 
@@ -135,37 +135,38 @@
         </header>
 
  <!-- CATEGORIES CAROUSEL -->
-        <section class="container my-4">
-            <h2 class="fw-bold mb-3 text-center" style="font-size: 25px;">Browse Categories</h2>
-            <div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner text-center">
-                    <!-- <div class="carousel-item active">
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <div class="category-tag">Motivation</div>
-                            <div class="category-tag">Life</div>
-                            <div class="category-tag">Love</div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <div class="category-tag">Success</div>
-                            <div class="category-tag">Spiritual</div>
-                            <div class="category-tag">Funny</div>
-                        </div>
-                    </div> -->
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </section>
+     <section class="container my-4">
+    <h2 class="fw-bold mb-3 text-center" style="font-size: 25px;">Browse Categories</h2>
+
+    <div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner text-center">
+            <!-- dynamic items -->
+        </div>
+
+        <!-- PREV BUTTON (Desktop only) -->
+        <button
+            class="carousel-control-prev d-none d-md-flex"
+            type="button"
+            data-bs-target="#categoryCarousel"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"
+                  aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <!-- NEXT BUTTON (Desktop only) -->
+        <button
+            class="carousel-control-next d-none d-md-flex"
+            type="button"
+            data-bs-target="#categoryCarousel"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-dark rounded-circle p-2"
+                  aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
 
 
         <!-- POPULAR QUOTES CAROUSEL -->
@@ -394,6 +395,9 @@ document.addEventListener("DOMContentLoaded", fetchPopularQuotes);
     <script src="Script/HomeMostliked.js"></script>
     <script src="Script/HomeRecomendedquotes.js"></script>
     <script src="Script/categories.js"></script>
+    <script src="Script/Sharebuttons.js"></script>
+    <script src="Script/LikeButtons.js"></script>
+    <script src="Script/SaveButtons.js"></script>
 
 
 

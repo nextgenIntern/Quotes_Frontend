@@ -1,7 +1,4 @@
-// scripts/categoryquotes.js
-
-
-// scripts/categoryquotes.js
+/* ================== API ================== */
 
 const paperBackgrounds = [
     "images/bg1.png",
@@ -11,78 +8,94 @@ const paperBackgrounds = [
     "images/bg5.png"
 ];
 
-document.addEventListener("DOMContentLoaded", loadCategoryQuotes);
+/* ================== DOM ================== */
+const languagesContainer = document.getElementById("languagesContainer");
+const quotesContainer = document.getElementById("quotesContainer");
+const quotesTitle = document.getElementById("quotesTitle");
 
-async function loadCategoryQuotes() {
-  const params = new URLSearchParams(window.location.search);
-  const selectedCategory = params.get("category");
+/* ================== LOAD LANGUAGES ================== */
+async function loadLanguages() {
+  try {
+    const res = await fetch(API.LANGUAGES_API);
+    const languages = await res.json();
 
-  const title = document.getElementById("categoryTitle");
-  const container = document.getElementById("quotesContainer");
-
-  if (!selectedCategory) {
-    title.textContent = "No category selected";
-    return;
+    renderLanguages(languages);
+  } catch (err) {
+    console.error("Language load error:", err);
   }
+}
 
-  title.textContent = `Quotes for ${selectedCategory}`;
-  container.innerHTML = "<p class='text-center'>Loading quotes...</p>";
+/* ================== RENDER LANGUAGES ================== */
+function renderLanguages(languages) {
+  languagesContainer.innerHTML = languages.map(lang => `
+    <div class="language-btn" data-id="${lang.id}" data-name="${lang.name}">
+      ${lang.name}
+    </div>
+  `).join("");
+
+  attachLanguageHandlers();
+}
+
+/* ================== CLICK HANDLERS ================== */
+function attachLanguageHandlers() {
+  document.querySelectorAll(".language-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".language-btn")
+        .forEach(b => b.classList.remove("active"));
+
+      btn.classList.add("active");
+
+      const id = btn.dataset.id;
+      const name = btn.dataset.name;
+
+      fetchLanguageQuotes(id, name);
+    });
+  });
+}
+
+/* ================== FETCH QUOTES ================== */
+async function fetchLanguageQuotes(languageId, languageName) {
+  quotesTitle.textContent = `Quotes in ${languageName}`;
+  quotesContainer.innerHTML = `<div class="text-center text-muted">Loading quotes...</div>`;
 
   try {
-    // 1️⃣ Fetch ALL quotes
-    const res = await fetch(API.POPULAR_QUOTES);
-    if (!res.ok) throw new Error("API failed");
+    const res = await fetch(API.QUOTES_API(languageId));
+    const quotes = await res.json();
 
-    const allQuotes = await res.json();
-
-    // 2️⃣ FILTER by category
-    const filteredQuotes = allQuotes.filter(q =>
-      Array.isArray(q.categories) &&
-      q.categories.some(c =>
-        c.name.toLowerCase() === selectedCategory.toLowerCase()
-      )
-    );
-
-    // 3️⃣ Render
-    if (filteredQuotes.length === 0) {
-      container.innerHTML = `<p class="text-center">No quotes found.</p>`;
-      return;
-    }
-
-    renderQuotes(filteredQuotes);
-
+    renderQuotes(quotes);
   } catch (err) {
-    console.error(err);
-    container.innerHTML = `<p class="text-danger text-center">Failed to load quotes</p>`;
+    console.error("Quotes load error:", err);
+    quotesContainer.innerHTML = `<div class="text-danger text-center">Failed to load quotes</div>`;
   }
 }
 
 
-
+// helper function
 function getRandomPaper() {
     return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
-} 
+}
+
+/* ================== RENDER QUOTES ================== */
 function renderQuotes(quotes) {
-  const container = document.getElementById("quotesContainer");
-  container.innerHTML = "";
+  if (!quotes.length) {
+    quotesContainer.innerHTML = `
+      <div class="text-center text-muted">
+        No quotes available for this language
+      </div>
+    `;
+    return;
+  }
 
-  quotes.forEach(q => {
-    const col = document.createElement("div");
+  quotesContainer.innerHTML = quotes.map(q => `
+    <div class="col-md-4">
+       <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+             style="background-image: url('${getRandomPaper()}') !important;">
+            <p class="quote-text flex-grow-1 text-danger fw-bolder">“${q.text}”</p>
+            <p class="quote-author mt-2">– ${q.author_username || "Unknown"}</p>
+            <hr style="border:2px solid #000; margin:8px 0;">
+            <div class="d-flex justify-content-between mt-3 icon-bar">
 
-    // ✅ 4 cards per row on large screens
-    col.className = "col-lg-3 col-md-4 col-sm-6 mb-4";
-
-    col.innerHTML = `
-      <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
-           style="background-image: url('${getRandomPaper()}') !important; ">
-        
-        <p class="quote-text flex-grow-1 fw-bolder">“${q.text}”</p>
-        <p class="quote-author mt-2 ">– ${q.author_username || "Unknown"}</p>
-
-        <hr style="border:2px solid #000; margin:8px 0;">
-
-        <div class="d-flex justify-content-between mt-3 icon-bar">
-          <!-- Like Button -->
+                <!-- Like Button -->
                 <span class="material-symbols-outlined like-btn" data-id="${q.id}">
                     <span class="icon">favorite_border</span>
                     <span class="action-count">${q.likes_count || 0}</span>
@@ -103,16 +116,17 @@ function renderQuotes(quotes) {
                 <a href="comments.html?quote=${q.id}">
                     <span class="material-symbols-outlined">chat_bubble</span>
                 </a>
+            </div>
         </div>
-      </div>
-    `;
-
-    container.appendChild(col);
-  });
+    </div>
+  `).join("");
 
   // Restore like/save state for search results
     restoreLikeSaveState();
 }
+
+/* ================== INIT ================== */
+loadLanguages();
 
 
 

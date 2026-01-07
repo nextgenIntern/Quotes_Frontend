@@ -70,7 +70,7 @@ async function loadSavedQuotes() {
     if (!res.ok) throw new Error("Saved quotes failed");
 
     const quotes = await res.json();
-    renderSavedQuotes(quotes);
+    //renderSavedQuotes(quotes);
 
   } catch (err) {
     console.error("Saved quotes error:", err);
@@ -115,82 +115,82 @@ function getRandomPaper() {
     return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
 }
 /* ================== SAVED QUOTES ================== */
-function renderSavedQuotes(quotes) {
-  const container = document.getElementById("savedQuotesContainer");
-  container.innerHTML = "";
+// function renderSavedQuotes(quotes) {
+//   const container = document.getElementById("savedQuotesContainer");
+//   container.innerHTML = "";
 
-  if (!quotes.length) {
-    container.innerHTML = `<div class="empty-box">💾 No saved quotes</div>`;
-    return;
-  }
+//   if (!quotes.length) {
+//     container.innerHTML = `<div class="empty-box">💾 No saved quotes</div>`;
+//     return;
+//   }
 
-  let row;
+//   let row;
 
-  quotes.forEach((q, index) => {
+//   quotes.forEach((q, index) => {
 
-    //  Create a new row every 4 cards
-    if (index % 4 === 0) {
-      row = document.createElement("div");
-      row.className = "row";
-      container.appendChild(row);
-    }
+//     //  Create a new row every 4 cards
+//     if (index % 4 === 0) {
+//       row = document.createElement("div");
+//       row.className = "row";
+//       container.appendChild(row);
+//     }
 
-    row.innerHTML += `
-      <div class="col-md-3 col-sm-6 mb-4">
-        <div 
-          class="quote-card shadow rounded"
-          style="
-            border:2px solid #333;
-            padding:15px;
-            border-radius:10px;
-            height:100%;
-            display:flex;
-            flex-direction:column;
-            justify-content:space-between;
-            background-image: url('${getRandomPaper()}') !important; 
-          "
-        >
-          <div>
-            <p class="quote-text">“${q.text}”</p>
-            <p class="quote-author">- ${q.author_username || "Unknown"}</p>
+//     row.innerHTML += `
+//       <div class="col-md-3 col-sm-6 mb-4">
+//         <div 
+//           class="quote-card shadow rounded"
+//           style="
+//             border:2px solid #333;
+//             padding:15px;
+//             border-radius:10px;
+//             height:100%;
+//             display:flex;
+//             flex-direction:column;
+//             justify-content:space-between;
+//             background-image: url('${getRandomPaper()}') !important; 
+//           "
+//         >
+//           <div>
+//             <p class="quote-text">“${q.text}”</p>
+//             <p class="quote-author">- ${q.author_username || "Unknown"}</p>
 
-            <!-- bold divider -->
-            <hr style="border:2px solid #000;margin:8px 0;">
-          </div>
+//             <!-- bold divider -->
+//             <hr style="border:2px solid #000;margin:8px 0;">
+//           </div>
 
-          <div 
-            class="icon-bar"
-            style="
-              display:flex;
-              justify-content:space-between;
-              align-items:center;
-            "
-          >
-            <span class="material-symbols-outlined like-btn" data-id="${q.id}">
-              favorite_border
-              <span class="action-count">${q.likes_count || 0}</span>
-            </span>
+//           <div 
+//             class="icon-bar"
+//             style="
+//               display:flex;
+//               justify-content:space-between;
+//               align-items:center;
+//             "
+//           >
+//             <span class="material-symbols-outlined like-btn" data-id="${q.id}">
+//               favorite_border
+//               <span class="action-count">${q.likes_count || 0}</span>
+//             </span>
 
-            <span class="material-symbols-outlined share-btn" data-id="${q.id}">
-              share
-            </span>
+//             <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+//               share
+//             </span>
 
-            <span class="material-symbols-outlined save-btn" data-id="${q.id}">
-              bookmark
-            </span>
+//             <span class="material-symbols-outlined save-btn" data-id="${q.id}">
+//               bookmark
+//             </span>
 
-            <a href="comments.html?quote=${q.id}">
-              <span class="material-symbols-outlined">
-                chat_bubble
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    `;
-});
+//             <a href="comments.html?quote=${q.id}">
+//               <span class="material-symbols-outlined">
+//                 chat_bubble
+//               </span>
+//             </a>
+//           </div>
+//         </div>
+//       </div>
+//     `;
+// });
 
-}
+// }
 
 /* ================== EDIT PROFILE ================== */
 function setupEditProfile() {
@@ -382,9 +382,9 @@ async function renderPostedQuotes(profile) {
     myQuotes.forEach(q => {
       container.innerHTML += `
         <div class="col-md-3 mb-3">
-          <div class="quote-card shadow rounded border p-3"style="background-image: url('${getRandomPaper()}') !important; >
+           <div class="quote-card shadow rounded border p-3"style="background-image: url('${getRandomPaper()}') !important; >
             
-            <p class="quote-text">“${q.text}”</p>
+            <p class="quote-text ">“${q.text}”</p>
             <p class="quote-author">– ${q.author_username}</p>
 
             <div class="d-flex justify-content-between mt-3 icon-bar">
@@ -402,6 +402,12 @@ async function renderPostedQuotes(profile) {
                 bookmark_border
               </span>
 
+               <span class="material-symbols-outlined delete-btn text-danger"
+            data-id="${q.id}"
+            style="cursor:pointer;">
+        delete
+      </span>
+
               <a href="comments.html?quote=${q.id}">
                 <span class="material-symbols-outlined">
                   chat_bubble
@@ -417,9 +423,175 @@ async function renderPostedQuotes(profile) {
     // optional
     // setupLikeButtons();
     // setupSaveButtons();
+    restoreLikeSaveState()
 
   } catch (error) {
     console.error(error);
     container.innerHTML = `<div class="text-danger">Failed to load your quotes</div>`;
   }
 }
+
+
+// ================= Helper Functions =================
+function getRandomPaper() {
+    return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
+}
+
+function getLikedQuotes() {
+    return JSON.parse(localStorage.getItem("likedQuotes")) || [];
+}
+
+function saveLikedQuotes(arr) {
+    localStorage.setItem("likedQuotes", JSON.stringify(arr));
+}
+
+function getSavedQuotes() {
+    return JSON.parse(localStorage.getItem("savedQuotes")) || [];
+}
+
+function saveSavedQuotes(arr) {
+    localStorage.setItem("savedQuotes", JSON.stringify(arr));
+}
+
+// ================= RESTORE LIKE/SAVE STATE =================
+function restoreLikeSaveState() {
+    const likedQuotes = getLikedQuotes();
+    const savedQuotes = getSavedQuotes();
+
+    document.querySelectorAll(".like-btn").forEach(btn => {
+        const quoteId = btn.dataset.id;
+        if (likedQuotes.includes(quoteId)) {
+            btn.classList.add("liked");
+            const icon = btn.querySelector(".icon");
+            if (icon) icon.textContent = "favorite";
+        }
+    });
+
+    document.querySelectorAll(".save-btn").forEach(btn => {
+        const quoteId = btn.dataset.id;
+        const isSaved = savedQuotes.includes(quoteId) || btn.dataset.saved === "true";
+        if (isSaved) {
+            btn.classList.add("saved");
+            const icon = btn.querySelector(".icon");
+            if (icon) icon.textContent = "bookmark";
+        }
+    });
+}
+
+// ================= CLICK HANDLER =================
+const pendingRequests = new Set();
+
+document.addEventListener("click", async (e) => {
+    // ---------------- SAVE ----------------
+    const saveBtn = e.target.closest(".save-btn");
+    if (saveBtn) {
+        const quoteId = saveBtn.dataset.id;
+        if (pendingRequests.has(`save-${quoteId}`)) return;
+        pendingRequests.add(`save-${quoteId}`);
+
+        let savedQuotes = getSavedQuotes();
+        const isSaved = saveBtn.classList.contains("saved");
+
+        try {
+            const res = await authFetch(
+                isSaved ? API.UNSAVE_QUOTE(quoteId) : API.SAVE_QUOTE(quoteId),
+                { method: "POST" }
+            );
+            if (!res.ok) throw new Error("Save failed");
+
+            saveBtn.classList.toggle("saved");
+            const icon = saveBtn.querySelector(".icon");
+            if (icon) icon.textContent = saveBtn.classList.contains("saved") ? "bookmark" : "bookmark_border";
+
+            if (saveBtn.classList.contains("saved")) {
+                if (!savedQuotes.includes(quoteId)) savedQuotes.push(quoteId);
+            } else {
+                savedQuotes = savedQuotes.filter(id => id !== quoteId);
+            }
+            saveSavedQuotes(savedQuotes);
+
+        } catch (err) {
+            console.error("Save error:", err);
+        } finally {
+            pendingRequests.delete(`save-${quoteId}`);
+        }
+        return;
+    }
+
+    // ---------------- LIKE ----------------
+    const likeBtn = e.target.closest(".like-btn");
+    if (likeBtn) {
+        const quoteId = likeBtn.dataset.id;
+        if (pendingRequests.has(`like-${quoteId}`)) return;
+        pendingRequests.add(`like-${quoteId}`);
+
+        let likedQuotes = getLikedQuotes();
+        if (likedQuotes.includes(quoteId)) {
+            pendingRequests.delete(`like-${quoteId}`);
+            return;
+        }
+
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            alert("Please login to like quotes");
+            pendingRequests.delete(`like-${quoteId}`);
+            return;
+        }
+
+        try {
+            const res = await authFetch(API.LIKE_QUOTE(quoteId), { method: "POST" });
+            if (!res.ok) throw new Error("Like failed");
+
+            likeBtn.classList.add("liked");
+            const icon = likeBtn.querySelector(".icon");
+            if (icon) icon.textContent = "favorite";
+
+            const countSpan = likeBtn.querySelector(".action-count");
+            if (countSpan) countSpan.innerText = (parseInt(countSpan.innerText) || 0) + 1;
+
+            likedQuotes.push(quoteId);
+            saveLikedQuotes(likedQuotes);
+
+        } catch (err) {
+            console.error("Like error:", err);
+        } finally {
+            pendingRequests.delete(`like-${quoteId}`);
+        }
+    }
+});
+
+// delete post button
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("delete-btn")) {
+
+    const quoteId = e.target.dataset.id;
+    const token = localStorage.getItem("accessToken");
+
+    if (!confirm("Are you sure you want to delete this quote?")) return;
+
+    try {
+      const res = await authFetch(
+        `https://eternal-lines.com/api/quotes/${quoteId}/`,
+        {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      if (res.ok) {
+        // Remove card from UI
+        e.target.closest(".col-md-3").remove();
+        alert("Quote deleted successfully ✅");
+      } else {
+        alert("Failed to delete quote ❌");
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting quote");
+    }
+  }
+});

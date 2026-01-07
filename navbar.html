@@ -28,7 +28,7 @@
 
 
 
-                <img id="userAvatarmobile" class="rounded-circle user-avatar d-lg-none" alt="Profile">
+                <!-- <img id="userAvatarmobile" class="rounded-circle user-avatar d-lg-none" alt="Profile"> -->
 
 
             </div>
@@ -43,55 +43,8 @@
                     <li class="nav-item"><a class="nav-link" href="Quotes.html">Quotes</a></li>
                     <li class="nav-item"><a class="nav-link" href="Submitquotes.html">Submit Quote</a></li>
                     <li class="nav-item"><a class="nav-link" href="Authors.html">Authors</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Language
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow" id="languageMenu">
-                            <li class="dropdown-item text-muted">Loading...</li>
-                        </ul>
-                    </li>
-                    <script>
-                        const LANGUAGE_API = "http://140.245.5.153:8001/api/languages/";
-                        const languageMenu = document.getElementById("languageMenu");
-
-                        // Load saved language
-                        const currentLang = localStorage.getItem("language") || "en";
-
-                        async function loadLanguages() {
-                            try {
-                                const res = await axios.get(LANGUAGE_API);
-
-                                languageMenu.innerHTML = "";
-
-                                res.data.forEach(lang => {
-                                    const li = document.createElement("li");
-                                    li.innerHTML = `
-                <a class="dropdown-item" href="#" data-lang="${lang.code}">
-                    ${lang.name}
-                </a>
-            `;
-                                    languageMenu.appendChild(li);
-                                });
-
-                                // click handler
-                                document.querySelectorAll("#languageMenu a").forEach(item => {
-                                    item.addEventListener("click", () => {
-                                        localStorage.setItem("language", item.dataset.lang);
-                                        location.reload();
-                                    });
-                                });
-
-                            } catch (err) {
-                                languageMenu.innerHTML =
-                                    `<li class="dropdown-item text-danger">Failed to load</li>`;
-                                console.error(err);
-                            }
-                        }
-
-                        loadLanguages();
-                    </script>
+                    <li class="nav-item"><a class="nav-link" href="Languagesquotes.html">Languages</a></li>
+                  
 
                 </ul>
 

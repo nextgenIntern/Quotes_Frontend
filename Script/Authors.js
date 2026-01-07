@@ -1,164 +1,440 @@
 
-    // Sample data - replace with API data later
-    const authors = [
-      {
-        id:1,
-        name: "Winston Churchill",
-        bio: "British statesman, army officer, and writer. Prime Minister of the UK during WWII.",
-        avatar: "https://i.pravatar.cc/300?img=12",
-        tags: ["historical","politics"],
-        quotes: [
-          "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-          "To improve is to change; to be perfect is to change often."
-        ],
-        stats: { quotes: 28, likes: 12458, followers: 98000 }
-      },
-      {
-        id:2,
-        name: "Buddha",
-        bio: "An enlightened teacher and the founder of Buddhism whose teachings focus on compassion and mindfulness.",
-        avatar: "https://i.pravatar.cc/300?img=10",
-        tags: ["philosophy","historical","spiritual"],
-        quotes: [
-          "What we think, we become.",
-          "Peace comes from within. Do not seek it without."
-        ],
-        stats: { quotes: 18, likes: 94034, followers: 180000 }
-      },
-      {
-        id:3,
-        name: "Jane Austen",
-        bio: "English novelist known for her witty exploration of early 19th-century British life.",
-        avatar: "https://i.pravatar.cc/300?img=20",
-        tags: ["historical","poet","literature"],
-        quotes: [
-          "There is no charm equal to tenderness of heart.",
-          "I declare after all there is no enjoyment like reading!"
-        ],
-        stats: { quotes: 12, likes: 20340, followers: 42000 }
-      },
-      {
-        id:4,
-        name: "Rumi",
-        bio: "13th-century Persian poet, jurist, Islamic scholar, and Sufi mystic.",
-        avatar: "https://i.pravatar.cc/300?img=25",
-        tags: ["poet","spiritual","philosophy"],
-        quotes: [
-          "The wound is the place where the Light enters you.",
-          "Let yourself be silently drawn by the strange pull of what you really love."
-        ],
-        stats: { quotes: 34, likes: 158000, followers: 290000 }
-      },
-      {
-        id:5,
-        name: "Maya Angelou",
-        bio: "American poet, memoirist, and civil rights activist.",
-        avatar: "https://i.pravatar.cc/300?img=18",
-        tags: ["modern","poet","literature"],
-        quotes: [
-          "If you don't like something, change it. If you can't change it, change your attitude.",
-          "There is no greater agony than bearing an untold story inside you."
-        ],
-        stats: { quotes: 22, likes: 62000, followers: 98000 }
-      }
-    ];
+/* ===================== API ENDPOINTS ===================== */
 
-    const authorsList = document.getElementById('authorsList');
-    const searchBox = document.getElementById('searchBox');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const modal = new bootstrap.Modal(document.getElementById('authorModal'), {});
-    const modalAvatar = document.getElementById('modalAvatar').querySelector('img');
-    const modalName = document.getElementById('modalName');
-    const modalBio = document.getElementById('modalBio');
-    const modalQuotes = document.getElementById('modalQuotes');
-    const statQuotes = document.getElementById('statQuotes');
-    const statLikes = document.getElementById('statLikes');
-    const statFollowers = document.getElementById('statFollowers');
+const paperBackgrounds = [
+    "images/bg1.png",
+    "images/bg2.png",
+    "images/image.png",
+    "images/bg4.png",
+    "images/bg5.png"
+];
+/* ===================== DOM ELEMENTS ===================== */
+const authorsList = document.getElementById("authorsList");
+const searchBox = document.getElementById("searchBox");
 
-    // Render author cards
-    function renderAuthors(list){
-      authorsList.innerHTML = list.map(a => `
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="author-card">
-            <div class="author-avatar"><img src="${a.avatar}" alt="${a.name}"></div>
-            <div class="author-body">
-              <div class="author-name">${a.name}</div>
-              <div class="author-bio">${truncate(a.bio, 110)}</div>
-              <div class="author-meta mt-2">
-                <span class="meta-pill">${a.stats.quotes} quotes</span>
-                <span class="meta-pill">${(a.stats.likes/1000).toFixed(1)}k likes</span>
-                <div style="margin-left:auto" class="author-actions">
-                  <button class="btn-view" data-id="${a.id}">View profile</button>
-                </div>
-              </div>
+const modalEl = document.getElementById("authorModal");
+const modal = new bootstrap.Modal(modalEl);
+
+const modalAvatar = document.querySelector("#modalAvatar img");
+const modalName = document.getElementById("modalName");
+const modalBio = document.getElementById("modalBio");
+const modalQuotes = document.getElementById("modalQuotes");
+
+const statQuotes = document.getElementById("statQuotes");
+const statLikes = document.getElementById("statLikes");
+const statFollowers = document.getElementById("statFollowers");
+
+const followBtn = document.getElementById("followBtn");
+const profileBanner = document.querySelector(".profile-banner");
+
+/* ===================== LOCAL STORAGE (FOLLOW MEMORY) ===================== */
+function getFollowedUsers() {
+  return JSON.parse(localStorage.getItem("followedUsers") || "[]");
+}
+
+function saveFollowedUsers(list) {
+  localStorage.setItem("followedUsers", JSON.stringify(list));
+}
+
+/* ===================== LOAD AUTHORS ===================== */
+async function loadAuthors() {
+  try {
+    const res = await fetch(API.USERS_API);
+    const users = await res.json();
+    renderAuthors(users);
+  } catch (err) {
+    console.error("Author load error:", err);
+  }
+}
+
+/* ===================== RENDER AUTHORS ===================== */
+function renderAuthors(list) {
+  authorsList.innerHTML = list.map(u => `
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="author-card">
+        <div class="author-avatar">
+          <img src="${u.profile_image || "images/no profile.png"}">
+        </div>
+
+        <div class="author-body">
+          <div class="author-name">${u.username}</div>
+
+          <div class="author-bio">
+            ${truncate(u.bio || "No bio available", 100)}
+          </div>
+
+          <div class="author-meta mt-2">
+            <span class="meta-pill">
+              ${u.total_quotes_posted || 0} quotes
+            </span>
+
+            <div style="margin-left:auto">
+              <button class="btn-view" data-username="${u.username}">
+                View profile
+              </button>
             </div>
           </div>
         </div>
-      `).join('');
-      attachViewHandlers();
+      </div>
+    </div>
+  `).join("");
+
+  attachViewHandlers();
+}
+
+/* ===================== VIEW PROFILE HANDLER ===================== */
+function attachViewHandlers() {
+  document.querySelectorAll(".btn-view").forEach(btn => {
+    btn.onclick = () => openAuthorProfile(btn.dataset.username);
+  });
+}
+
+/* ===================== OPEN AUTHOR PROFILE ===================== */
+async function openAuthorProfile(username) {
+  try {
+    const res = await fetch(API.SEARCH_API + username);
+    const data = await res.json();
+    if (!data.length) return;
+
+    const author = data[0];
+
+    /* Avatar */
+    modalAvatar.src = author.profile_image
+      ? author.profile_image
+      : "images/no profile.png";
+
+    /* Banner */
+    if (profileBanner) {
+      profileBanner.style.backgroundImage = `url(${
+        author.profile_background
+          ? author.profile_background
+          : "images/h1.jpg"
+      })`;
+      profileBanner.style.backgroundSize = "cover";
+      profileBanner.style.backgroundPosition = "center";
     }
 
-    // Truncate function
-    function truncate(str, n){
-      return str.length > n ? str.slice(0,n-1) + '…' : str;
+    modalName.textContent = author.username;
+    modalBio.textContent = author.bio || "No bio available";
+
+    statQuotes.textContent = `Quotes: ${author.total_quotes_posted || 0}`;
+    statLikes.textContent =
+      `Likes: ${author.total_likes_for_his_quotes || 0}`;
+    statFollowers.textContent =
+      `Followers: ${author.followers_count || 0}`;
+
+    setupFollowButton(author.username);
+
+    renderAuthorQuotes(author.quotes || []);
+
+    modal.show();
+  } catch (err) {
+    console.error("Profile load error:", err);
+  }
+}
+
+// helper function
+function getRandomPaper() {
+    return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
+}
+/* ===================== RENDER AUTHOR QUOTES ===================== */
+function renderAuthorQuotes(quotes) {
+  if (!quotes.length) {
+    modalQuotes.innerHTML = `<div class="text-muted">No quotes yet</div>`;
+    return;
+  }
+
+  modalQuotes.innerHTML = quotes.map(q => `
+     <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+            "
+            style="background-image: url('${getRandomPaper()}') !important; ">
+        
+        <p class="text-danger flex-grow-1 fw-bolder">“${q.text}”</p>
+        <p class="quote-author mt-2 ">– ${q.author_username || "Unknown"}</p>
+
+        <hr style="border:2px solid #000; margin:8px 0;">
+
+        <div class="d-flex justify-content-between mt-3 icon-bar">
+          <span class="material-symbols-outlined like-btn" data-id="${q.id}">
+  favorite_border
+  <span class="action-count">${q.likes_count || 0}</span>
+</span>
+
+
+          <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+  <span class="icon-text " style="cursor: pointer;">share</span>
+  <span class="action-count share-count">${q.share_count || 0}</span>
+</span>
+
+          <span class="material-symbols-outlined save-btn"
+                data-id="${q.id}"
+                data-saved="${q.saved_by_current_user}">
+            ${q.saved_by_current_user ? 'bookmark' : 'bookmark_border'}
+            <span class="action-count save-count">${q.saved_count || 0}</span>
+          </span>
+
+          <a href="comments.html?quote=${q.id}">
+            <span class="material-symbols-outlined">chat_bubble</span>
+          </a>
+        </div>
+      </div>
+  `).join("");
+  restoreLikeSaveState()
+}
+
+/* ===================== FOLLOW / UNFOLLOW ===================== */
+function setupFollowButton(username) {
+  if (!followBtn) return;
+
+  const token = localStorage.getItem("accessToken");
+  followBtn.style.display = token ? "inline-block" : "none";
+
+  let followedUsers = getFollowedUsers();
+  let isFollowing = followedUsers.includes(username);
+
+  updateFollowUI(isFollowing);
+
+  followBtn.onclick = async () => {
+    try {
+      const url = isFollowing
+        ? API.UNFOLLOW_API(username)
+        : API.FOLLOW_API(username);
+
+      const res = await authFetch(url, { method: "POST" });
+      if (!res.ok) throw new Error("Follow API failed");
+
+      isFollowing = !isFollowing;
+
+      if (isFollowing) {
+        followedUsers.push(username);
+      } else {
+        followedUsers = followedUsers.filter(u => u !== username);
+      }
+
+      saveFollowedUsers(followedUsers);
+      updateFollowUI(isFollowing);
+    } catch (err) {
+      console.error("Follow error:", err);
+    }
+  };
+}
+
+function updateFollowUI(isFollowing) {
+  followBtn.textContent = isFollowing ? "Following" : "Follow";
+  followBtn.className = isFollowing
+    ? "btn btn-secondary btn-sm"
+    : "btn btn-outline-primary btn-sm";
+}
+
+/* ===================== SEARCH ===================== */
+if (searchBox) {
+  searchBox.addEventListener("input", async () => {
+    const q = searchBox.value.trim();
+    if (!q) {
+      loadAuthors();
+      return;
     }
 
-    // Attach click handlers to view buttons
-    function attachViewHandlers(){
-      document.querySelectorAll('.btn-view').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = Number(btn.dataset.id);
-          const author = authors.find(x=>x.id===id);
-          if(!author) return;
-          openAuthorModal(author);
-        });
-      });
+    try {
+      const res = await fetch(API.SEARCH_API + q);
+      const data = await res.json();
+      renderAuthors(data);
+    } catch (err) {
+      console.error("Search error:", err);
     }
+  });
+}
 
-    // Open modal and populate
-    function openAuthorModal(author){
-      modalAvatar.src = author.avatar;
-      modalName.textContent = author.name;
-      modalBio.textContent = author.bio;
-      statQuotes.textContent = `Quotes: ${author.stats.quotes}`;
-      statLikes.textContent = `Likes: ${author.stats.likes.toLocaleString()}`;
-      statFollowers.textContent = `Followers: ${author.stats.followers.toLocaleString()}`;
+/* ===================== UTIL ===================== */
+function truncate(str, n) {
+  return str.length > n ? str.slice(0, n - 1) + "…" : str;
+}
 
-      modalQuotes.innerHTML = author.quotes.map(q=> `<div class="quote-item">${q}</div>`).join('');
-      modal.show();
+/* ===================== INIT ===================== */
+loadAuthors();
+
+
+const authorModalEl = document.getElementById("authorModal");
+
+authorModalEl.addEventListener("hidden.bs.modal", () => {
+  document.body.focus();
+});
+
+
+function closeAuthorModal() {
+  // Move focus OUT before closing modal
+  document.activeElement.blur();
+  document.body.focus();
+
+  const modalEl = document.getElementById("authorModal");
+  const instance = bootstrap.Modal.getInstance(modalEl);
+  instance.hide();
+}
+
+// for like and share button in quotes.js and aurhor.js then where ever manual js is needed
+document.addEventListener("click", async (e) => {
+
+  /* ================= SAVE ================= */
+  const saveBtn = e.target.closest(".save-btn");
+  if (saveBtn) {
+    const quoteId = saveBtn.dataset.id;
+    let savedQuotes = getSavedQuotes();
+    const isSaved = saveBtn.classList.contains("saved");
+
+    try {
+      const res = await authFetch(
+        isSaved ? API.UNSAVE_QUOTE(quoteId) : API.SAVE_QUOTE(quoteId),
+        { method: "POST" }
+      );
+      if (!res.ok) throw new Error("Save failed");
+
+      saveBtn.classList.toggle("saved");
+      saveBtn.childNodes[0].textContent = saveBtn.classList.contains("saved")
+        ? "bookmark"
+        : "bookmark_border";
+
+      if (saveBtn.classList.contains("saved")) {
+        if (!savedQuotes.includes(quoteId)) savedQuotes.push(quoteId);
+      } else {
+        savedQuotes = savedQuotes.filter(id => id !== quoteId);
+      }
+
+      saveSavedQuotes(savedQuotes);
+    } catch (err) {
+      console.error("Save error:", err);
     }
+    return;
+  }
 
-    // Search & filter logic
-    function filterAndRender(){
-      const q = searchBox.value.trim().toLowerCase();
-      const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
-
-      const filtered = authors.filter(a=>{
-        const matchesSearch = a.name.toLowerCase().includes(q) || a.bio.toLowerCase().includes(q) || a.tags.join(' ').includes(q);
-        const matchesFilter = activeFilter === 'all' ? true : a.tags.includes(activeFilter);
-        return matchesSearch && matchesFilter;
-      });
-      renderAuthors(filtered);
-    }
-
-    // Setup filters
-    filterBtns.forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        filterBtns.forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        filterAndRender();
-      });
-    });
-
-    // Search input
-    searchBox.addEventListener('input', filterAndRender);
-
-    // initial render
-    renderAuthors(authors);
-
-    // Optional: keyboard hotspot to focus search on '/'
-    document.addEventListener('keydown', e=>{
-      if(e.key === '/') { e.preventDefault(); searchBox.focus(); }
-    });
-
+  /* ================= LIKE ================= */
  
+});
+
+
+// ================= Helper Functions =================
+function getRandomPaper() {
+    return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
+}
+
+function getLikedQuotes() {
+    return JSON.parse(localStorage.getItem("likedQuotes")) || [];
+}
+
+function saveLikedQuotes(arr) {
+    localStorage.setItem("likedQuotes", JSON.stringify(arr));
+}
+
+function getSavedQuotes() {
+    return JSON.parse(localStorage.getItem("savedQuotes")) || [];
+}
+
+function saveSavedQuotes(arr) {
+    localStorage.setItem("savedQuotes", JSON.stringify(arr));
+}
+
+// ================= RESTORE LIKE/SAVE STATE =================
+function restoreLikeSaveState() {
+    const likedQuotes = getLikedQuotes();
+    const savedQuotes = getSavedQuotes();
+
+    document.querySelectorAll(".like-btn").forEach(btn => {
+        const quoteId = btn.dataset.id;
+        if (likedQuotes.includes(quoteId)) {
+            btn.classList.add("liked");
+            const icon = btn.querySelector(".icon");
+            if (icon) icon.textContent = "favorite";
+        }
+    });
+
+    document.querySelectorAll(".save-btn").forEach(btn => {
+        const quoteId = btn.dataset.id;
+        const isSaved = savedQuotes.includes(quoteId) || btn.dataset.saved === "true";
+        if (isSaved) {
+            btn.classList.add("saved");
+            const icon = btn.querySelector(".icon");
+            if (icon) icon.textContent = "bookmark";
+        }
+    });
+}
+
+// ================= CLICK HANDLER =================
+const pendingRequests = new Set();
+
+document.addEventListener("click", async (e) => {
+    // ---------------- SAVE ----------------
+    const saveBtn = e.target.closest(".save-btn");
+    if (saveBtn) {
+        const quoteId = saveBtn.dataset.id;
+        if (pendingRequests.has(`save-${quoteId}`)) return;
+        pendingRequests.add(`save-${quoteId}`);
+
+        let savedQuotes = getSavedQuotes();
+        const isSaved = saveBtn.classList.contains("saved");
+
+        try {
+            const res = await authFetch(
+                isSaved ? API.UNSAVE_QUOTE(quoteId) : API.SAVE_QUOTE(quoteId),
+                { method: "POST" }
+            );
+            if (!res.ok) throw new Error("Save failed");
+
+            saveBtn.classList.toggle("saved");
+            const icon = saveBtn.querySelector(".icon");
+            if (icon) icon.textContent = saveBtn.classList.contains("saved") ? "bookmark" : "bookmark_border";
+
+            if (saveBtn.classList.contains("saved")) {
+                if (!savedQuotes.includes(quoteId)) savedQuotes.push(quoteId);
+            } else {
+                savedQuotes = savedQuotes.filter(id => id !== quoteId);
+            }
+            saveSavedQuotes(savedQuotes);
+
+        } catch (err) {
+            console.error("Save error:", err);
+        } finally {
+            pendingRequests.delete(`save-${quoteId}`);
+        }
+        return;
+    }
+
+    // ---------------- LIKE ----------------
+    const likeBtn = e.target.closest(".like-btn");
+    if (likeBtn) {
+        const quoteId = likeBtn.dataset.id;
+        if (pendingRequests.has(`like-${quoteId}`)) return;
+        pendingRequests.add(`like-${quoteId}`);
+
+        let likedQuotes = getLikedQuotes();
+        if (likedQuotes.includes(quoteId)) {
+            pendingRequests.delete(`like-${quoteId}`);
+            return;
+        }
+
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            alert("Please login to like quotes");
+            pendingRequests.delete(`like-${quoteId}`);
+            return;
+        }
+
+        try {
+            const res = await authFetch(API.LIKE_QUOTE(quoteId), { method: "POST" });
+            if (!res.ok) throw new Error("Like failed");
+
+            likeBtn.classList.add("liked");
+            const icon = likeBtn.querySelector(".icon");
+            if (icon) icon.textContent = "favorite";
+
+            const countSpan = likeBtn.querySelector(".action-count");
+            if (countSpan) countSpan.innerText = (parseInt(countSpan.innerText) || 0) + 1;
+
+            likedQuotes.push(quoteId);
+            saveLikedQuotes(likedQuotes);
+
+        } catch (err) {
+            console.error("Like error:", err);
+        } finally {
+            pendingRequests.delete(`like-${quoteId}`);
+        }
+    }
+});

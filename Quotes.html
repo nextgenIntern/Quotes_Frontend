@@ -102,7 +102,7 @@
     </style>
 
     <!-- Quotes JS -->
-    <script src="Script/quotes.js" defer></script>
+   
 <style>
 /* ICON BASE */
 .material-symbols-outlined {
@@ -168,14 +168,38 @@
                 class="form-control form-control-lg shadow-sm mb-4 mx-auto d-block search-box"
                 placeholder="Search quotes by keyword or author">
             <!-- CATEGORY FILTERS -->
-            <div class="filter-buttons d-flex flex-wrap justify-content-center gap-3 mt-5">
-                <button class="btn filter-btn active" data-category="all">All</button>
-                <button class="btn filter-btn" data-category="motivation">Motivation</button>
-                <button class="btn filter-btn" data-category="love">Love</button>
-                <button class="btn filter-btn" data-category="life">Life</button>
-                <button class="btn filter-btn" data-category="success">Success</button>
-                <button class="btn filter-btn" data-category="spiritual">Spiritual</button>
-            </div>
+          <section class="container my-4">
+    <h2 class="fw-bold mb-3 text-center" style="font-size: 25px;">Browse Categories</h2>
+
+    <div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner text-center">
+            <!-- dynamic items -->
+        </div>
+
+        <!-- PREV BUTTON (Desktop only) -->
+        <button
+            class="carousel-control-prev d-none d-md-flex"
+            type="button"
+            data-bs-target="#categoryCarousel"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"
+                  aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <!-- NEXT BUTTON (Desktop only) -->
+        <button
+            class="carousel-control-next d-none d-md-flex"
+            type="button"
+            data-bs-target="#categoryCarousel"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-dark rounded-circle p-2"
+                  aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
         </div>
     </section>
 
@@ -184,7 +208,7 @@
 
     <!-- QUOTES REELS -->
     <!-- QUOTES CAROUSELS -->
-    <section class="quotes-section ms-4 my-5 mt-3">
+    <section class="quotes-section ms-4 me-4 my-5 mt-3">
         <div id="quotesCarouselContainer">
             <!-- Category carousels inserted via JS -->
         </div>
@@ -198,6 +222,13 @@
  
 
   <script src="Script/config.js"></script>
+  <script src="Script/auth.js"></script>
+  <script src="Script/categories.js"></script>
+   <script src="Script/quotes.js" defer></script>
+  <script src="Script/Sharebuttons.js"></script>
+    <script src="Script/LikeButtons.js"></script>
+    <script src="Script/SaveButtons.js"></script>
+
 </body>
 
 </html>

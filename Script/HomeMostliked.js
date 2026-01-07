@@ -247,47 +247,7 @@ function setupLikeButtons() {
 
 
 
-// for share button
-document.addEventListener("click", async function (e) {
-    const shareBtn = e.target.closest(".share-btn");
-    if (!shareBtn) return;
 
-    const quoteId = shareBtn.dataset.id;
 
-    try {
-        // 1️⃣ Call backend (same API base as LIKE/SAVE)
-        const res = await authFetch(
-            `https://eternal-lines.com/api/quotes/${quoteId}/share/`,
-            { method: "POST" }
-        );
 
-        if (!res.ok) throw new Error("Share API failed");
 
-        const data = await res.json();
-
-        const shareUrl = data.share_url;
-
-        // 2️⃣ Native share (mobile & supported browsers)
-        if (navigator.share) {
-            await navigator.share({
-                title: "Quote",
-                text: "Check out this quote",
-                url: shareUrl
-            });
-        } else {
-            // 3️⃣ Fallback: copy link
-            await navigator.clipboard.writeText(shareUrl);
-            alert("Link copied to clipboard!");
-        }
-
-        // 4️⃣ Update UI count
-        const countEl = shareBtn.querySelector(".share-count");
-        if (countEl) {
-            countEl.innerText = parseInt(countEl.innerText) + 1;
-        }
-
-    } catch (err) {
-        console.error("Share error:", err);
-        alert("Failed to share quote");
-    }
-});
