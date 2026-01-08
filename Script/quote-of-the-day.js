@@ -49,7 +49,7 @@ function renderCarouselSlides(quotes) {
           “${q.text}”
         </p>
 <h5 class="fw-semibold fst-italic" style="color:#e07a5f;">
-          – ${q.author_username || "Unknown"}
+          – ${q.full_name || q.author_username}
         </h5>
       </div>
     `;

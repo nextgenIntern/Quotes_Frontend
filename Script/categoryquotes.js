@@ -77,7 +77,7 @@ function renderQuotes(quotes) {
            style="background-image: url('${getRandomPaper()}') !important; ">
         
         <p class="quote-text flex-grow-1 fw-bolder">“${q.text}”</p>
-        <p class="quote-author mt-2 ">– ${q.author_username || "Unknown"}</p>
+        <p class="quote-author mt-2 ">– ${q.full_name || q.author_username}</p>
 
         <hr style="border:2px solid #000; margin:8px 0;">
 
