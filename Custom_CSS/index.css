@@ -487,3 +487,33 @@ footer {
 }
 
 
+/* dark mode */
+
+:root {
+  --bg: #ffffff;
+  --text: #111111;
+  --nav-bg: #ffffff;
+  --nav-text: #111111;
+}
+
+.dark-mode {
+  --bg: #121212;
+  --text: #ffffff;
+  --nav-bg: #1e1e1e;
+  --nav-text: #ffffff;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: var(--nav-bg) !important;
+}
+
+.navbar a,
+.navbar span {
+  color: var(--nav-text) !important;
+}

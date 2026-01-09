@@ -57,22 +57,21 @@ function renderAuthors(list) {
         </div>
 
         <div class="author-body">
-          <div class="author-name">${u.username}</div>
+       <div class="author-name">
+  ${u.full_name && u.full_name.trim() !== "" ? u.full_name : u.username}
+</div>
 
           <div class="author-bio">
             ${truncate(u.bio || "No bio available", 100)}
           </div>
 
           <div class="author-meta mt-2">
-            <span class="meta-pill">
-              ${u.total_quotes_posted || 0} quotes
-            </span>
-
-            <div style="margin-left:auto">
-              <button class="btn-view" data-username="${u.username}">
-                View profile
-              </button>
-            </div>
+            <span class="meta-pill">${u.total_quotes_posted || 0} quotes</span>
+            <span class="meta-pill">${u.total_likes || 0} likes</span>
+            <span class="meta-pill">${u.total_followers || 0} followers</span>
+            <button class="btn-view" data-username="${u.username}">
+              View profile
+            </button>
           </div>
         </div>
       </div>
@@ -81,6 +80,7 @@ function renderAuthors(list) {
 
   attachViewHandlers();
 }
+
 
 /* ===================== VIEW PROFILE HANDLER ===================== */
 function attachViewHandlers() {

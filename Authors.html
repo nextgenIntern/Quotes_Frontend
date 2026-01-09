@@ -159,23 +159,23 @@
         <div class="modal-body">
           <div class="profile-banner"></div>
 
-          <div class="d-flex align-items-center" style="gap:18px;">
+          <div class="d-flex flex-wrap align-items-center gap-3">
+
             <div class="profile-avatar" id="modalAvatar"><img src="" alt="avatar"
                 style="width:100%; height:100%; object-fit:cover;"></div>
             <div>
-              <div class="profile-name text-danger" id="modalName">Author Name</div>
-              <div class="profile-bio" id="modalBio">Short bio goes here — who they are, key facts.</div>
-              
-              <div>
-                <span class="stat-pill" id="statQuotes">Quotes: 0</span>
-                <span class="stat-pill" id="statLikes">Likes: 0</span>
-                <span class="stat-pill" id="statFollowers">Followers: 0</span>
-                <div class="mt-2">
-    <button id="followBtn" class="btn btn-outline-primary btn-sm">
-      Follow
-    </button>
-  </div>
-              </div>
+              <div style="flex: 1; min-width: 200px; max-width: 100%;">
+    <div class="profile-name text-danger" id="modalName">Author Name</div>
+    <div class="profile-bio" id="modalBio">Short bio goes here — who they are, key facts.</div>
+
+    <div class="d-flex flex-wrap gap-2 mt-2">
+        <span class="stat-pill" id="statQuotes">Quotes: 0</span>
+        <span class="stat-pill" id="statLikes">Likes: 0</span>
+        <span class="stat-pill" id="statFollowers">Followers: 0</span>
+        <button id="followBtn" class="btn btn-outline-primary btn-sm">Follow</button>
+    </div>
+</div>
+
             </div>
           </div>
 

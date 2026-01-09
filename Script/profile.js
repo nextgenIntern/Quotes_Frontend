@@ -384,8 +384,11 @@ async function renderPostedQuotes(profile) {
         <div class="col-md-3 mb-3">
            <div class="quote-card shadow rounded border p-3"style="background-image: url('${getRandomPaper()}') !important; >
             
-            <p class="quote-text ">“${q.text}”</p>
-            <p class="quote-author">– ${q.author_username}</p>
+                  <p class="quote-text flex-grow-1 fw-bolder">“${q.text}”</p>
+        <p class="quote-author mt-2 ">– 
+          <a href="profile.html?username=${q.author_username}" class="text-decoration-none text-primary">
+    ${q.full_name || q.author_username}
+  </a></p>
 
             <div class="d-flex justify-content-between mt-3 icon-bar">
 
