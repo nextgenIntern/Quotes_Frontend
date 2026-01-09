@@ -100,40 +100,44 @@ a {
   color: #b00020;
 }
 
-/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
+  body {
+    padding: 0 10px; /* little space at screen edges */
+  }
+
   .quote-card {
-    padding: 20px;       /* smaller padding for mobile */
+    padding: 20px;       /* smaller padding */
     border-radius: 12px; /* slightly smaller radius */
-    margin: 0 12px;      /* space on left and right */
+    margin: 0 auto;      /* keep it centered */
   }
 
   .quote-text {
-    font-size: 20px;     /* smaller font for smaller screens */
+    font-size: 1.2rem;   /* smaller, more readable */
+    line-height: 1.4;
   }
 
   .quote-author {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .categories span {
-    font-size: 12px;
-    padding: 4px 10px;
+    font-size: 0.75rem;
+    padding: 3px 8px;
   }
 
   .meta {
-    font-size: 12px;
-    gap: 12px;
+    font-size: 0.8rem;
+    gap: 10px;
   }
 
   .actions span {
-    font-size: 24px;
-    gap: 16px;
+    font-size: 1.5rem;
+    gap: 14px;
   }
 
   .loader,
   .error {
-    font-size: 18px;
+    font-size: 1rem;
   }
 }
 
