@@ -67,8 +67,8 @@ function renderAuthors(list) {
 
           <div class="author-meta mt-2">
             <span class="meta-pill">${u.total_quotes_posted || 0} quotes</span>
-            <span class="meta-pill">${u.total_likes || 0} likes</span>
-            <span class="meta-pill">${u.total_followers || 0} followers</span>
+            <span class="meta-pill">${u.total_likes_for_his_quotes || 0} likes</span>
+            <span class="meta-pill">${u.followers_count || 0} followers</span>
             <button class="btn-view" data-username="${u.username}">
               View profile
             </button>
