@@ -61,9 +61,10 @@ function renderPopularQuotes(container, quotes) {
     col.className = "col-lg-3 col-md-4 col-sm-6 mb-4";
 
     col.innerHTML = `
-      <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
-           style="background-image: url('${getRandomPaper()}') !important; ">
-        
+<div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+           style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
+           onclick="openQuotePage(event, '${q.slug}')">
+
         <p class="quote-text flex-grow-1 fw-bolder">“${q.text}”</p>
         <p class="quote-author mt-2 ">– ${q.full_name || q.author_username}</p>
 
@@ -101,6 +102,20 @@ function renderPopularQuotes(container, quotes) {
   setupLikeButtons()
   setupSaveButtons();
  
+}
+
+function openQuotePage(event, slug) {
+  // Prevent clicks from buttons/icons inside the card
+  if (
+    event.target.closest(".like-btn") ||
+    event.target.closest(".save-btn") ||
+    event.target.closest(".share-btn") ||
+    event.target.closest("a")
+  ) {
+    return;
+  }
+
+  window.location.href = `/quote/${slug}`;
 }
 
 

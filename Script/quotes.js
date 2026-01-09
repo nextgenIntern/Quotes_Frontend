@@ -72,8 +72,9 @@ function createCategoryCarousel(quotes, category) {
         chunk.forEach(q => {
             content += `
             <div class="col-md-4 mb-3">
-                <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
-                     style="background-image: url('${getRandomPaper()}') !important;">
+<div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+           style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
+           onclick="openQuotePage(event, '${q.slug}')">
                     <p class="quote-text flex-grow-1">“${q.text}”</p>
                     <p class="quote-author mt-2">– <a href="authors.html?user=${q.author_username}" class="text-decoration-none text-primary">
   ${q.full_name || q.author_username}
@@ -124,6 +125,20 @@ function createCategoryCarousel(quotes, category) {
             <span class="carousel-control-next-icon bg-dark rounded-circle"></span>
         </button>
     </div>`;
+}
+
+function openQuotePage(event, slug) {
+  // Prevent clicks from buttons/icons inside the card
+  if (
+    event.target.closest(".like-btn") ||
+    event.target.closest(".save-btn") ||
+    event.target.closest(".share-btn") ||
+    event.target.closest("a")
+  ) {
+    return;
+  }
+
+  window.location.href = `/quote/${slug}`;
 }
 
 function renderCategoryCarousels() {

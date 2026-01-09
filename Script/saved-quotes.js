@@ -56,7 +56,8 @@ async function loadSavedQuotes() {
 
   card.innerHTML = `
     <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
-             style="background-image: url('${getRandomPaper()}') !important;">
+           style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
+           onclick="openQuotePage(event, '${q.slug}')">
             <p class="quote-text flex-grow-1 text-danger fw-bolder">“${q.text}”</p>
             <p class="quote-author mt-2">– ${q.full_name || q.author_username}</p>
             <hr style="border:2px solid #000; margin:8px 0;">
@@ -91,6 +92,8 @@ async function loadSavedQuotes() {
 });
 
 
+
+
   } catch (err) {
     console.error("Saved quotes load error:", err);
     container.innerHTML = `
@@ -104,6 +107,19 @@ async function loadSavedQuotes() {
 }
 
 
+function openQuotePage(event, slug) {
+  // Prevent clicks from buttons/icons inside the card
+  if (
+    event.target.closest(".like-btn") ||
+    event.target.closest(".save-btn") ||
+    event.target.closest(".share-btn") ||
+    event.target.closest("a")
+  ) {
+    return;
+  }
+
+  window.location.href = `/quote/${slug}`;
+}
 
 
 // ================= Helper Functions =================

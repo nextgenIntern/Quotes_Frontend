@@ -145,9 +145,9 @@ function renderAuthorQuotes(quotes) {
   }
 
   modalQuotes.innerHTML = quotes.map(q => `
-     <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
-            "
-            style="background-image: url('${getRandomPaper()}') !important; ">
+<div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+           style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
+           onclick="openQuotePage(event, '${q.slug}')">
         
         <p class="text-danger flex-grow-1 fw-bolder">“${q.text}”</p>
         <p class="quote-author mt-2 ">– ${q.full_name || q.author_username}</p>
@@ -180,6 +180,20 @@ function renderAuthorQuotes(quotes) {
       </div>
   `).join("");
   restoreLikeSaveState()
+}
+
+function openQuotePage(event, slug) {
+  // Prevent clicks from buttons/icons inside the card
+  if (
+    event.target.closest(".like-btn") ||
+    event.target.closest(".save-btn") ||
+    event.target.closest(".share-btn") ||
+    event.target.closest("a")
+  ) {
+    return;
+  }
+
+  window.location.href = `/quote/${slug}`;
 }
 
 /* ===================== FOLLOW / UNFOLLOW ===================== */
