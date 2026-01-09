@@ -161,7 +161,8 @@ function renderAuthorQuotes(quotes) {
 </span>
 
 
-          <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+          <span class="material-symbols-outlined share-btn"
+      data-slug="${q.slug}">
   <span class="icon-text " style="cursor: pointer;">share</span>
   <span class="action-count share-count">${q.share_count || 0}</span>
 </span>

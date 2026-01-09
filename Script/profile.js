@@ -399,9 +399,8 @@ async function renderPostedQuotes(profile) {
                 <span class="action-count">${q.likes_count || 0}</span>
               </span>
 
-              <span class="material-symbols-outlined share-btn" data-id="${q.id}">
-                share
-              </span>
+<span class="material-symbols-outlined share-btn"
+      data-slug="${q.slug}">share</span>
 
               <span class="material-symbols-outlined save-btn" data-id="${q.id}">
                 bookmark_border

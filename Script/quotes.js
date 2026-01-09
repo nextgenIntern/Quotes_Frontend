@@ -208,7 +208,8 @@ function renderSearchResults(quotes) {
                 </span>
 
                 <!-- Share Button -->
-                <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+                <span class="material-symbols-outlined share-btn"
+      data-slug="${q.slug}">
                     <span class="icon-text">share</span>
                     <span class="action-count share-count">${q.share_count || 0}</span>
                 </span>
