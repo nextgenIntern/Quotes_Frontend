@@ -100,6 +100,31 @@ a {
   color: #b00020;
 }
 
+@media (max-width: 600px) {
+  .quote-card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .quote-text {
+    font-size: 22px;
+  }
+
+  .quote-author {
+    font-size: 16px;
+  }
+
+  .meta {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .actions {
+    gap: 20px;
+  }
+}
+
+
 /* ================= ANIMATION ================= */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -113,6 +138,8 @@ a {
 <div id="app">
   <div class="loader">Loading quote…</div>
 </div>
+
+
 
 <script>
 /* ================= CONFIG ================= */
