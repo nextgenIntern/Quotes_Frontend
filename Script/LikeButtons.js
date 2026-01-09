@@ -10,23 +10,17 @@ function saveLikedQuotes(arr) {
 
 function setupLikeButtons() {
   const likeBtns = document.querySelectorAll(".like-btn");
-  let likedQuotes = getLikedQuotes();
 
   likeBtns.forEach(btn => {
-    const quoteId = btn.dataset.id;
+    if (btn.dataset.bound === "true") return;
+    btn.dataset.bound = "true";
 
-    // 🔁 Restore liked state after refresh
-    if (likedQuotes.includes(quoteId)) {
-      btn.classList.add("liked");
-      btn.firstChild.textContent = "favorite";
-    }
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    btn.addEventListener("click", async () => {
-      // ⛔ Prevent double-like
-      if (likedQuotes.includes(quoteId)) {
-        console.log("Already liked");
-        return;
-      }
+      const quoteId = btn.dataset.id;
+      let likedQuotes = getLikedQuotes();
 
       // 🔐 AUTH CHECK
       const token = localStorage.getItem("accessToken");
@@ -41,25 +35,23 @@ function setupLikeButtons() {
           { method: "POST" }
         );
 
-        if (!res.ok) {
-          const text = await res.text();
-          console.error("Like API failed:", res.status, text);
-          return;
-        }
+        const data = await res.json();
 
-        // ✅ UI UPDATE
-        btn.classList.add("liked");
-        btn.firstChild.textContent = "favorite";
-
-        // ✅ COUNT UPDATE
         const countSpan = btn.querySelector(".action-count");
-        if (countSpan) {
-          countSpan.innerText =
-            (parseInt(countSpan.innerText) || 0) + 1;
+        let count = parseInt(countSpan.innerText) || 0;
+
+        if (data.liked) {
+          btn.classList.add("liked");
+          btn.firstChild.textContent = "favorite";
+          countSpan.innerText = count + 1;
+          likedQuotes.push(quoteId);
+        } else {
+          btn.classList.remove("liked");
+          btn.firstChild.textContent = "favorite_border";
+          countSpan.innerText = Math.max(count - 1, 0);
+          likedQuotes = likedQuotes.filter(id => id !== quoteId);
         }
 
-        // ✅ STORE LOCALLY
-        likedQuotes.push(quoteId);
         saveLikedQuotes(likedQuotes);
 
       } catch (err) {
