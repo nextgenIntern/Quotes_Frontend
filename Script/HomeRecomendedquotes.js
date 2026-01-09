@@ -62,24 +62,24 @@ function renderRecommendedQuotes(container, quotes) {
 
     col.innerHTML = `
       <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
-           style="background-image: url('${getRandomPaper()}') !important; ">
+           style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
+           onclick="openQuotePage(event, '${q.slug}')">
         
         <p class="quote-text flex-grow-1 fw-bolder">“${q.text}”</p>
-        <p class="quote-author mt-2 ">– ${q.full_name || q.author_username}</p>
+        <p class="quote-author mt-2">– ${q.full_name || q.author_username}</p>
 
         <hr style="border:2px solid #000; margin:8px 0;">
 
         <div class="d-flex justify-content-between mt-3 icon-bar">
           <span class="material-symbols-outlined like-btn" data-id="${q.id}">
-  favorite_border
-  <span class="action-count">${q.likes_count || 0}</span>
-</span>
+            favorite_border
+            <span class="action-count">${q.likes_count || 0}</span>
+          </span>
 
-
-          <span class="material-symbols-outlined share-btn " data-id="${q.id}">
-  <span class="icon-text">share</span>
-  <span class="action-count share-count">${q.share_count || 0}</span>
-</span>
+          <span class="material-symbols-outlined share-btn" data-id="${q.id}">
+            <span class="icon-text">share</span>
+            <span class="action-count share-count">${q.share_count || 0}</span>
+          </span>
 
           <span class="material-symbols-outlined save-btn"
                 data-id="${q.id}"
@@ -98,9 +98,22 @@ function renderRecommendedQuotes(container, quotes) {
     container.appendChild(col);
   });
 
-  setupLikeButtons()
+  setupLikeButtons();
   setupSaveButtons();
- 
+}
+
+function openQuotePage(event, slug) {
+  // Prevent clicks from buttons/icons inside the card
+  if (
+    event.target.closest(".like-btn") ||
+    event.target.closest(".save-btn") ||
+    event.target.closest(".share-btn") ||
+    event.target.closest("a")
+  ) {
+    return;
+  }
+
+  window.location.href = `/quote/${slug}`;
 }
 
 

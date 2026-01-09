@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quote | Eternal Lines</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+/* ================= GLOBAL ================= */
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  background: #f4f1ea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ================= CARD ================= */
+.quote-card {
+  background: #fffaf3;
+  max-width: 720px;
+  width: 100%;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.quote-text {
+  font-size: 30px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.quote-author {
+  font-size: 18px;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.categories {
+  margin: 10px 0 20px;
+}
+
+.categories span {
+  display: inline-block;
+  background: #eee;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  margin: 4px;
+}
+
+/* ================= META ================= */
+.meta {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+/* ================= ACTIONS ================= */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+.actions span {
+  cursor: pointer;
+  font-size: 28px;
+  user-select: none;
+}
+
+.actions span:hover {
+  transform: scale(1.15);
+}
+
+/* ================= STATES ================= */
+.loader {
+  font-size: 22px;
+}
+
+.error {
+  font-size: 22px;
+  color: #b00020;
+}
+
+/* ================= ANIMATION ================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+  <div class="loader">Loading quote…</div>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+const API_BASE = "https://eternal-lines.com/api/quotes";
+
+/* ================= HELPERS ================= */
+function getSlugFromURL() {
+  const parts = window.location.pathname.split("/");
+  return parts[parts.length - 1] || parts[parts.length - 2];
+}
+
+/* ================= LOAD QUOTE ================= */
+async function loadQuote() {
+  const slug = getSlugFromURL();
+  const app = document.getElementById("app");
+
+  if (!slug) {
+    app.innerHTML = '<div class="error">Quote not found</div>';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/${slug}/`);
+    if (!res.ok) throw new Error("Not found");
+
+    const q = await res.json();
+
+    // SEO
+    document.title = `"${q.text.slice(0, 60)}" – Eternal Lines`;
+
+    renderQuote(q);
+
+  } catch (err) {
+    app.innerHTML = '<div class="error">Quote not found</div>';
+  }
+}
+
+/* ================= RENDER ================= */
+function renderQuote(q) {
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <div class="quote-card">
+      <div class="quote-text">“${q.text}”</div>
+
+      <div class="quote-author">
+        — ${q.full_name || q.author_username}
+        ${q.is_personality ? " ⭐" : ""}
+      </div>
+
+      <div class="categories">
+        ${q.categories.map(c => `<span>${c.name}</span>`).join("")}
+      </div>
+
+      <div class="meta">
+        <span>❤️ ${q.likes_count}</span>
+        <span>👁 ${q.view_count}</span>
+        <span>🔗 ${q.share_count}</span>
+      </div>
+
+      <div class="actions">
+        <span class="material-symbols-outlined">favorite_border</span>
+        <span class="material-symbols-outlined" onclick="shareQuote('${q.slug}')">share</span>
+      </div>
+    </div>
+  `;
+}
+
+/* ================= SHARE ================= */
+function shareQuote(slug) {
+  const url = `${window.location.origin}/quote/${slug}`;
+  navigator.clipboard.writeText(url);
+  alert("Quote link copied!");
+}
+
+/* ================= INIT ================= */
+loadQuote();
+</script>
+
+</body>
+</html>
