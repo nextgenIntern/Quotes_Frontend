@@ -8,6 +8,20 @@ async function loadNavbar() {
   }
 }
 
+async function trackWebsiteVisit() {
+  try {
+    await fetch("https://eternal-lines.com/api/track-visit/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  } catch (err) {
+    console.error("Visit tracking failed", err);
+  }
+}
+
+
 function setupNavbar() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   const token = localStorage.getItem("accessToken");
@@ -50,4 +64,8 @@ function setActiveNav() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", loadNavbar);
+//document.addEventListener("DOMContentLoaded", loadNavbar);
+document.addEventListener("DOMContentLoaded", () => {
+  loadNavbar();        // existing
+  trackWebsiteVisit(); // ✅ add here
+});
