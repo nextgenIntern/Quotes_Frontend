@@ -233,6 +233,15 @@ body {
   transform: translateY(-8px);
 }
 
+.action {
+    display: flex;
+    align-items:center;
+    gap: 4px;
+    font-size: 0.85rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
 /* CARD COLORS */
 .blue { background: linear-gradient(135deg, #dbeafe, #eff6ff); }
 .green { background: linear-gradient(135deg, #dcfce7, #ecfdf5); }

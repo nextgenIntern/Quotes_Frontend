@@ -91,7 +91,7 @@ function renderQuotes(quotes) {
 <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
            style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
            onclick="openQuotePage(event, '${q.slug}')">
-            <p class="quote-text flex-grow-1 text-danger fw-bolder">“${q.text}”</p>
+            <p class="quote-text flex-grow-1 fw-bolder">“${q.text}”</p>
             <p class="quote-author mt-2">– ${q.full_name || q.author_username}</p>
             <hr style="border:2px solid #000; margin:8px 0;">
             <div class="d-flex justify-content-between mt-3 icon-bar">

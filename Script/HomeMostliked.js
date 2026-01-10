@@ -15,11 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  loadPopularQuotes(container);
+  loadMostLikedQuotes(container);
 });
 
 /* ================= LOAD POPULAR QUOTES ================= */
-async function loadPopularQuotes(container) {
+async function loadMostLikedQuotes(container) {
   try {
     
 
@@ -70,7 +70,7 @@ function renderPopularQuotes(container, quotes) {
 
         <hr style="border:2px solid #000; margin:8px 0;">
 
-        <div class="d-flex justify-content-between mt-3 icon-bar">
+        <div class="d-flex justify-content-between mt-1 icon-bar">
           <span class="material-symbols-outlined like-btn" data-id="${q.id}">
   favorite_border
   <span class="action-count">${q.likes_count || 0}</span>
