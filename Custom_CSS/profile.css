@@ -269,5 +269,51 @@ body {
 
   .username {
     font-size: 28px;
+    color: #a35525;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.6px;
+  font-family: "Playfair Display", serif;
   }
 }
+/* ===== SAFE FONT ENHANCEMENT ===== */
+
+/* BODY TEXT – cleaner */
+body {
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 0.15px;
+}
+
+/* HEADINGS – elegant, not aggressive */
+.navbar h1,
+.username,
+.quotes-section h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+/* BIO – better readability */
+.bio {
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+/* STATS – stronger numbers only */
+.stats strong {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* ===== BUTTON POLISH (NO UI CHANGE) ===== */
+.btn {
+  background: #a35525 !important;   /* keep your color */
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(163, 85, 37, 0.35);
+}
+
+.btn:hover {
+  box-shadow: 0 10px 24px rgba(163, 85, 37, 0.45);
+}
+
+/* No gradients, no resizing, no layout changes */

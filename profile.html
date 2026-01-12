@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="Custom_CSS/index.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- google font -->
+     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -112,8 +114,8 @@
 
 <body style=" background-color: #e6dfd3;">
 
-    <nav class="navbar">
-        <h1>Eternal Lines | Profile Section</h1>
+    <nav class="text-center fw-bolder" >
+        <h1 class="" style="color: #a35525;">Eternal Lines | Profile Section</h1>
     </nav>
 
     <section class="banner" id="bannerSection">
@@ -122,21 +124,21 @@
         <button id="changeBannerBtn" class="btn btn-primary">Change Banner</button>
     </section>
 
-    <section class="profile-section">
+    <section class="profile-section" style="background-color: #bea595;">
         <div class="profile-image">
             <img id="profileImage" alt="Profile">
             <input type="file" id="profileImageInput" accept="image/*" hidden>
             <button id="changeProfileBtn" class="btn btn-primary">Change Photo</button>
         </div>
 
-        <div class="profile-details">
-            <h2 id="profileUsername">@username</h2>
-            <p id="profileBio">Add your bio</p>
+        <div class="profile-details" >
+            <h2 id="profileUsername" class="username" style="color: #31190b;">@username</h2>
+            <p id="profileBio" class="fs-5" style="color:#31190b;">Add your bio</p>
 
             <div class="stats">
-                <div><strong id="postsCount">0</strong><span>Posts</span></div>
-                <div><strong id="followersCount">0</strong><span>Followers</span></div>
-                <div><strong id="likesCount">0</strong><span>Likes</span></div>
+                <div ><strong id="postsCount">0</strong><span style="color:#31190b;" class="fs-5">Posts</span></div>
+                <div><strong id="followersCount">0</strong><span style="color:#31190b;"class="fs-5">Followers</span></div>
+                <div><strong id="likesCount">0</strong><span style="color:#31190b;" class="fs-5">Likes</span></div>
             </div>
 
             <button id="editProfileBtn" type="button" class="btn btn-primary">Edit Profile</button>
@@ -147,7 +149,7 @@
     </section>
 
    <section class="quotes-section">
-  <h3>Your Posted Quotes</h3>
+  <h3 style="color: #a35525;" class="fw-bolder fs-2" >Your Posted Quotes</h3>
 
   <div class="">
     <div class="row" id="postedQuotesContainer"></div>
