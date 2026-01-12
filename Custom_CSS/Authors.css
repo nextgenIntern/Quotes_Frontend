@@ -185,21 +185,21 @@ body{
 /* modal author profile */
 .modal-header { border:none; }
 .profile-banner{
-  height:160px;
+  height:5px;
   background: linear-gradient(120deg,#a1c4fd,#c2e9fb);
   border-radius: 12px;
-  margin-bottom: -48px;
+  margin-bottom: 48px;
   box-shadow: 0 12px 30px rgba(15,23,42,0.06);
 }
 .profile-avatar{
   width:110px; height:110px; border-radius:50%;
-  overflow:hidden; border:6px solid white; box-shadow:0 8px 22px rgba(0,0,0,0.12);
-  position:relative; top:-55px; background:white;
+  overflow:hidden; border:3px solid rgb(14, 10, 13); box-shadow:0 8px 12px rgba(0,0,0,0.12);
+  position:relative; top:-15px; background:white;
 }
 .profile-name{
-  font-family:'Playfair Display', serif; font-size:1.6rem; font-weight:700;
+  font-family:'Playfair Display', serif; font-size:1.6rem; font-weight:700; padding-left: 15px;
 }
-.profile-bio{ color:var(--muted); margin-top:8px; margin-bottom:14px; }
+.profile-bio{ color:var(--muted); margin-top:8px; margin-bottom:10px; padding-left: 15px; }
 
 .quote-list .quote-item{
   background: linear-gradient(90deg, rgba(255,255,255,0.96), rgba(250,250,255,0.96));

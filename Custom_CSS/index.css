@@ -271,6 +271,7 @@ body {
 
 /* ===== CTA SECTION ===== */
 .cta {
+    position: relative;
     background-image: url('../images/have 1.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -281,6 +282,23 @@ body {
     padding: 40px 20px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     font-family: 'Playfair Display', serif;
+    overflow: hidden;
+}
+
+/* Dark overlay */
+.cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.15); /* adjust darkness here */
+    border-radius: 15px;
+    z-index: 0;
+}
+
+/* Keep text above overlay */
+.cta * {
+    position: relative;
+    z-index: 1;
 }
 
 

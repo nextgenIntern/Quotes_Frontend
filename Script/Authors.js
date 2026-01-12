@@ -149,7 +149,7 @@ function renderAuthorQuotes(quotes) {
            style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
            onclick="openQuotePage(event, '${q.slug}')">
         
-        <p class="text-danger flex-grow-1 fw-bolder">"${q.text}”</p>
+        <p class="flex-grow-1 fw-bolder">"${q.text}”</p>
         <p class="quote-author mt-2 ">– ${q.full_name || q.author_username}</p>
 
         <hr style="border:2px solid #000; margin:8px 0;">
