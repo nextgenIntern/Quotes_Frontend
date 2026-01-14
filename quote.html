@@ -216,13 +216,22 @@ font-family: 'Cormorant Garamond', serif;
 
 /* ================= MOBILE ================= */
 @media (max-width: 768px) {
+    body {
+    padding: 0 10px; /* little space at screen edges */
+  }
+
   .quote-card {
     padding: 20px;
-    width: 90%;
+    border-radius: 12px; /* slightly smaller radius */
+    margin: 0 auto;     /* keep it centered */
+    width: 85%;
   }
 
   .quote-text {
     font-size: 1.2rem;
+  }
+   .quote-author {
+    font-size: 1rem;
   }
 
   .nav-links {
