@@ -69,6 +69,63 @@ font-family: 'Cormorant Garamond', serif;
   color: #ffffff !important;
     text-shadow: 0px 0px 8px rgba(255,255,255);
 }
+/* ================= MOBILE NAVBAR ================= */
+@media (max-width: 768px) {
+
+  .navbar {
+    height: 56px;
+    padding: 0;
+  }
+
+  .navbar .container {
+    padding: 0 14px;
+  }
+
+  .navbar img {
+    height: 38px; /* smaller logo */
+  }
+
+  /* Hide desktop links */
+  .nav-links {
+    display: none;
+  }
+
+  /* Mobile menu button */
+  .menu-toggle {
+    font-size: 26px;
+    color: #f2f6ff;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* Mobile dropdown */
+  .nav-links.mobile-open {
+    display: flex;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    gap: 0;
+    background: linear-gradient(
+      rgba(158, 56, 10, 0.98),
+      rgba(51, 1, 1, 0.98)
+    );
+    padding: 14px 0;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  }
+
+  .nav-links.mobile-open a {
+    padding: 14px 20px;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .nav-links.mobile-open a:last-child {
+    border-bottom: none;
+  }
+}
+
 
 /* ================= PAGE WRAPPER ================= */
 .page-wrapper {
@@ -185,6 +242,8 @@ font-family: 'Cormorant Garamond', serif;
     <a href="/">
       <img src="/images/eternal-lines-logo.png" alt="Eternal Lines">
     </a>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
     <div class="nav-links">
       <a href="/">Home</a>
       <a href="/quotes">Quotes</a>
@@ -268,6 +327,11 @@ function shareQuote(slug) {
 
 /* ================= INIT ================= */
 document.addEventListener("DOMContentLoaded", loadQuote);
+</script>
+<script>
+function toggleMenu() {
+  document.querySelector('.nav-links').classList.toggle('mobile-open');
+}
 </script>
 
 </body>
