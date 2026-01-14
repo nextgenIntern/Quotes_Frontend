@@ -8,6 +8,8 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
 
 <style>
 /* ================= GLOBAL ================= */
@@ -15,15 +17,67 @@ body {
   margin: 0;
   font-family: 'Playfair Display', serif;
   background: #f4f1ea;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+/* ================= NAVBAR ================= */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+ background: linear-gradient(
+        rgba(158, 56, 10, 0.95),
+        rgba(51, 1, 1, 0.95)
+    );
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+}
+
+.navbar .container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar img {
+  height: 50px;
+}
+
+.nav-links {
+  display:flex;
+  gap: 3.25rem;
+  font-size: 0.95rem;   /* PERFECT at 100% */
+    padding: 6px 0;
+}
+
+.nav-links a {
+  color: #f2f6ff !important;
+  
+    transition: 0.3s;
+  font-size: 18px;
+    text-decoration: none;
+  font-weight: 600;
+font-family: 'Cormorant Garamond', serif;
+}
+
+.nav-links a:hover {
+  color: #ffffff !important;
+    text-shadow: 0px 0px 8px rgba(255,255,255);
+}
+
+/* ================= PAGE WRAPPER ================= */
+.page-wrapper {
+  min-height: 100vh;
+  padding-top: 90px; /* space for navbar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ================= CARD ================= */
@@ -83,7 +137,6 @@ a {
 .actions span {
   cursor: pointer;
   font-size: 28px;
-  user-select: none;
 }
 
 .actions span:hover {
@@ -100,77 +153,21 @@ a {
   color: #b00020;
 }
 
-/* ================= PAGE WRAPPER ================= */
-.page-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px 20px;
-}
-
-
-/* ================= LOGO ================= */
-.site-logo {
-  margin-bottom: 28px;
-  margin-top: -10px;
-  text-align: center;
-}
-
-.site-logo img {
-  max-width: 320px;   /* BIG logo */
-  width: 90%;
-  opacity: 0.9;
-}
-
-/* ================= CARD ================= */
-
-
+/* ================= MOBILE ================= */
 @media (max-width: 768px) {
-  body {
-    padding: 0 10px; /* little space at screen edges */
-  }
-
   .quote-card {
-    padding: 20px;       /* smaller padding */
-    border-radius: 12px; /* slightly smaller radius */
-    margin: 0 auto;     /* keep it centered */
-    width: 85%;
+    padding: 20px;
+    width: 90%;
   }
 
   .quote-text {
-    font-size: 1.2rem;   /* smaller, more readable */
-    line-height: 1.4;
+    font-size: 1.2rem;
   }
 
-  .quote-author {
-    font-size: 1rem;
-  }
-
-  .categories span {
-    font-size: 0.75rem;
-    padding: 3px 8px;
-  }
-
-  .meta {
-    font-size: 0.8rem;
-    gap: 10px;
-  }
-
-  .actions span {
-    font-size: 1.5rem;
+  .nav-links {
     gap: 14px;
   }
-
-  .loader,
-  .error {
-    font-size: 1rem;
-  }
 }
-
-
-
 
 /* ================= ANIMATION ================= */
 @keyframes fadeIn {
@@ -182,21 +179,28 @@ a {
 
 <body>
 
-  <div class="page-wrapper">
-  <div class="site-logo">
-<a href="https://eternal-lines.com" class="logo-link">
-  <img src="/images/eternal-lines-logo.png" alt="Eternal Lines">
-</a>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="container">
+    <a href="/">
+      <img src="/images/eternal-lines-logo.png" alt="Eternal Lines">
+    </a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/quotes">Quotes</a>
+      <a href="/submit-quote">Submit-Quote</a>
+      <a href="/authors">Authors</a>
+      <a href="/Languagesquotes.html">Languages</a>
+    </div>
   </div>
+</nav>
+
+<!-- ================= PAGE ================= -->
+<div class="page-wrapper">
   <div id="app">
-  <div class="loader">Loading quote…</div>
+    <div class="loader">Loading quote…</div>
+  </div>
 </div>
-
-</div>
-
-
-
-
 
 <script>
 /* ================= CONFIG ================= */
@@ -223,29 +227,20 @@ async function loadQuote() {
     if (!res.ok) throw new Error("Not found");
 
     const q = await res.json();
-
-    // SEO
     document.title = `"${q.text.slice(0, 60)}" – Eternal Lines`;
-
     renderQuote(q);
 
-  } catch (err) {
+  } catch {
     app.innerHTML = '<div class="error">Quote not found</div>';
   }
 }
 
 /* ================= RENDER ================= */
 function renderQuote(q) {
-  const app = document.getElementById("app");
-
-  app.innerHTML = `
+  document.getElementById("app").innerHTML = `
     <div class="quote-card">
       <div class="quote-text">“${q.text}”</div>
-
-      <div class="quote-author">
-        — ${q.full_name || q.author_username}
-        ${q.is_personality ? "." : ""}
-      </div>
+      <div class="quote-author">— ${q.full_name || q.author_username}</div>
 
       <div class="categories">
         ${q.categories.map(c => `<span>${c.name}</span>`).join("")}
@@ -265,34 +260,14 @@ function renderQuote(q) {
   `;
 }
 
-async function trackWebsiteVisit() {
-  try {
-    await fetch("https://eternal-lines.com/api/track-visit/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-  } catch (err) {
-    console.error("Visit tracking failed", err);
-  }
-}
-
 /* ================= SHARE ================= */
 function shareQuote(slug) {
-  const url = `${window.location.origin}/quote/${slug}`;
-  navigator.clipboard.writeText(url);
+  navigator.clipboard.writeText(`${location.origin}/quote/${slug}`);
   alert("Quote link copied!");
 }
 
 /* ================= INIT ================= */
-//loadQuote();
-/* ================= INIT ================= */
-document.addEventListener("DOMContentLoaded", () => {
-  trackWebsiteVisit(); // ✅ counts this page view
-  loadQuote();         // existing logic
-});
-
+document.addEventListener("DOMContentLoaded", loadQuote);
 </script>
 
 </body>
