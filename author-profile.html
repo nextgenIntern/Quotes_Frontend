@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Author Profile | Eternal Lines</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  background: #e6dfd3;
+  font-family: 'Poppins', sans-serif;
+  color: #2b1f1f;
+}
+a { text-decoration: none; color: inherit; }
+
+
+/* ================= NAVBAR ================= */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+ background: linear-gradient(
+        rgba(158, 56, 10, 0.95),
+        rgba(51, 1, 1, 0.95)
+    );
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+}
+
+.navbar .container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar img {
+  height: 50px;
+}
+
+.nav-links {
+  display:flex;
+  gap: 3.25rem;
+  font-size: 0.95rem;   /* PERFECT at 100% */
+    padding: 6px 0;
+}
+
+.nav-links a {
+  color: #f2f6ff !important;
+  
+    transition: 0.3s;
+  font-size: 18px;
+    text-decoration: none;
+  font-weight: 600;
+font-family: 'Cormorant Garamond', serif;
+}
+
+.nav-links a:hover {
+  color: #ffffff !important;
+    text-shadow: 0px 0px 8px rgba(255,255,255);
+}
+/* ================= MOBILE NAVBAR ================= */
+@media (max-width: 768px) {
+
+  .navbar {
+    height: 56px;
+    padding: 0;
+  }
+
+  .navbar .container {
+    padding: 0 14px;
+  }
+
+  .navbar img {
+    height: 38px; /* smaller logo */
+  }
+
+  /* Hide desktop links */
+  .nav-links {
+    display: none;
+  }
+
+  /* Mobile menu button */
+  .menu-toggle {
+    font-size: 26px;
+    color: #f2f6ff;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* Mobile dropdown */
+  .nav-links.mobile-open {
+    display: flex;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    gap: 0;
+    background: linear-gradient(
+      rgba(158, 56, 10, 0.98),
+      rgba(51, 1, 1, 0.98)
+    );
+    padding: 14px 0;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  }
+
+  .nav-links.mobile-open a {
+    padding: 14px 20px;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .nav-links.mobile-open a:last-child {
+    border-bottom: none;
+  }
+}
+
+
+
+.profile-header {
+  max-width: 1100px;
+  margin: 20px auto 0;
+  padding: 70px;
+  display: flex;
+  align-items: center; /* vertically center avatar + info */
+  gap: 35px;
+  color: #3d0404;
+  position: relative;
+  z-index: 2;
+}
+
+.profile-avatar img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  object-fit: cover;
+  background: #fff;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-info h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  margin: 0;
+}
+
+.profile-info p {
+  max-width: 600px;
+  margin: 0;
+  opacity: .95;
+}
+
+.stats {
+  display: flex;
+  gap: 18px;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.quotes-section {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.quotes-section h2 {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  color: #31190b;
+}
+
+.quote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 22px;
+  margin-top: 35px;
+}
+
+.quote-card {
+  background-size: cover;
+  background-position: center;
+  padding: 22px;
+  border-radius: 10px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.quote-card:hover {
+  transform: translateY(-6px);
+}
+
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-style: italic;
+}
+
+.icon-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+.loader, .error {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 80px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  #followBtn {
+    margin: 0 auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+  <div class="container">
+    <a href="/">
+      <img src="/images/eternal-lines-logo.png" alt="Eternal Lines">
+    </a>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/quotes">Quotes</a>
+      <a href="/submit-quote">Submit-Quote</a>
+      <a href="/authors">Authors</a>
+      <a href="/Languagesquotes.html">Languages</a>
+    </div>
+  </div>
+</nav>
+
+
+<div class="profile-banner" id="profileBanner"></div>
+
+<section class="profile-header">
+  <div class="profile-avatar">
+    <img id="authorAvatar" src="images/no profile.png">
+  </div>
+
+  <div class="profile-info">
+    <h1 id="authorName"></h1>
+    <p id="authorBio"></p>
+
+    <div class="stats">
+      <span id="statQuotes"></span>
+      <span id="statLikes"></span>
+      <span id="statFollowers"></span>
+    </div>
+
+    <button id="followBtn" class="btn btn-outline-primary btn-sm">
+      Follow
+    </button>
+  </div>
+</section>
+
+
+<section class="quotes-section">
+  <h2 id="quotesHeading" style="margin-top: -80px;"></h2>
+  <div id="quotesContainer" class="quote-grid">
+    <div class="loader">Loading quotes…</div>
+  </div>
+</section>
+
+<script>
+const API = {
+  SEARCH_AUTHOR: u => `https://eternal-lines.com/api/users/?q=${u}`,
+  ALL_QUOTES: `https://eternal-lines.com/api/quotes/`
+};
+
+const paperBackgrounds = [
+  "images/bg1.png","images/bg2.png","images/image.png","images/bg4.png","images/bg5.png"
+];
+
+function getAuthorFromURL() {
+  return new URLSearchParams(window.location.search).get("author");
+}
+function getRandomPaper() {
+  return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
+}
+
+async function loadAuthorProfile() {
+  const username = getAuthorFromURL();
+  if (!username) return;
+
+  const res = await fetch(API.SEARCH_AUTHOR(username));
+  const data = await res.json();
+
+  const author = data.find(
+    u => u.username.toLowerCase() === username.toLowerCase()
+  );
+  if (!author) return;
+
+  renderAuthor(author);
+  loadAuthorQuotes(author.username, author.full_name);
+}
+
+function renderAuthor(a) {
+  document.title = `Quotes by ${a.full_name || a.username} | Eternal Lines`;
+
+  authorName.textContent = a.full_name || a.username;
+  authorBio.textContent = a.bio || "No biography available.";
+
+  statQuotes.textContent = `${a.total_quotes_posted || 0} Quotes`;
+  statLikes.textContent = `${a.total_likes_for_his_quotes || 0} Likes`;
+  statFollowers.textContent = `${a.followers_count || 0} Followers`;
+
+  profileBanner.style.backgroundImage =
+    `url(${a.profile_background || "images/h1.jpg"})`;
+
+  authorAvatar.src = a.profile_image || "images/no profile.png";
+
+  quotesHeading.textContent = `Quotes by ${a.full_name || a.username}`;
+}
+
+async function loadAuthorQuotes(username) {
+  quotesContainer.innerHTML = "";
+
+  const res = await fetch(API.ALL_QUOTES);
+  const data = await res.json();
+  const quotes = (data.results || data).filter(
+    q => q.author_username === username
+  );
+
+  if (!quotes.length) {
+    quotesContainer.innerHTML = `<div class="error">No quotes found</div>`;
+    return;
+  }
+
+  quotes.forEach(q => {
+    quotesContainer.innerHTML += `
+      <div class="quote-card"
+           style="background-image:url('${getRandomPaper()}')"
+           onclick="openQuote(event,'${q.slug}')">
+        <div class="quote-text">“${q.text}”</div>
+        <div class="icon-bar">
+          <span class="material-symbols-outlined">favorite_border ${q.likes_count || 0}</span>
+          <span class="material-symbols-outlined">share</span>
+          <span class="material-symbols-outlined">
+            ${q.saved_by_current_user ? "bookmark" : "bookmark_border"}
+          </span>
+        </div>
+      </div>`;
+  });
+}
+
+function openQuote(e, slug) {
+  if (e.target.closest(".material-symbols-outlined")) return;
+  window.location.href = `/quote/${slug}`;
+}
+
+document.addEventListener("DOMContentLoaded", loadAuthorProfile);
+</script>
+
+</body>
+</html>

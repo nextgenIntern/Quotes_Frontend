@@ -76,7 +76,7 @@ function createCategoryCarousel(quotes, category) {
            style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
            onclick="openQuotePage(event, '${q.slug}')">
                     <p class="quote-text flex-grow-1">“${q.text}”</p>
-                    <p class="quote-author mt-2">– <a href="authors.html?user=${q.author_username}" class="text-decoration-none text-primary">
+                    <p class="quote-author mt-2">– <a href="author-profile.html?author=${q.author_username}" class="text-decoration-none text-primary">
   ${q.full_name || q.author_username}
 </a>
 </p>
