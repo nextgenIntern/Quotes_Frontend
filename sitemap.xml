@@ -11,4 +11,9 @@
     <lastmod>2026-01-09</lastmod>
   </sitemap>
 
+  <sitemap>
+    <loc>https://eternal-lines.com/api/sitemap-authors.xml</loc>
+    <lastmod>2026-01-09</lastmod>
+  </sitemap>
+
 </sitemapindex>
