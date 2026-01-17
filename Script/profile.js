@@ -387,10 +387,12 @@ async function renderPostedQuotes(profile) {
            onclick="openQuotePage(event, '${q.slug}')">
             
                   <p class="quote-text flex-grow-1 fw-bolder">“${q.text}”</p>
-        <p class="quote-author mt-2 ">– 
-          <a href="profile.html?username=${q.author_username}" class="text-decoration-none text-primary">
+      <p class="quote-author mt-2 text-end">
+  — 
+  <a href="author-profile.html?author=${q.author_username}" class="author-link">
     ${q.full_name || q.author_username}
-  </a></p>
+  </a>
+</p>
 
             <div class="d-flex justify-content-between mt-3 icon-bar">
 

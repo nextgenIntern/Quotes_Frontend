@@ -12,6 +12,27 @@ body {
     font-size: 1.2rem;
 }
 
+.quote-author {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  color: #6b5b3e;
+}
+
+.author-link {
+  color: #b08d57; /* antique gold */
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px dotted rgba(176, 141, 87, 0.5);
+  transition: all 0.3s ease;
+}
+
+.author-link:hover {
+  color: #8c6a3d;
+  border-bottom-color: #8c6a3d;
+}
+
+
 /* QUOTE CARD */
 /* .quote-card {
     background: linear-gradient(135deg, #ffd3b6, #ffaaa5);

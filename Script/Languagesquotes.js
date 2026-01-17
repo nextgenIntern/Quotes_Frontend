@@ -92,8 +92,12 @@ function renderQuotes(quotes) {
            style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
            onclick="openQuotePage(event, '${q.slug}')">
             <p class="quote-text flex-grow-1 fw-bolder">“${q.text}”</p>
-            <p class="quote-author mt-2">– ${q.full_name || q.author_username}</p>
-            <hr style="border:2px solid #000; margin:8px 0;">
+<p class="quote-author mt-2 text-end">
+  — 
+  <a href="author-profile.html?author=${q.author_username}" class="author-link">
+    ${q.full_name || q.author_username}
+  </a>
+</p>            <hr style="border:2px solid #000; margin:8px 0;">
             <div class="d-flex justify-content-between mt-3 icon-bar">
 
                 <!-- Like Button -->
