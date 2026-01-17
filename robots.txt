@@ -8,3 +8,4 @@ Allow: /
 Sitemap: https://eternal-lines.com/sitemap.xml
 Sitemap: https://eternal-lines.com/api/sitemap-quotes.xml
 Sitemap: https://eternal-lines.com/sitemap-static.xml
+Sitemap: https://eternal-lines.com/api/sitemap-authors.xml
