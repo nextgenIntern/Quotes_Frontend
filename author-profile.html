@@ -15,7 +15,10 @@ body {
   background: #e6dfd3;
   font-family: 'Poppins', sans-serif;
   color: #2b1f1f;
+
+  padding-top: 70px; /* 🔥 FIX for fixed navbar */
 }
+
 a { text-decoration: none; color: inherit; }
 
 
@@ -129,25 +132,37 @@ font-family: 'Cormorant Garamond', serif;
 
 
 .profile-header {
-  max-width: 1100px;
-  margin: 20px auto 0;
-  padding: 70px;
   display: flex;
-  align-items: center; /* vertically center avatar + info */
-  gap: 35px;
-  color: #3d0404;
-  position: relative;
-  z-index: 2;
+  align-items: center;
+  gap: 26px;
+
+  padding: 28px 32px;
+  margin: 40px auto 20px;
+
+  max-width: 920px;
+
+  background: rgba(255, 248, 235, 0.75); /* warm paper transparency */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  border-radius: 22px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(180, 150, 100, 0.25);
 }
 
 .profile-avatar img {
-  width: 140px;
-  height: 140px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
-  border: 5px solid #fff;
   object-fit: cover;
-  background: #fff;
+
+  background: #f3ead8;
+  padding: 6px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
+
 
 .profile-info {
   display: flex;
@@ -176,7 +191,7 @@ font-family: 'Cormorant Garamond', serif;
 
 .quotes-section {
   max-width: 1200px;
-  margin: 60px auto;
+  margin: 40px auto;
   padding: 0 20px;
 }
 
@@ -185,36 +200,55 @@ font-family: 'Cormorant Garamond', serif;
   font-family: 'Cormorant Garamond', serif;
   font-size: 2.2rem;
   color: #31190b;
+  margin-top: -10px;
 }
+
+
 
 .quote-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
   margin-top: 35px;
 }
 
+
 .quote-card {
-  background-size: cover;
-  background-position: center;
-  padding: 22px;
-  border-radius: 10px;
-  box-shadow: 0 10px 26px rgba(0,0,0,.25);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: .3s;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotate(calc(-1deg + 2deg * random()));
+    padding: 15px;
+    min-height: 200px;
+              position: relative;
+
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 5px;
+
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+
+/* Hover feel */
 .quote-card:hover {
-  transform: translateY(-6px);
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.45);
 }
 
+/* Text readability */
 .quote-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.3rem;
-  font-style: italic;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    font-style: italic;
+    color: #333;
+    line-height: 1.5;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.6);
 }
 
 /* AUTHOR ALIGNMENT */
@@ -243,10 +277,26 @@ font-family: 'Cormorant Garamond', serif;
   color: #6f522f !important;
 }
 
+
 .icon-bar {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 14px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+.icon-bar i {
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.icon-bar i:hover {
+    color: #0d6efd;
+}
+/* Icon Bar */
+.icon-bar span,
+.icon-bar a {
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .loader, .error {
@@ -314,7 +364,7 @@ font-family: 'Cormorant Garamond', serif;
 
 
 <section class="quotes-section">
-  <h2 id="quotesHeading" style="margin-top: -80px;"></h2>
+  <h2 id="quotesHeading"></h2>
   <div id="quotesContainer" class="quote-grid">
     <div class="loader">Loading quotes…</div>
   </div>
@@ -393,16 +443,41 @@ async function loadAuthorQuotes(username) {
 
   quotes.forEach(q => {
     quotesContainer.innerHTML += `
-      <div class="quote-card"
-           style="background-image:url('${getRandomPaper()}')"
-           onclick="openQuote(event,'${q.slug}')">
-        <div class="quote-text">“${q.text}”</div>
-        <div class="icon-bar">
-          <span class="material-symbols-outlined">favorite_border ${q.likes_count || 0}</span>
-          <span class="material-symbols-outlined">share</span>
-          <span class="material-symbols-outlined">
-            ${q.saved_by_current_user ? "bookmark" : "bookmark_border"}
+      <div class="quote-card h-100 shadow rounded p-3 d-flex flex-column justify-content-between"
+      style="background-image: url('${getRandomPaper()}') !important; cursor:pointer;"
+           onclick="openQuotePage(event, '${q.slug}')">
+           <p class="quote-text flex-grow-1 fw-bolder  ">“${q.text}”</p>
+<p class="quote-author mt-2 text-end">
+  — 
+  <a href="author-profile.html?author=${q.author_username}" class="author-link">
+    ${q.full_name || q.author_username}
+  </a>
+</p>
+        <hr style="border:2px solid #000; margin:8px 0;">
+
+       <div class="d-flex justify-content-between mt-3 icon-bar">
+          <span class="material-symbols-outlined like-btn" data-id="${q.id}">
+  favorite_border
+  <span class="action-count">${q.likes_count || 0}</span>
+</span>
+
+
+          <span class="material-symbols-outlined share-btn"
+      data-slug="${q.slug}">
+  <span class="icon-text">share</span>
+  <span class="action-count share-count">${q.share_count || 0}</span>
+</span>
+
+          <span class="material-symbols-outlined save-btn"
+                data-id="${q.id}"
+                data-saved="${q.saved_by_current_user}">
+            ${q.saved_by_current_user ? 'bookmark' : 'bookmark_border'}
+            <span class="action-count save-count">${q.saved_count || 0}</span>
           </span>
+
+          <a href="comments.html?quote=${q.id}">
+            <span class="material-symbols-outlined">chat_bubble</span>
+          </a>
         </div>
       </div>`;
   });
@@ -416,5 +491,8 @@ function openQuote(e, slug) {
 document.addEventListener("DOMContentLoaded", loadAuthorProfile);
 </script>
 
+    <script src="Script/Sharebuttons.js"></script>
+    <script src="Script/LikeButtons.js"></script>
+    <script src="Script/SaveButtons.js"></script>
 </body>
 </html>
