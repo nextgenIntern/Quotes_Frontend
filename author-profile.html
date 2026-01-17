@@ -267,7 +267,7 @@ font-family: 'Cormorant Garamond', serif;
 
 <section class="profile-header">
   <div class="profile-avatar">
-    <img id="authorAvatar" src="images/no profile.png">
+    <img id="authorAvatar" src="/images/no profile.png">
   </div>
 
   <div class="profile-info">
@@ -301,12 +301,18 @@ const API = {
 };
 
 const paperBackgrounds = [
-  "images/bg1.png","images/bg2.png","images/image.png","images/bg4.png","images/bg5.png"
+  "/images/bg1.png","/images/bg2.png","/images/image.png","/images/bg4.png","/images/bg5.png"
 ];
 
 function getAuthorFromURL() {
+  // NEW SEO URL: /author/gulzar
+  const pathMatch = window.location.pathname.match(/^\/author\/([^\/]+)/);
+  if (pathMatch) return pathMatch[1];
+
+  // OLD URL fallback: ?author=gulzar
   return new URLSearchParams(window.location.search).get("author");
 }
+
 function getRandomPaper() {
   return paperBackgrounds[Math.floor(Math.random() * paperBackgrounds.length)];
 }
