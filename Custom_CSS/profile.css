@@ -10,25 +10,13 @@ body {
   color: #111827;
 }
 
-/* NAVBAR */
-.navbar {
-  height: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: white;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-}
 
-.navbar h1 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #2563eb;
-  letter-spacing: 1px;
-}
+
+
 
 /* BANNER */
 .banner {
+  margin-top: 3px;
   height: 260px;
   background: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee") center/cover no-repeat;
   position: relative;

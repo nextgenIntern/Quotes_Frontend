@@ -44,8 +44,10 @@ body {
     padding: 6px 0;
 }
 .custom-navbar .navbar-nav {
-    gap: 1.25rem; /* reduced from gap-4 */
+  margin-left: auto;   /* 🔥 pushes items to the right */
+  gap: 2rem;
 }
+
 
 
 /* Active link */
@@ -498,6 +500,7 @@ footer {
         height: 34px;
     }
 }
+
 .navbar-brand:hover .navbar-logo {
     opacity: 0.9;
     transform: scale(1.30);
