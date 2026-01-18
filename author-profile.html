@@ -445,6 +445,20 @@ font-family: 'Cormorant Garamond', serif;
   }
 }
 
+.menu-toggle {
+  display: none;          /* hide by default (desktop) */
+  font-size: 26px;
+  color: #f2f6ff;
+  cursor: pointer;
+  user-select: none;
+}
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;       /* show hamburger on mobile */
+  }
+}
+
+
 
 </style>
 </head>
@@ -625,5 +639,21 @@ document.addEventListener("DOMContentLoaded", loadAuthorProfile);
     <script src="Script/Sharebuttons.js"></script>
     <script src="Script/LikeButtons.js"></script>
     <script src="Script/SaveButtons.js"></script>
+
+    <script>
+function toggleMenu() {
+  const navLinks = document.querySelector('.nav-links');
+  navLinks.classList.toggle('mobile-open');
+}
+</script>
+<script>
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelector('.nav-links').classList.remove('mobile-open');
+  });
+});
+</script>
+
+
 </body>
 </html>
