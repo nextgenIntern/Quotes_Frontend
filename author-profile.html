@@ -156,11 +156,13 @@ font-family: 'Cormorant Garamond', serif;
   transition: all 0.25s ease;
 }
 @media (max-width: 768px) {
-  .profile-header {
-    padding: 20px 18px;
-    margin: 20px 14px;
-    border-radius: 18px;
-  }
+.profile-header {
+  padding: 20px 18px;
+  margin: 20px auto;      /* center horizontally */
+  border-radius: 18px;
+  max-width: calc(100% - 24px); /* 👈 space on both sides */
+}
+
 
   .profile-info h1 {
     font-size: 2rem;
@@ -206,7 +208,7 @@ font-family: 'Cormorant Garamond', serif;
 
   max-width: 920px;
 
-  background: rgba(236, 8, 8, 0.33); /* warm paper transparency */
+  background: rgba(207, 5, 5, 0.207); /* warm paper transparency */
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 
