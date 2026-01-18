@@ -155,6 +155,45 @@ font-family: 'Cormorant Garamond', serif;
 
   transition: all 0.25s ease;
 }
+@media (max-width: 768px) {
+  .profile-header {
+    padding: 20px 18px;
+    margin: 20px 14px;
+    border-radius: 18px;
+  }
+
+  .profile-info h1 {
+    font-size: 2rem;
+  }
+
+  .profile-info p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-avatar img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .follow-btn {
+    width: 100%;
+    max-width: 240px;
+    padding: 10px 0;
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 768px) {
+  .stats {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+}
 
 
 .profile-header {
@@ -245,7 +284,29 @@ font-family: 'Cormorant Garamond', serif;
   gap: 10px;
   margin-top: 35px;
 }
+@media (max-width: 768px) {
+  .quote-grid {
+    grid-template-columns: 1fr; /* single column */
+    gap: 18px;
+  }
+}
 
+@media (max-width: 768px) {
+  .quote-card {
+    min-height: auto;
+    padding: 14px;
+    margin: 0;
+  }
+
+  .quote-text {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .quote-author {
+    font-size: 0.85rem;
+  }
+}
 
 .quote-card {
     background-size: cover;
@@ -350,6 +411,39 @@ font-family: 'Cormorant Garamond', serif;
     margin: 0 auto;
   }
 }
+
+@media (max-width: 768px) {
+  .icon-bar {
+    justify-content: space-between;
+    font-size: 1rem;
+  }
+
+  .icon-bar span,
+  .icon-bar a {
+    min-width: 44px; /* better tap area */
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .quotes-section {
+    margin: 25px auto;
+    padding: 0 14px;
+  }
+
+  .quotes-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+}
+@media (hover: none) {
+  .quote-card:hover {
+    transform: none;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+  }
+}
+
+
 </style>
 </head>
 
