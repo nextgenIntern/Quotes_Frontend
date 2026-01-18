@@ -12,12 +12,23 @@
 <style>
 body {
   margin: 0;
-  background: #ecb5554d;
   font-family: 'Poppins', sans-serif;
   color: #2b1f1f;
+  padding-top: 70px;
 
-  padding-top: 70px; /* 🔥 FIX for fixed navbar */
+  background: url("/images/body.png") center / cover no-repeat;
+  position: relative;
 }
+
+/* Softening overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.08); /* 👈 adjust this */
+  z-index: -1;
+}
+
 
 a { text-decoration: none; color: inherit; }
 
@@ -161,6 +172,7 @@ font-family: 'Cormorant Garamond', serif;
   margin: 10px auto;      /* center horizontally */
   border-radius: 18px;
   max-width: calc(100% - 24px); /* 👈 space on both sides */
+  background: url("../images/bg1.png");
 }
 
 
@@ -207,8 +219,10 @@ font-family: 'Cormorant Garamond', serif;
   margin: 40px auto 20px;
 
   max-width: 920px;
-
-  background: rgba(207, 5, 5, 0.207); /* warm paper transparency */
+  background: url('../images/canvabg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; 
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 
