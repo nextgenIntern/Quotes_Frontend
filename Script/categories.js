@@ -24,7 +24,7 @@ async function loadCategories() {
     carouselInner.innerHTML = `
       <div class="carousel-item active">
         <div class="d-flex justify-content-center gap-3 flex-wrap">
-          <div class="category-tag text-danger">
+          <div class="category-tag text">
             ⚠️ Failed to load categories
           </div>
         </div>

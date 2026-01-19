@@ -117,7 +117,8 @@ function createCategoryCarousel(quotes, category) {
     }
 
     return `
-    <h4 class="fw-bold text-success mt-4">${category}</h4>
+    <h4 class="fw-bold category-title mt-4">${category}</h4>
+
     <div id="carousel-${category}" class="carousel slide mb-5" data-bs-ride="carousel">
         <div class="carousel-inner">${slides.join("")}</div>
         <button class="carousel-control-prev" data-bs-target="#carousel-${category}" data-bs-slide="prev">
