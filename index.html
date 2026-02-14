@@ -114,6 +114,34 @@
   text-decoration: none !important;
 }
 
+/* ===== SPLIT SECTION FIX ===== */
+.split-section .submit-box,
+.split-section .category-box {
+    background: #f8f9fa;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Equal height fix */
+.split-section .row {
+    display: flex;
+}
+
+.split-section .col-md-6 {
+    display: flex;
+}
+
+/* Mobile stacking */
+@media (max-width: 768px) {
+    .split-section .row {
+        flex-direction: column;
+    }
+}
+
 
 /* HOVER */
 .quote-author .author-link:hover {
@@ -194,37 +222,58 @@
                 </div>
         </header>
 
- <!-- CATEGORIES CAROUSEL -->
-     <section class="container my-4">
-    <h2 class="fw-bold mb-3 text-center" style="font-size: 25px;">Browse Categories</h2>
+<section class="container my-5 split-section">
 
-    <div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner text-center">
-            <!-- dynamic items -->
+    <div class="row g-4 align-items-stretch">
+
+        <!-- LEFT SIDE -->
+        <div class="col-md-6 d-flex">
+            <div class="submit-box w-100">
+                <h3 class="fw-bold mb-3" style="text-align: center;">Submit Your Quote ✍️</h3>
+                <p class="mb-4">
+                    Share your thoughts, inspire others, and become part of our growing quote community.
+                </p>
+                <a href="/submit-quote/" class="btn btn-dark px-4 py-2" style="background-color: #402606;">
+                    Post Now
+                </a>
+            </div>
         </div>
 
-        <!-- PREV BUTTON (Desktop only) -->
-        <button
-            class="carousel-control-prev d-none d-md-flex"
-            type="button"
-            data-bs-target="#categoryCarousel"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"
-                  aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
+        <!-- RIGHT SIDE -->
+        <div class="col-md-6 d-flex">
+            <div class="category-box w-100">
 
-        <!-- NEXT BUTTON (Desktop only) -->
-        <button
-            class="carousel-control-next d-none d-md-flex"
-            type="button"
-            data-bs-target="#categoryCarousel"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon bg-dark rounded-circle p-2"
-                  aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+                <h3 class="fw-bold mb-3 text-center">
+                    Browse Categories
+                </h3>
+
+                <div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner text-center">
+                        <!-- dynamic items -->
+                    </div>
+
+                    <button
+                        class="carousel-control-prev d-none d-md-flex"
+                        type="button"
+                        data-bs-target="#categoryCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+                    </button>
+
+                    <button
+                        class="carousel-control-next d-none d-md-flex"
+                        type="button"
+                        data-bs-target="#categoryCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
     </div>
+
 </section>
 
 
