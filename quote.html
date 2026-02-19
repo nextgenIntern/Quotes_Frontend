@@ -16,11 +16,22 @@
 body {
   margin: 0;
   font-family: 'Playfair Display', serif;
-   background: url("/images/body.png") center / cover no-repeat;
-    display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+}
+
+/* 📱 Mobile View (default – vertical image) */
+body {
+  background: url("/images/profile_bg.png") center / cover no-repeat;
+}
+
+/* 💻 Desktop View (horizontal rectangle image) */
+@media (min-width: 768px) {
+  body {
+    background: url("/images/profile_bg_horizontal.png") center / cover no-repeat;
+  }
 }
 
 /* ================= NAVBAR ================= */
