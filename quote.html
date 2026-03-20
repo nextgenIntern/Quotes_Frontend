@@ -250,43 +250,6 @@ font-family: 'Cormorant Garamond', serif;
 </style>
 </head>
 
-<script>
-/* ================= RANDOM BACKGROUND ================= */
-
-// Mobile images
-const mobileImages = [
-  "/images/q1.png",
-  "/images/q2.png",
-  "/images/q3.png",
-  "/images/q4.png",
-  "/images/q5.png",
-  "/images/q6.png"
-];
-
-// Desktop images
-const desktopImages = [
-  "/images/q1.png",
-  "/images/q2.png",
-  "/images/q3.png",
-  "/images/q4.png",
-  "/images/q5.png",
-  "/images/q6.png"
-];
-
-function setRandomBackground() {
-  const isDesktop = window.innerWidth >= 768;
-  const images = isDesktop ? desktopImages : mobileImages;
-
-  const randomImage = images[Math.floor(Math.random() * images.length)];
-  document.body.style.backgroundImage = `url(${randomImage})`;
-}
-
-// Run on load
-setRandomBackground();
-
-// (Optional) Change on resize too
-window.addEventListener("resize", setRandomBackground);
-</script>
 
 <body>
 
@@ -387,6 +350,45 @@ function toggleMenu() {
   document.querySelector('.nav-links').classList.toggle('mobile-open');
 }
 </script>
+
+<script>
+/* ================= RANDOM BACKGROUND ================= */
+
+// Mobile images
+const mobileImages = [
+  "/images/q1.png",
+  "/images/q2.png",
+  "/images/q3.png",
+  "/images/q4.png",
+  "/images/q5.png",
+  "/images/q6.png"
+];
+
+// Desktop images
+const desktopImages = [
+  "/images/q1.png",
+  "/images/q2.png",
+  "/images/q3.png",
+  "/images/q4.png",
+  "/images/q5.png",
+  "/images/q6.png"
+];
+
+function setRandomBackground() {
+  const isDesktop = window.innerWidth >= 768;
+  const images = isDesktop ? desktopImages : mobileImages;
+
+  const randomImage = images[Math.floor(Math.random() * images.length)];
+  document.body.style.backgroundImage = `url(${randomImage})`;
+}
+
+// Run on load
+setRandomBackground();
+
+// (Optional) Change on resize too
+window.addEventListener("resize", setRandomBackground);
+</script>
+
 
 </body>
 </html>
