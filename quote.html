@@ -13,6 +13,7 @@
 
 <style>
 /* ================= GLOBAL ================= */
+/* 📱💻 Background base (no fixed image here) */
 body {
   margin: 0;
   font-family: 'Playfair Display', serif;
@@ -20,20 +21,11 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-}
 
-/* 📱 Mobile View (default – vertical image) */
-body {
-  background: url("/images/profile_bg.png") center / cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
-
-/* 💻 Desktop View (horizontal rectangle image) */
-@media (min-width: 768px) {
-  body {
-    background: url("/images/profile_bg_horizontal.png") center / cover no-repeat;
-  }
-}
-
 /* ================= NAVBAR ================= */
 .navbar {
   position: fixed;
@@ -257,6 +249,44 @@ font-family: 'Cormorant Garamond', serif;
 }
 </style>
 </head>
+
+<script>
+/* ================= RANDOM BACKGROUND ================= */
+
+// Mobile images
+const mobileImages = [
+  "/images/q1.png",
+  "/images/q2.png",
+  "/images/q3.png",
+  "/images/q4.png",
+  "/images/q5.png",
+  "/images/q6.png"
+];
+
+// Desktop images
+const desktopImages = [
+  "/images/q1.png",
+  "/images/q2.png",
+  "/images/q3.png",
+  "/images/q4.png",
+  "/images/q5.png",
+  "/images/q6.png"
+];
+
+function setRandomBackground() {
+  const isDesktop = window.innerWidth >= 768;
+  const images = isDesktop ? desktopImages : mobileImages;
+
+  const randomImage = images[Math.floor(Math.random() * images.length)];
+  document.body.style.backgroundImage = `url(${randomImage})`;
+}
+
+// Run on load
+setRandomBackground();
+
+// (Optional) Change on resize too
+window.addEventListener("resize", setRandomBackground);
+</script>
 
 <body>
 
