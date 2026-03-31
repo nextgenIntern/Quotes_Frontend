@@ -13,6 +13,12 @@ async function loadQuote() {
         document.getElementById("quoteText").innerText = `“${data.text}”`;
         document.getElementById("quoteAuthor").innerText =
             `— ${data.author_username || "Unknown"}`;
+
+         // ✅ SET CANONICAL TO MAIN QUOTE PAGE
+        const canonical = document.getElementById("canonicalTag");
+        if (canonical && data.slug) {
+            canonical.href = `https://eternal-lines.com/quote/${data.slug}`;
+        }
     } catch (err) {
         console.error("Quote load error:", err);
     }
