@@ -4,6 +4,8 @@ Allow: /
 # Block admin and API
 #Disallow: /admin/
 #Disallow: /api/
+Disallow: /comments.html
+Disallow: /*?quote=
 
 Sitemap: https://eternal-lines.com/sitemap.xml
 Sitemap: https://eternal-lines.com/api/sitemap-quotes.xml
