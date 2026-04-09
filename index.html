@@ -210,6 +210,102 @@
             background: #0b5ed7;
             transform: scale(1.1);
         }
+
+
+
+    .content {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .footer {
+      background: #0a0a0a;
+      color: #fff;
+      padding: 40px 20px 20px;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .footer-box {
+      flex: 1 1 220px;
+      margin: 10px;
+    }
+
+    .footer-box h3 {
+      margin-bottom: 15px;
+      color: #ff4d4d;
+    }
+
+    .footer-box p,
+    .footer-box a {
+      color: #ccc;
+      font-size: 14px;
+      text-decoration: none;
+      display: block;
+      margin: 6px 0;
+    }
+
+    .footer-box a:hover {
+      color: #fff;
+    }
+
+    .social-icons {
+      margin-top: 10px;
+    }
+
+    
+    .social-icons a {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 10px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 20px;
+      transition: 0.3s;
+    }
+
+    .social-icons a:hover {
+      transform: translateY(-5px);
+    }
+
+    .instagram {
+      background: linear-gradient(
+        45deg,
+        #F58529,
+        #FEDA77,
+        #DD2A7B,
+        #8134AF,
+        #515BD4
+      );
+    }
+
+
+    .facebook {
+      background: #1877F2;
+    }
+
+
+    .youtube {
+      background: #FF0000;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid #222;
+      margin-top: 20px;
+      padding-top: 10px;
+      font-size: 14px;
+      color: #aaa;
+    }
     </style>
 </head>
 
@@ -395,9 +491,39 @@ Explore Quotes by Categories
 </section>
 
         <!-- FOOTER -->
-        <footer class="bg-dark text-white text-center py-4">
-            <p>© 2026 Eternal-Lines — Discover and post your own inspiring quotes, timeless thoughts, and words that move the soul.</p>
-        </footer>
+  
+
+  <footer class="footer">
+    <div class="footer-container">
+
+      <div class="footer-box">
+        <h3>About</h3>
+        <p>This is a modern website footer design with social media icons and useful links.</p>
+      </div>
+
+      <div class="footer-box">
+        <h3>Quick Links</h3>
+        <a href="#">Home</a>
+        <a href="#">Categories</a>
+        <a href="#">Authors</a>
+        <a href="#">Profile</a>
+      </div>
+
+      <div class="footer-box">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="youtube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>©️ 2026 Eternal-Lines — Discover and post your own inspiring quotes, timeless thoughts, and words that move the soul.</p>
+    </div>
+  </footer>
 
     </div>
 
